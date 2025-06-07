@@ -332,20 +332,21 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 						 bool user, bool write, bool not_present)
 {
 	dprintfc("[vm_try_handle_fault] fault handle start. addr: %p\n", addr);
-
+	if (addr == NULL)
+	{
+		PANIC("[vm_try_handle_fault] trying to handling null address");
+	}
 	struct supplemental_page_table *spt = &thread_current()->spt; // 현재 쓰레드의 spt 가져옴.
 	if (not_present)
 	{
 		struct page *page;
 
-		dprintfc("[vm_try_handle_fault] checking f->rsp: %p\n", f->rsp);
-
 		void *rsp = is_kernel_vaddr(f->rsp) ? thread_current()->rsp : f->rsp;
 
 		/* DEBUG: 기존 스택 성장 조건은 아래와 같았음.
-		* `if (f->rsp - 8 == addr)`
-		* 차이점: f->rsp가 페이지 폴트 발생 위치보다 위에 있을 경우를 고려하지 않았음.
-		*/
+		 * `if (f->rsp - 8 == addr)`
+		 * 차이점: f->rsp가 페이지 폴트 발생 위치보다 위에 있을 경우를 고려하지 않았음.
+		 */
 
 		if (addr >= rsp - 8 && addr < USER_STACK && addr >= STACK_MAX) // 합법적인 스택 확장 요청인지 판단. user stack의 최대 크기인 1MB를 초과하지 않는지 check
 		{
@@ -359,10 +360,10 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 			page = spt_find_page(spt, addr); // page를 null로 설정해. stack growth 경우에는 spt 찾을 필요 없지 않나? 어차피 없을텐데.
 			return vm_do_claim_page(page);	 // 그 페이지에 대응하는 프레임을 할당받아.
 		}
-
 	}
 	else
 	{
+		PANIC("[vm_try_handle_fault] failed to handling va: %p", addr);
 		return false;
 	}
 }
@@ -473,27 +474,76 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 	{
 		struct page *src_page = hash_entry(hash_cur(&i), struct page, hash_elem);
 		enum vm_type type = page_get_type(src_page);
-		void *upage = src_page->va;
 
-		// 기존에도 src_page->uninit.aux를 얕은 복사로 넘겨주고 있었네.
-		// 1. 새로운 페이지를 dst SPT에 할당
-		if (!vm_alloc_page_with_initializer(type, upage, src_page->writable,
-											src_page->uninit.init, src_page->uninit.aux))
+		if (type == VM_UNINIT)
 		{
-			return false;
+			struct uninit_page uninit_page = src_page->uninit;
+			enum vm_type future_type = uninit_page.type;
+
+			if (future_type == VM_ANON)
+			{
+				struct lazy_aux *new_aux = malloc(sizeof(struct lazy_aux));
+				*new_aux = *(struct lazy_aux *)uninit_page.aux;
+				if (!vm_alloc_page_with_initializer(
+						future_type,
+						src_page->va,
+						src_page->writable,
+						uninit_page.init,
+						new_aux))
+				{
+					PANIC("[supplemental_page_table_copy] allocating uninit page for anon failed!");
+					return false;
+				}
+				struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
+				if (!vm_claim_page(dst_page))
+				{
+					PANIC("[supplemental_page_table_copy] caliming uninit page(for anon) failed");
+					return false;
+				}
+			}
+			else if (future_type == VM_FILE)
+			{
+				struct lazy_aux_file_backed *new_aux = malloc(sizeof(struct lazy_aux_file_backed));
+				struct lazy_aux_file_backed *prev_aux = (struct lazy_aux_file_backed *)uninit_page.aux;
+				*new_aux = *prev_aux;
+				new_aux->file = file_reopen(prev_aux->file);
+				ASSERT(new_aux->file != NULL);
+				if (!vm_alloc_page_with_initializer(
+						future_type,
+						src_page->va,
+						src_page->writable,
+						uninit_page.init,
+						new_aux))
+				{
+					PANIC("[supplemental_page_table_copy] allocating uninit page for file failed!");
+					return false;
+				}
+				struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
+				if (!vm_claim_page(dst_page))
+				{
+					PANIC("[supplemental_page_table_copy] caliming uninit page(for anon) failed");
+					return false;
+				}
+			}
 		}
-
-		// 2. 새로 할당된 페이지를 찾고 claim
-		struct page *dst_page = spt_find_page(dst, upage);
-		if (!vm_claim_page(upage))
+		else
 		{
-			return false;
-		}
-
-		// 3. 부모의 프레임이 존재하면, 자식의 프레임으로 데이터 복사
-		if (src_page->frame != NULL)
-		{
-			memcpy(dst_page->frame->kva, src_page->frame->kva, PGSIZE);
+			vm_alloc_page(type, src_page->va, src_page->writable);
+			struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
+			if (!vm_claim_page(dst_page->va))
+			{
+				PANIC("[supplemental_page_table_copy] caliming initiated page failed.");
+				return false;
+			}
+			else if (src_page->frame->kva != NULL)
+			{
+				
+				memcpy(dst_page->frame->kva, src_page->frame->kva, PGSIZE);
+			}
+			else
+			{
+				PANIC("[supplemental_page_table_copy] there's no frame for initiated page.");
+			}
 		}
 	}
 	return true;

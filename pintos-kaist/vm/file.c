@@ -95,7 +95,8 @@ do_mmap(void *addr, size_t length, int writable, struct file *file, off_t offset
 {
 	dprintfg("[do_mmap] routine start\n");
 	// addr 의 페이지가 이미 VM_FILE인지 점검.
-	if(page_get_type(spt_find_page(&thread_current()->spt, addr))== VM_FILE)
+	struct page *page = spt_find_page(&thread_current()->spt, addr);
+	if(page != NULL && page_get_type(page)== VM_FILE)
 	{
 		return NULL;
 	}
@@ -122,6 +123,7 @@ do_mmap(void *addr, size_t length, int writable, struct file *file, off_t offset
 		if (!vm_alloc_page_with_initializer(VM_FILE, addr, writable, lazy_load_file_backed, aux))
 		{
 			dprintfg("[do_mmap] failed. returning NULL\n");
+			PANIC("[do_mmap] do_mmap failed");
 			return NULL;
 		}
 		current_off += page_read_bytes;

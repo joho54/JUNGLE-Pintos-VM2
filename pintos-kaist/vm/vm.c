@@ -467,6 +467,7 @@ spt_destroy_page_in_copy_failure(struct hash_elem *e, void *aux UNUSED)
 bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 								  struct supplemental_page_table *src)
 {
+	dprintfg("[supplemental_page_table_copy] routine start\n");
 	struct hash_iterator i;
 	hash_first(&i, &src->hash);
 
@@ -475,6 +476,7 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 		struct page *src_page = hash_entry(hash_cur(&i), struct page, hash_elem);
 		enum vm_type type = page_get_type(src_page);
 
+		dprintfg("[supplemental_page_table_copy] loop started\n");
 		if (type == VM_UNINIT)
 		{
 			struct uninit_page uninit_page = src_page->uninit;
@@ -482,6 +484,7 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 
 			if (future_type == VM_ANON)
 			{
+				dprintfg("[supplemental_page_table_copy] copying uninit for anon\n");
 				struct lazy_aux *new_aux = malloc(sizeof(struct lazy_aux));
 				*new_aux = *(struct lazy_aux *)uninit_page.aux;
 				if (!vm_alloc_page_with_initializer(
@@ -491,18 +494,19 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 						uninit_page.init,
 						new_aux))
 				{
-					PANIC("[supplemental_page_table_copy] allocating uninit page for anon failed!");
+					dprintfg("[supplemental_page_table_copy] allocating uninit page for anon failed!\n");
 					return false;
 				}
 				struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
 				if (!vm_claim_page(dst_page))
 				{
-					PANIC("[supplemental_page_table_copy] caliming uninit page(for anon) failed");
+					dprintfg("[supplemental_page_table_copy] caliming uninit page(for anon) failed\n");
 					return false;
 				}
 			}
 			else if (future_type == VM_FILE)
 			{
+				dprintfg("[supplemental_page_table_copy] copying uninit for file\n");
 				struct lazy_aux_file_backed *new_aux = malloc(sizeof(struct lazy_aux_file_backed));
 				struct lazy_aux_file_backed *prev_aux = (struct lazy_aux_file_backed *)uninit_page.aux;
 				*new_aux = *prev_aux;
@@ -515,34 +519,39 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 						uninit_page.init,
 						new_aux))
 				{
-					PANIC("[supplemental_page_table_copy] allocating uninit page for file failed!");
+					dprintfg("[supplemental_page_table_copy] allocating uninit page for file failed!\n");
 					return false;
 				}
 				struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
 				if (!vm_claim_page(dst_page))
 				{
-					PANIC("[supplemental_page_table_copy] caliming uninit page(for anon) failed");
+					dprintfg("[supplemental_page_table_copy] caliming uninit page(for anon) failed\n");
 					return false;
 				}
 			}
 		}
 		else
 		{
+			ASSERT(src_page != NULL);
+			dprintfg("[supplemental_page_table_copy] copying initiated page. src_page: %p\n", src_page);
+			ASSERT(src_page->va != NULL);
+			dprintfg("[supplemental_page_table_copy] src_page->va: %p\n", src_page->va);
 			vm_alloc_page(type, src_page->va, src_page->writable);
 			struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
+			ASSERT(dst_page != NULL);
 			if (!vm_claim_page(dst_page->va))
 			{
-				PANIC("[supplemental_page_table_copy] caliming initiated page failed.");
+				dprintfg("[supplemental_page_table_copy] caliming initiated page failed.\n");
 				return false;
 			}
-			else if (src_page->frame->kva != NULL)
+			else if (src_page->frame != NULL)
 			{
 				
 				memcpy(dst_page->frame->kva, src_page->frame->kva, PGSIZE);
 			}
 			else
 			{
-				PANIC("[supplemental_page_table_copy] there's no frame for initiated page.");
+				dprintfg("[supplemental_page_table_copy] there's no frame for initiated page.\n");
 			}
 		}
 	}

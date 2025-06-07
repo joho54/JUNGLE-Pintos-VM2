@@ -1,0 +1,439 @@
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-ro:mmap-ro -p ../../tests/vm/large.txt:large.txt --swap-disk=4 -- -q   -f run mmap-ro < /dev/null 2> tests/vm/mmap-ro.errors > tests/vm/mmap-ro.output
+perl -I../.. ../../tests/vm/mmap-ro.ck tests/vm/mmap-ro tests/vm/mmap-ro.result
+FAIL tests/vm/mmap-ro
+Kernel panic in run: PANIC at ../../vm/vm.c:366 in vm_try_handle_fault(): [vm_try_handle_fault] failed to handling va: 0x10000000
+Call stack: 0x800421802a 0x8004221232 0x800421cdee 0x800420900d 0x800420942b 0x400cc9 0x400d12
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221232: vm_try_handle_fault (vm/vm.c:369)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x0000000000400cc9: (unknown)
+0x0000000000400d12: (unknown)
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-exit:mmap-exit -p tests/vm/child-mm-wrt:child-mm-wrt --swap-disk=4 -- -q   -f run mmap-exit < /dev/null 2> tests/vm/mmap-exit.errors > tests/vm/mmap-exit.output
+perl -I../.. ../../tests/vm/mmap-exit.ck tests/vm/mmap-exit tests/vm/mmap-exit.result
+FAIL tests/vm/mmap-exit
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800421baec 0x80042079b1
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800421baec: __do_fork (userprog/process.c:253)
+0x00000080042079b1: kernel_thread (threads/thread.c:566)
+pintos -v -k -T 600 -m 20   --fs-disk=10 -p tests/vm/mmap-shuffle:mmap-shuffle --swap-disk=4 -- -q   -f run mmap-shuffle < /dev/null 2> tests/vm/mmap-shuffle.errors > tests/vm/mmap-shuffle.output
+perl -I../.. ../../tests/vm/mmap-shuffle.ck tests/vm/mmap-shuffle tests/vm/mmap-shuffle.result
+pass tests/vm/mmap-shuffle
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-bad-fd:mmap-bad-fd --swap-disk=4 -- -q   -f run mmap-bad-fd < /dev/null 2> tests/vm/mmap-bad-fd.errors > tests/vm/mmap-bad-fd.output
+perl -I../.. ../../tests/vm/mmap-bad-fd.ck tests/vm/mmap-bad-fd tests/vm/mmap-bad-fd.result
+FAIL tests/vm/mmap-bad-fd
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x8004221e66 0x800421d5c9 0x800421d942 0x800421ce78 0x40012d 0x400c03 0x400c4c
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x0000008004221e66: do_mmap (vm/file.c:103)
+0x000000800421d5c9: mmap (userprog/syscall.c:305)
+0x000000800421d942: syscall_handler (userprog/syscall.c:396)
+0x000000800421ce78: no_sti (userprog/syscall-entry.o:?)
+0x000000000040012d: (unknown)
+0x0000000000400c03: (unknown)
+0x0000000000400c4c: (unknown)
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-clean:mmap-clean -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-clean < /dev/null 2> tests/vm/mmap-clean.errors > tests/vm/mmap-clean.output
+perl -I../.. ../../tests/vm/mmap-clean.ck tests/vm/mmap-clean tests/vm/mmap-clean.result
+FAIL tests/vm/mmap-clean
+run: write "sample.txt": FAILED
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-inherit:mmap-inherit -p ../../tests/vm/sample.txt:sample.txt -p tests/vm/child-inherit:child-inherit --swap-disk=4 -- -q   -f run mmap-inherit < /dev/null 2> tests/vm/mmap-inherit.errors > tests/vm/mmap-inherit.output
+perl -I../.. ../../tests/vm/mmap-inherit.ck tests/vm/mmap-inherit tests/vm/mmap-inherit.result
+pass tests/vm/mmap-inherit
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-misalign:mmap-misalign -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-misalign < /dev/null 2> tests/vm/mmap-misalign.errors > tests/vm/mmap-misalign.output
+perl -I../.. ../../tests/vm/mmap-misalign.ck tests/vm/mmap-misalign tests/vm/mmap-misalign.result
+pass tests/vm/mmap-misalign
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-null:mmap-null -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-null < /dev/null 2> tests/vm/mmap-null.errors > tests/vm/mmap-null.output
+perl -I../.. ../../tests/vm/mmap-null.ck tests/vm/mmap-null tests/vm/mmap-null.result
+pass tests/vm/mmap-null
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-over-code:mmap-over-code -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-over-code < /dev/null 2> tests/vm/mmap-over-code.errors > tests/vm/mmap-over-code.output
+perl -I../.. ../../tests/vm/mmap-over-code.ck tests/vm/mmap-over-code tests/vm/mmap-over-code.result
+pass tests/vm/mmap-over-code
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-over-data:mmap-over-data -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-over-data < /dev/null 2> tests/vm/mmap-over-data.errors > tests/vm/mmap-over-data.output
+perl -I../.. ../../tests/vm/mmap-over-data.ck tests/vm/mmap-over-data tests/vm/mmap-over-data.result
+pass tests/vm/mmap-over-data
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-over-stk:mmap-over-stk -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-over-stk < /dev/null 2> tests/vm/mmap-over-stk.errors > tests/vm/mmap-over-stk.output
+perl -I../.. ../../tests/vm/mmap-over-stk.ck tests/vm/mmap-over-stk tests/vm/mmap-over-stk.result
+pass tests/vm/mmap-over-stk
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-remove:mmap-remove -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-remove < /dev/null 2> tests/vm/mmap-remove.errors > tests/vm/mmap-remove.output
+perl -I../.. ../../tests/vm/mmap-remove.ck tests/vm/mmap-remove tests/vm/mmap-remove.result
+pass tests/vm/mmap-remove
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-zero:mmap-zero --swap-disk=4 -- -q   -f run mmap-zero < /dev/null 2> tests/vm/mmap-zero.errors > tests/vm/mmap-zero.output
+perl -I../.. ../../tests/vm/mmap-zero.ck tests/vm/mmap-zero tests/vm/mmap-zero.result
+pass tests/vm/mmap-zero
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-bad-fd2:mmap-bad-fd2 --swap-disk=4 -- -q   -f run mmap-bad-fd2 < /dev/null 2> tests/vm/mmap-bad-fd2.errors > tests/vm/mmap-bad-fd2.output
+perl -I../.. ../../tests/vm/mmap-bad-fd2.ck tests/vm/mmap-bad-fd2 tests/vm/mmap-bad-fd2.result
+pass tests/vm/mmap-bad-fd2
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-bad-fd3:mmap-bad-fd3 --swap-disk=4 -- -q   -f run mmap-bad-fd3 < /dev/null 2> tests/vm/mmap-bad-fd3.errors > tests/vm/mmap-bad-fd3.output
+perl -I../.. ../../tests/vm/mmap-bad-fd3.ck tests/vm/mmap-bad-fd3 tests/vm/mmap-bad-fd3.result
+pass tests/vm/mmap-bad-fd3
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-zero-len:mmap-zero-len --swap-disk=4 -- -q   -f run mmap-zero-len < /dev/null 2> tests/vm/mmap-zero-len.errors > tests/vm/mmap-zero-len.output
+perl -I../.. ../../tests/vm/mmap-zero-len.ck tests/vm/mmap-zero-len tests/vm/mmap-zero-len.result
+pass tests/vm/mmap-zero-len
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-off:mmap-off -p ../../tests/vm/large.txt:large.txt --swap-disk=4 -- -q   -f run mmap-off < /dev/null 2> tests/vm/mmap-off.errors > tests/vm/mmap-off.output
+perl -I../.. ../../tests/vm/mmap-off.ck tests/vm/mmap-off tests/vm/mmap-off.result
+FAIL tests/vm/mmap-off
+run: validate fail.: FAILED
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-bad-off:mmap-bad-off -p ../../tests/vm/large.txt:large.txt --swap-disk=4 -- -q   -f run mmap-bad-off < /dev/null 2> tests/vm/mmap-bad-off.errors > tests/vm/mmap-bad-off.output
+perl -I../.. ../../tests/vm/mmap-bad-off.ck tests/vm/mmap-bad-off tests/vm/mmap-bad-off.result
+FAIL tests/vm/mmap-bad-off
+run: try to mmap invalid offset: FAILED
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-kernel:mmap-kernel -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-kernel < /dev/null 2> tests/vm/mmap-kernel.errors > tests/vm/mmap-kernel.output
+perl -I../.. ../../tests/vm/mmap-kernel.ck tests/vm/mmap-kernel tests/vm/mmap-kernel.result
+FAIL tests/vm/mmap-kernel
+run: try to mmap over kernel 0: FAILED
+pintos -v -k -T 600 -m 20   --fs-disk=10 -p tests/vm/lazy-file:lazy-file -p ../../tests/vm/sample.txt:sample.txt -p ../../tests/vm/small.txt:small.txt --swap-disk=4 -- -q   -f run lazy-file < /dev/null 2> tests/vm/lazy-file.errors > tests/vm/lazy-file.output
+perl -I../.. ../../tests/vm/lazy-file.ck tests/vm/lazy-file tests/vm/lazy-file.result
+pass tests/vm/lazy-file
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/lazy-anon:lazy-anon --swap-disk=4 -- -q   -f run lazy-anon < /dev/null 2> tests/vm/lazy-anon.errors > tests/vm/lazy-anon.output
+perl -I../.. ../../tests/vm/lazy-anon.ck tests/vm/lazy-anon tests/vm/lazy-anon.result
+pass tests/vm/lazy-anon
+pintos -v -k -T 180 -m 8   --fs-disk=10 -p tests/vm/swap-file:swap-file -p ../../tests/vm/large.txt:large.txt --swap-disk=10 -- -q   -f run swap-file < /dev/null 2> tests/vm/swap-file.errors > tests/vm/swap-file.output
+perl -I../.. ../../tests/vm/swap-file.ck tests/vm/swap-file tests/vm/swap-file.result
+FAIL tests/vm/swap-file
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800422134f 0x80042211f4 0x800421cdee 0x800420900d 0x800420942b 0x4001f3 0x400d85 0x400dce
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800422134f: vm_do_claim_page (vm/vm.c:417)
+0x00000080042211f4: vm_try_handle_fault (vm/vm.c:361)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x00000000004001f3: (unknown)
+0x0000000000400d85: (unknown)
+0x0000000000400dce: (unknown)
+pintos -v -k -T 180 -m 10   --fs-disk=10 -p tests/vm/swap-anon:swap-anon --swap-disk=30 -- -q   -f run swap-anon < /dev/null 2> tests/vm/swap-anon.errors > tests/vm/swap-anon.output
+perl -I../.. ../../tests/vm/swap-anon.ck tests/vm/swap-anon tests/vm/swap-anon.result
+FAIL tests/vm/swap-anon
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800422134f 0x80042211f4 0x800421cdee 0x800420900d 0x800420942b 0x400cac 0x400cf5
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800422134f: vm_do_claim_page (vm/vm.c:417)
+0x00000080042211f4: vm_try_handle_fault (vm/vm.c:361)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x0000000000400cac: (unknown)
+0x0000000000400cf5: (unknown)
+pintos -v -k -T 180 -m 10   --fs-disk=10 -p tests/vm/swap-iter:swap-iter -p ../../tests/vm/large.txt:large.txt --swap-disk=50 -- -q   -f run swap-iter < /dev/null 2> tests/vm/swap-iter.errors > tests/vm/swap-iter.output
+perl -I../.. ../../tests/vm/swap-iter.ck tests/vm/swap-iter tests/vm/swap-iter.result
+FAIL tests/vm/swap-iter
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800422134f 0x80042211f4 0x800421cdee 0x800420900d 0x800420942b 0x400e2e 0x400e77
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800422134f: vm_do_claim_page (vm/vm.c:417)
+0x00000080042211f4: vm_try_handle_fault (vm/vm.c:361)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x0000000000400e2e: (unknown)
+0x0000000000400e77: (unknown)
+pintos -v -k -T 600 -m 40   --fs-disk=10 -p tests/vm/swap-fork:swap-fork -p tests/vm/child-swap:child-swap --swap-disk=200 -- -q   -f run swap-fork < /dev/null 2> tests/vm/swap-fork.errors > tests/vm/swap-fork.output
+perl -I../.. ../../tests/vm/swap-fork.ck tests/vm/swap-fork tests/vm/swap-fork.result
+FAIL tests/vm/swap-fork
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800421baec 0x80042079b1
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800421baec: __do_fork (userprog/process.c:253)
+0x00000080042079b1: kernel_thread (threads/thread.c:566)
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/lg-create:lg-create --swap-disk=4 -- -q   -f run lg-create < /dev/null 2> tests/filesys/base/lg-create.errors > tests/filesys/base/lg-create.output
+perl -I../.. ../../tests/filesys/base/lg-create.ck tests/filesys/base/lg-create tests/filesys/base/lg-create.result
+pass tests/filesys/base/lg-create
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/lg-full:lg-full --swap-disk=4 -- -q   -f run lg-full < /dev/null 2> tests/filesys/base/lg-full.errors > tests/filesys/base/lg-full.output
+perl -I../.. ../../tests/filesys/base/lg-full.ck tests/filesys/base/lg-full tests/filesys/base/lg-full.result
+pass tests/filesys/base/lg-full
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/lg-random:lg-random --swap-disk=4 -- -q   -f run lg-random < /dev/null 2> tests/filesys/base/lg-random.errors > tests/filesys/base/lg-random.output
+perl -I../.. ../../tests/filesys/base/lg-random.ck tests/filesys/base/lg-random tests/filesys/base/lg-random.result
+pass tests/filesys/base/lg-random
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/lg-seq-block:lg-seq-block --swap-disk=4 -- -q   -f run lg-seq-block < /dev/null 2> tests/filesys/base/lg-seq-block.errors > tests/filesys/base/lg-seq-block.output
+perl -I../.. ../../tests/filesys/base/lg-seq-block.ck tests/filesys/base/lg-seq-block tests/filesys/base/lg-seq-block.result
+pass tests/filesys/base/lg-seq-block
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/lg-seq-random:lg-seq-random --swap-disk=4 -- -q   -f run lg-seq-random < /dev/null 2> tests/filesys/base/lg-seq-random.errors > tests/filesys/base/lg-seq-random.output
+perl -I../.. ../../tests/filesys/base/lg-seq-random.ck tests/filesys/base/lg-seq-random tests/filesys/base/lg-seq-random.result
+pass tests/filesys/base/lg-seq-random
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/sm-create:sm-create --swap-disk=4 -- -q   -f run sm-create < /dev/null 2> tests/filesys/base/sm-create.errors > tests/filesys/base/sm-create.output
+perl -I../.. ../../tests/filesys/base/sm-create.ck tests/filesys/base/sm-create tests/filesys/base/sm-create.result
+pass tests/filesys/base/sm-create
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/sm-full:sm-full --swap-disk=4 -- -q   -f run sm-full < /dev/null 2> tests/filesys/base/sm-full.errors > tests/filesys/base/sm-full.output
+perl -I../.. ../../tests/filesys/base/sm-full.ck tests/filesys/base/sm-full tests/filesys/base/sm-full.result
+pass tests/filesys/base/sm-full
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/sm-random:sm-random --swap-disk=4 -- -q   -f run sm-random < /dev/null 2> tests/filesys/base/sm-random.errors > tests/filesys/base/sm-random.output
+perl -I../.. ../../tests/filesys/base/sm-random.ck tests/filesys/base/sm-random tests/filesys/base/sm-random.result
+pass tests/filesys/base/sm-random
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/sm-seq-block:sm-seq-block --swap-disk=4 -- -q   -f run sm-seq-block < /dev/null 2> tests/filesys/base/sm-seq-block.errors > tests/filesys/base/sm-seq-block.output
+perl -I../.. ../../tests/filesys/base/sm-seq-block.ck tests/filesys/base/sm-seq-block tests/filesys/base/sm-seq-block.result
+pass tests/filesys/base/sm-seq-block
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/sm-seq-random:sm-seq-random --swap-disk=4 -- -q   -f run sm-seq-random < /dev/null 2> tests/filesys/base/sm-seq-random.errors > tests/filesys/base/sm-seq-random.output
+perl -I../.. ../../tests/filesys/base/sm-seq-random.ck tests/filesys/base/sm-seq-random tests/filesys/base/sm-seq-random.result
+pass tests/filesys/base/sm-seq-random
+pintos -v -k -T 300 -m 20   --fs-disk=10 -p tests/filesys/base/syn-read:syn-read -p tests/filesys/base/child-syn-read:child-syn-read --swap-disk=4 -- -q   -f run syn-read < /dev/null 2> tests/filesys/base/syn-read.errors > tests/filesys/base/syn-read.output
+perl -I../.. ../../tests/filesys/base/syn-read.ck tests/filesys/base/syn-read tests/filesys/base/syn-read.result
+FAIL tests/filesys/base/syn-read
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800421baec 0x80042079b1
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800421baec: __do_fork (userprog/process.c:253)
+0x00000080042079b1: kernel_thread (threads/thread.c:566)
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/syn-remove:syn-remove --swap-disk=4 -- -q   -f run syn-remove < /dev/null 2> tests/filesys/base/syn-remove.errors > tests/filesys/base/syn-remove.output
+perl -I../.. ../../tests/filesys/base/syn-remove.ck tests/filesys/base/syn-remove tests/filesys/base/syn-remove.result
+pass tests/filesys/base/syn-remove
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/syn-write:syn-write -p tests/filesys/base/child-syn-wrt:child-syn-wrt --swap-disk=4 -- -q   -f run syn-write < /dev/null 2> tests/filesys/base/syn-write.errors > tests/filesys/base/syn-write.output
+perl -I../.. ../../tests/filesys/base/syn-write.ck tests/filesys/base/syn-write tests/filesys/base/syn-write.result
+FAIL tests/filesys/base/syn-write
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800421baec 0x80042079b1
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800421baec: __do_fork (userprog/process.c:253)
+0x00000080042079b1: kernel_thread (threads/thread.c:566)
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-single < /dev/null 2> tests/threads/alarm-single.errors > tests/threads/alarm-single.output
+perl -I../.. ../../tests/threads/alarm-single.ck tests/threads/alarm-single tests/threads/alarm-single.result
+pass tests/threads/alarm-single
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-multiple < /dev/null 2> tests/threads/alarm-multiple.errors > tests/threads/alarm-multiple.output
+perl -I../.. ../../tests/threads/alarm-multiple.ck tests/threads/alarm-multiple tests/threads/alarm-multiple.result
+pass tests/threads/alarm-multiple
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-simultaneous < /dev/null 2> tests/threads/alarm-simultaneous.errors > tests/threads/alarm-simultaneous.output
+perl -I../.. ../../tests/threads/alarm-simultaneous.ck tests/threads/alarm-simultaneous tests/threads/alarm-simultaneous.result
+pass tests/threads/alarm-simultaneous
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-priority < /dev/null 2> tests/threads/alarm-priority.errors > tests/threads/alarm-priority.output
+perl -I../.. ../../tests/threads/alarm-priority.ck tests/threads/alarm-priority tests/threads/alarm-priority.result
+pass tests/threads/alarm-priority
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-zero < /dev/null 2> tests/threads/alarm-zero.errors > tests/threads/alarm-zero.output
+perl -I../.. ../../tests/threads/alarm-zero.ck tests/threads/alarm-zero tests/threads/alarm-zero.result
+pass tests/threads/alarm-zero
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-negative < /dev/null 2> tests/threads/alarm-negative.errors > tests/threads/alarm-negative.output
+perl -I../.. ../../tests/threads/alarm-negative.ck tests/threads/alarm-negative tests/threads/alarm-negative.result
+pass tests/threads/alarm-negative
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-change < /dev/null 2> tests/threads/priority-change.errors > tests/threads/priority-change.output
+perl -I../.. ../../tests/threads/priority-change.ck tests/threads/priority-change tests/threads/priority-change.result
+pass tests/threads/priority-change
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-donate-one < /dev/null 2> tests/threads/priority-donate-one.errors > tests/threads/priority-donate-one.output
+perl -I../.. ../../tests/threads/priority-donate-one.ck tests/threads/priority-donate-one tests/threads/priority-donate-one.result
+pass tests/threads/priority-donate-one
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-donate-multiple < /dev/null 2> tests/threads/priority-donate-multiple.errors > tests/threads/priority-donate-multiple.output
+perl -I../.. ../../tests/threads/priority-donate-multiple.ck tests/threads/priority-donate-multiple tests/threads/priority-donate-multiple.result
+pass tests/threads/priority-donate-multiple
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-donate-multiple2 < /dev/null 2> tests/threads/priority-donate-multiple2.errors > tests/threads/priority-donate-multiple2.output
+perl -I../.. ../../tests/threads/priority-donate-multiple2.ck tests/threads/priority-donate-multiple2 tests/threads/priority-donate-multiple2.result
+pass tests/threads/priority-donate-multiple2
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-donate-nest < /dev/null 2> tests/threads/priority-donate-nest.errors > tests/threads/priority-donate-nest.output
+perl -I../.. ../../tests/threads/priority-donate-nest.ck tests/threads/priority-donate-nest tests/threads/priority-donate-nest.result
+pass tests/threads/priority-donate-nest
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-donate-sema < /dev/null 2> tests/threads/priority-donate-sema.errors > tests/threads/priority-donate-sema.output
+perl -I../.. ../../tests/threads/priority-donate-sema.ck tests/threads/priority-donate-sema tests/threads/priority-donate-sema.result
+pass tests/threads/priority-donate-sema
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-donate-lower < /dev/null 2> tests/threads/priority-donate-lower.errors > tests/threads/priority-donate-lower.output
+perl -I../.. ../../tests/threads/priority-donate-lower.ck tests/threads/priority-donate-lower tests/threads/priority-donate-lower.result
+pass tests/threads/priority-donate-lower
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-fifo < /dev/null 2> tests/threads/priority-fifo.errors > tests/threads/priority-fifo.output
+perl -I../.. ../../tests/threads/priority-fifo.ck tests/threads/priority-fifo tests/threads/priority-fifo.result
+pass tests/threads/priority-fifo
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-preempt < /dev/null 2> tests/threads/priority-preempt.errors > tests/threads/priority-preempt.output
+perl -I../.. ../../tests/threads/priority-preempt.ck tests/threads/priority-preempt tests/threads/priority-preempt.result
+pass tests/threads/priority-preempt
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-sema < /dev/null 2> tests/threads/priority-sema.errors > tests/threads/priority-sema.output
+perl -I../.. ../../tests/threads/priority-sema.ck tests/threads/priority-sema tests/threads/priority-sema.result
+pass tests/threads/priority-sema
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-condvar < /dev/null 2> tests/threads/priority-condvar.errors > tests/threads/priority-condvar.output
+perl -I../.. ../../tests/threads/priority-condvar.ck tests/threads/priority-condvar tests/threads/priority-condvar.result
+pass tests/threads/priority-condvar
+pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run priority-donate-chain < /dev/null 2> tests/threads/priority-donate-chain.errors > tests/threads/priority-donate-chain.output
+perl -I../.. ../../tests/threads/priority-donate-chain.ck tests/threads/priority-donate-chain tests/threads/priority-donate-chain.result
+pass tests/threads/priority-donate-chain
+pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/cow/cow-simple:cow-simple --swap-disk=4 -- -q   -f run cow-simple < /dev/null 2> tests/vm/cow/cow-simple.errors > tests/vm/cow/cow-simple.output
+perl -I../.. ../../tests/vm/cow/cow-simple.ck tests/vm/cow/cow-simple tests/vm/cow/cow-simple.result
+FAIL tests/vm/cow/cow-simple
+Kernel panic in run: PANIC at ../../vm/vm.c:337 in vm_try_handle_fault(): [vm_try_handle_fault] trying to handling null address
+Call stack: 0x800421802a 0x8004221128 0x800421cdee 0x800420900d 0x800420942b 0x800421baec 0x80042079b1
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x0000008004221128: vm_try_handle_fault (vm/vm.c:339)
+0x000000800421cdee: page_fault (userprog/exception.c:149)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x000000800421baec: __do_fork (userprog/process.c:253)
+0x00000080042079b1: kernel_thread (threads/thread.c:566)
+pass tests/userprog/args-none
+pass tests/userprog/args-single
+pass tests/userprog/args-multiple
+pass tests/userprog/args-many
+pass tests/userprog/args-dbl-space
+pass tests/userprog/halt
+pass tests/userprog/exit
+pass tests/userprog/create-normal
+pass tests/userprog/create-empty
+pass tests/userprog/create-null
+pass tests/userprog/create-bad-ptr
+pass tests/userprog/create-long
+pass tests/userprog/create-exists
+pass tests/userprog/create-bound
+pass tests/userprog/open-normal
+pass tests/userprog/open-missing
+pass tests/userprog/open-boundary
+pass tests/userprog/open-empty
+pass tests/userprog/open-null
+pass tests/userprog/open-bad-ptr
+pass tests/userprog/open-twice
+pass tests/userprog/close-normal
+pass tests/userprog/close-twice
+pass tests/userprog/close-bad-fd
+pass tests/userprog/read-normal
+pass tests/userprog/read-bad-ptr
+pass tests/userprog/read-boundary
+pass tests/userprog/read-zero
+pass tests/userprog/read-stdout
+pass tests/userprog/read-bad-fd
+pass tests/userprog/write-normal
+pass tests/userprog/write-bad-ptr
+pass tests/userprog/write-boundary
+pass tests/userprog/write-zero
+pass tests/userprog/write-stdin
+pass tests/userprog/write-bad-fd
+pass tests/userprog/fork-once
+pass tests/userprog/fork-multiple
+pass tests/userprog/fork-recursive
+FAIL tests/userprog/fork-read
+FAIL tests/userprog/fork-close
+FAIL tests/userprog/fork-boundary
+pass tests/userprog/exec-once
+pass tests/userprog/exec-arg
+FAIL tests/userprog/exec-boundary
+pass tests/userprog/exec-missing
+pass tests/userprog/exec-bad-ptr
+FAIL tests/userprog/exec-read
+pass tests/userprog/wait-simple
+pass tests/userprog/wait-twice
+pass tests/userprog/wait-killed
+pass tests/userprog/wait-bad-pid
+pass tests/userprog/multi-recurse
+pass tests/userprog/multi-child-fd
+pass tests/userprog/rox-simple
+pass tests/userprog/rox-child
+pass tests/userprog/rox-multichild
+FAIL tests/userprog/bad-read
+FAIL tests/userprog/bad-write
+FAIL tests/userprog/bad-read2
+FAIL tests/userprog/bad-write2
+FAIL tests/userprog/bad-jump
+FAIL tests/userprog/bad-jump2
+pass tests/vm/pt-grow-stack
+pass tests/vm/pt-grow-bad
+pass tests/vm/pt-big-stk-obj
+pass tests/vm/pt-bad-addr
+pass tests/vm/pt-bad-read
+FAIL tests/vm/pt-write-code
+pass tests/vm/pt-write-code2
+FAIL tests/vm/pt-grow-stk-sc
+pass tests/vm/page-linear
+pass tests/vm/page-parallel
+FAIL tests/vm/page-merge-seq
+FAIL tests/vm/page-merge-par
+FAIL tests/vm/page-merge-stk
+FAIL tests/vm/page-merge-mm
+pass tests/vm/page-shuffle
+pass tests/vm/mmap-read
+pass tests/vm/mmap-close
+pass tests/vm/mmap-unmap
+FAIL tests/vm/mmap-overlap
+pass tests/vm/mmap-twice
+FAIL tests/vm/mmap-write
+FAIL tests/vm/mmap-ro
+FAIL tests/vm/mmap-exit
+pass tests/vm/mmap-shuffle
+FAIL tests/vm/mmap-bad-fd
+FAIL tests/vm/mmap-clean
+pass tests/vm/mmap-inherit
+pass tests/vm/mmap-misalign
+pass tests/vm/mmap-null
+pass tests/vm/mmap-over-code
+pass tests/vm/mmap-over-data
+pass tests/vm/mmap-over-stk
+pass tests/vm/mmap-remove
+pass tests/vm/mmap-zero
+pass tests/vm/mmap-bad-fd2
+pass tests/vm/mmap-bad-fd3
+pass tests/vm/mmap-zero-len
+FAIL tests/vm/mmap-off
+FAIL tests/vm/mmap-bad-off
+FAIL tests/vm/mmap-kernel
+pass tests/vm/lazy-file
+pass tests/vm/lazy-anon
+FAIL tests/vm/swap-file
+FAIL tests/vm/swap-anon
+FAIL tests/vm/swap-iter
+FAIL tests/vm/swap-fork
+pass tests/filesys/base/lg-create
+pass tests/filesys/base/lg-full
+pass tests/filesys/base/lg-random
+pass tests/filesys/base/lg-seq-block
+pass tests/filesys/base/lg-seq-random
+pass tests/filesys/base/sm-create
+pass tests/filesys/base/sm-full
+pass tests/filesys/base/sm-random
+pass tests/filesys/base/sm-seq-block
+pass tests/filesys/base/sm-seq-random
+FAIL tests/filesys/base/syn-read
+pass tests/filesys/base/syn-remove
+FAIL tests/filesys/base/syn-write
+pass tests/threads/alarm-single
+pass tests/threads/alarm-multiple
+pass tests/threads/alarm-simultaneous
+pass tests/threads/alarm-priority
+pass tests/threads/alarm-zero
+pass tests/threads/alarm-negative
+pass tests/threads/priority-change
+pass tests/threads/priority-donate-one
+pass tests/threads/priority-donate-multiple
+pass tests/threads/priority-donate-multiple2
+pass tests/threads/priority-donate-nest
+pass tests/threads/priority-donate-sema
+pass tests/threads/priority-donate-lower
+pass tests/threads/priority-fifo
+pass tests/threads/priority-preempt
+pass tests/threads/priority-sema
+pass tests/threads/priority-condvar
+pass tests/threads/priority-donate-chain
+FAIL tests/vm/cow/cow-simple
+33 of 141 tests failed.
+../../tests/Make.tests:28: recipe for target 'check' failed

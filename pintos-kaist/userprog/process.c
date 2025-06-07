@@ -222,6 +222,7 @@ static bool duplicate_pte(uint64_t *pte, void *va, void *aux)
  *       this function. */
 static void __do_fork(void *aux)
 { // 여기서 aux가 부모.
+	dprintfg("[__do_fork] routine start\n");
 	struct intr_frame if_;
 	struct thread *parent = (struct thread *)aux;
 	struct thread *current = thread_current();
@@ -247,9 +248,14 @@ static void __do_fork(void *aux)
 
 	process_activate(current);
 #ifdef VM
+	ASSERT(current != NULL);
+	ASSERT(parent != NULL);
+	ASSERT(&current->spt != NULL);
+	ASSERT(&parent->spt != NULL);
+	dprintfg("[__do_fork] initiating spt of current thread\n");
 	supplemental_page_table_init(&current->spt);
-	dprintfe("[__do_fork] current->spt: %p\n", &current->spt);
-	dprintfe("[__do_fork] parent->spt: %p\n", &parent->spt);
+	dprintfg("[__do_fork] &current->spt: %p\n", &current->spt);
+	dprintfg("[__do_fork] &current->spt: %p\n", &parent->spt);
 	if (!supplemental_page_table_copy(&current->spt, &parent->spt))
 		goto error;
 #else

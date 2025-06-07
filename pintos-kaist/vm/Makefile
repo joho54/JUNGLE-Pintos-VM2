@@ -12,5 +12,13 @@ debug:
 	make clean && \
 	make -j && \
 	cd ./build && \
+	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-inherit:mmap-inherit -p ../../tests/vm/sample.txt:sample.txt -p tests/vm/child-inherit:child-inherit --swap-disk=4 -- -q   -f run mmap-inherit
+
+.PHONY: zeros
+zeros:
+	make clean && \
+	make -j && \
+	cd ./build && \
+	dd if=/dev/zero of=tests/vm/zeros bs=1024 count=6 && \
 	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-overlap:mmap-overlap -p tests/vm/zeros:zeros --swap-disk=4 -- -q   -f run mmap-overlap
 	

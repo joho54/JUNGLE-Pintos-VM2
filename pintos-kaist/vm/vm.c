@@ -475,6 +475,7 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 		enum vm_type type = page_get_type(src_page);
 		void *upage = src_page->va;
 
+		// 기존에도 src_page->uninit.aux를 얕은 복사로 넘겨주고 있었네.
 		// 1. 새로운 페이지를 dst SPT에 할당
 		if (!vm_alloc_page_with_initializer(type, upage, src_page->writable,
 											src_page->uninit.init, src_page->uninit.aux))

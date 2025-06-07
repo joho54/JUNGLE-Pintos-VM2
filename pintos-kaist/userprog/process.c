@@ -248,14 +248,7 @@ static void __do_fork(void *aux)
 
 	process_activate(current);
 #ifdef VM
-	ASSERT(current != NULL);
-	ASSERT(parent != NULL);
-	ASSERT(&current->spt != NULL);
-	ASSERT(&parent->spt != NULL);
-	dprintfg("[__do_fork] initiating spt of current thread\n");
 	supplemental_page_table_init(&current->spt);
-	dprintfg("[__do_fork] &current->spt: %p\n", &current->spt);
-	dprintfg("[__do_fork] &current->spt: %p\n", &parent->spt);
 	if (!supplemental_page_table_copy(&current->spt, &parent->spt))
 		goto error;
 #else

@@ -204,7 +204,7 @@ int open(const char *filename) {
 		file_close(file_obj);
     	file_obj = NULL;
 	}
-	dprintfg("[open] success\n");
+	dprintfg("[open] success. %d\n", fd);
 	
 	return fd;
 }
@@ -216,6 +216,7 @@ int open(const char *filename) {
  * @param file: 닫을 파일.
  */
 void close(int fd){
+	dprintfg("[close] routine start. closing %d\n", fd);
 	struct file *file_obj = process_get_file_by_fd(fd);
 	if (file_obj == NULL)
 		return;
@@ -304,8 +305,6 @@ void *mmap (void *addr, size_t length, int writable, int fd, off_t offset)
 	dprintfg("[mmap] running do_mmap\n");
 	void *upage = do_mmap(addr, length, writable, file, offset);
 	
-	close(fd);
-
 	return upage;
 }
 

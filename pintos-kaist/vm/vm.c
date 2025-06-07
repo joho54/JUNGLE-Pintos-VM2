@@ -332,10 +332,10 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 						 bool user, bool write, bool not_present)
 {
 	dprintfc("[vm_try_handle_fault] fault handle start. addr: %p\n", addr);
-	if (addr == NULL)
-	{
-		PANIC("[vm_try_handle_fault] trying to handling null address");
-	}
+	// if (addr == NULL)
+	// {
+	// 	 PANIC("[vm_try_handle_fault] trying to handling null address");
+	// }
 	struct supplemental_page_table *spt = &thread_current()->spt; // 현재 쓰레드의 spt 가져옴.
 	if (not_present)
 	{
@@ -363,7 +363,7 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 	}
 	else
 	{
-		PANIC("[vm_try_handle_fault] failed to handling va: %p", addr);
+		// PANIC("[vm_try_handle_fault] failed to handling va: %p", addr);
 		return false;
 	}
 }
@@ -539,12 +539,18 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 			vm_alloc_page(type, src_page->va, src_page->writable);
 			struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
 			ASSERT(dst_page != NULL);
+			
+			if(type == VM_FILE)
+			{
+				dst_page->file.file = file_reopen(src_page->file.file);
+			}
+
 			if (!vm_claim_page(dst_page->va))
 			{
 				dprintfg("[supplemental_page_table_copy] caliming initiated page failed.\n");
 				return false;
 			}
-			else if (src_page->frame != NULL)
+			else if (src_page->frame != NULL && src_page->frame->kva != NULL)
 			{
 				
 				memcpy(dst_page->frame->kva, src_page->frame->kva, PGSIZE);

@@ -7,12 +7,45 @@ vm:
 	make check 2>&1 | tee ../log.txt
 
 
-.PHONY: debug
-debug:
+.PHONY: debuga
+debuga:
 	make clean && \
 	make -j && \
 	cd ./build && \
-	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-write:mmap-write --swap-disk=4 -- -q   -f run mmap-write 
+	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-kernel:mmap-kernel -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-kernel
+
+.PHONY: debugb
+debugb:
+	make clean && \
+	make -j && \
+	cd ./build && \
+	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-kernel:mmap-kernel -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-kernel
+.PHONY: debugc
+debugc:
+	make clean && \
+	make -j && \
+	cd ./build && \
+	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-kernel:mmap-kernel -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-kernel
+.PHONY: debugd
+debugd:
+	make clean && \
+	make -j && \
+	cd ./build && \
+	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-kernel:mmap-kernel -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-kernel
+
+.PHONY: debuge
+debuge:
+	make clean && \
+	make -j && \
+	cd ./build && \
+	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-kernel:mmap-kernel -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-kernel
+
+.PHONY: debugd
+debugd:
+	make clean && \
+	make -j && \
+	cd ./build && \
+	pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-kernel:mmap-kernel -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run mmap-kernel
 
 .PHONY: zeros
 zeros:

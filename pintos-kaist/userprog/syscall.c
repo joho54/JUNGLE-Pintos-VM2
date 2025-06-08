@@ -41,7 +41,6 @@ void check_address(const uint64_t *addr);
  * @param addr: 주소값.
  */
 void check_address(const uint64_t *addr){
-	struct thread *cur = thread_current();
 	dprintfg("[check_address] routine start: %p\n", addr); 
 	if (addr == NULL || !(is_user_vaddr(addr))) {
 		dprintfg("[check_address] check failed!\n");
@@ -49,6 +48,17 @@ void check_address(const uint64_t *addr){
 	}
 	dprintfg("[check_address] check pass!\n");
 }
+
+// void check_offset(const off_t offset)
+// {
+
+// 	dprintfg("[check_address] routine start: %p\n", addr); 
+// 	if (offset == NULL || !is_user_vaddr(offset)) {
+// 		dprintfg("[check_address] check failed!\n");
+// 		exit(-1);
+// 	}
+// 	PANIC("[check_offset] check pass! offset: %d", offset);
+// }
 
 void check_address_writable(const uint64_t *addr)
 {
@@ -293,6 +303,8 @@ int read(int fd, void *buffer, unsigned size){
 // 5. addr aline인있는 지 c
 void *mmap (void *addr, size_t length, int writable, int fd, off_t offset) 
 {
+	check_address(addr);  // mmap-kernel
+	// check_offset(offset); 
 	dprintfg("[mmap] routine start\n");
 	struct thread *curr = thread_current();
 	if (addr == NULL || length == 0 || fd == 0 || fd == 1 || (uint64_t) addr % 4096 != 0 || spt_find_page(&curr->spt, addr)) {

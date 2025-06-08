@@ -473,26 +473,76 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 	{
 		struct page *src_page = hash_entry(hash_cur(&i), struct page, hash_elem);
 		enum vm_type type = page_get_type(src_page);
-		void *upage = src_page->va;
 
-		// 1. 새로운 페이지를 dst SPT에 할당
-		if (!vm_alloc_page_with_initializer(type, upage, src_page->writable,
-											src_page->uninit.init, src_page->uninit.aux))
+		if (type == VM_UNINIT)
 		{
-			return false;
+			struct uninit_page uninit_page = src_page->uninit;
+			enum vm_type future_type = uninit_page.type;
+
+			if (future_type == VM_ANON)
+			{
+				struct lazy_aux *new_aux = malloc(sizeof(struct lazy_aux));
+				*new_aux = *(struct lazy_aux *)uninit_page.aux;
+				if (!vm_alloc_page_with_initializer(
+						future_type,
+						src_page->va,
+						src_page->writable,
+						uninit_page.init,
+						new_aux))
+				{
+					// PANIC("[supplemental_page_table_copy] allocating uninit page for anon failed!");
+					return false;
+				}
+				struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
+				if (!vm_claim_page(dst_page))
+				{
+					// PANIC("[supplemental_page_table_copy] caliming uninit page(for anon) failed");
+					return false;
+				}
+			}
+			else if (future_type == VM_FILE)
+			{
+				struct lazy_aux_file_backed *new_aux = malloc(sizeof(struct lazy_aux_file_backed));
+				struct lazy_aux_file_backed *prev_aux = (struct lazy_aux_file_backed *)uninit_page.aux;
+				*new_aux = *prev_aux;
+				new_aux->file = file_reopen(prev_aux->file);
+				ASSERT(new_aux->file != NULL);
+				if (!vm_alloc_page_with_initializer(
+						future_type,
+						src_page->va,
+						src_page->writable,
+						uninit_page.init,
+						new_aux))
+				{
+					// PANIC("[supplemental_page_table_copy] allocating uninit page for file failed!");
+					return false;
+				}
+				struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
+				if (!vm_claim_page(dst_page))
+				{
+					// PANIC("[supplemental_page_table_copy] caliming uninit page(for anon) failed");
+					return false;
+				}
+			}
 		}
-
-		// 2. 새로 할당된 페이지를 찾고 claim
-		struct page *dst_page = spt_find_page(dst, upage);
-		if (!vm_claim_page(upage))
+		else
 		{
-			return false;
-		}
-
-		// 3. 부모의 프레임이 존재하면, 자식의 프레임으로 데이터 복사
-		if (src_page->frame != NULL)
-		{
-			memcpy(dst_page->frame->kva, src_page->frame->kva, PGSIZE);
+			vm_alloc_page(type, src_page->va, src_page->writable);
+			struct page *dst_page = spt_find_page(&thread_current()->spt, src_page->va);
+			if (!vm_claim_page(dst_page->va))
+			{
+				// PANIC("[supplemental_page_table_copy] caliming initiated page failed.");
+				return false;
+			}
+			else if (src_page->frame != NULL && src_page->frame->kva != NULL)
+			{
+				
+				memcpy(dst_page->frame->kva, src_page->frame->kva, PGSIZE);
+			}
+			else
+			{
+				// PANIC("[supplemental_page_table_copy] there's no frame for initiated page.");
+			}
 		}
 	}
 	return true;

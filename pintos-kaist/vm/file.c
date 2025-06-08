@@ -97,6 +97,10 @@ void *
 do_mmap(void *addr, size_t length, int writable, struct file *file, off_t offset)
 {
 	dprintfg("[do_mmap] routine start. addr: %p\n", addr);
+	if (is_kernel_vaddr(addr))
+	{
+		return NULL;
+	}
 	
 	struct page *page = spt_find_page(&thread_current()->spt, addr);
 	if (page != NULL && page_get_type(page) == VM_FILE)
@@ -104,9 +108,18 @@ do_mmap(void *addr, size_t length, int writable, struct file *file, off_t offset
 		dprintfg("[do_mmap] page is already mapped\n");
 		return NULL;
 	}
+	if (offset % PGSIZE != 0)
+	{
+		return NULL;
+	}
+	if(length > (uintptr_t) addr) 
+	{
+		return NULL;
+	}
 	dprintfg("[do_mmap] address is clear. proceeding mapping...\n");
 	struct file *re_file = file_reopen(file); // file을 reopen
 	size_t filesize = file_length(re_file); // filesize 획득
+
 	size_t file_read_bytes = filesize < length ? filesize : length; // 
 	size_t file_zero_bytes = PGSIZE - (file_read_bytes % PGSIZE);
 

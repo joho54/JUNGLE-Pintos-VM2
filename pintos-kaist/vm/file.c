@@ -221,7 +221,7 @@ void do_munmap(void *addr)
 			break;
 		}
 	}
-	// file_close(file); // 파일을 닫습니다. 해당 파일 구조체는 mmap 시 reopen 되어 독립적인 카운트를 유지합니다.
+	file_close(file); // 파일을 닫습니다. 해당 파일 구조체는 mmap 시 reopen 되어 독립적인 카운트를 유지합니다.
 
 	dprintfg("[do_munmap] munmap complete!\n");
 }

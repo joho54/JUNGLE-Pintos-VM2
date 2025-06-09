@@ -5,6 +5,7 @@
 #include "threads/malloc.h"
 #include "threads/vaddr.h"
 #include "threads/mmu.h"
+#include "userprog/syscall.h"
 
 static bool file_backed_swap_in(struct page *page, void *kva);
 static bool file_backed_swap_out(struct page *page);
@@ -117,7 +118,9 @@ do_mmap(void *addr, size_t length, int writable, struct file *file, off_t offset
 		return NULL;
 	}
 	dprintfg("[do_mmap] address is clear. proceeding mapping...\n");
+	lock_acquire(&filesys_lock);
 	struct file *re_file = file_reopen(file); // file을 reopen
+	lock_release(&filesys_lock);
 	size_t filesize = file_length(re_file); // filesize 획득
 
 	size_t file_read_bytes = filesize < length ? filesize : length; // 
@@ -221,7 +224,9 @@ void do_munmap(void *addr)
 			break;
 		}
 	}
+	lock_acquire(&filesys_lock);
 	file_close(file); // 파일을 닫습니다. 해당 파일 구조체는 mmap 시 reopen 되어 독립적인 카운트를 유지합니다.
+	lock_release(&filesys_lock);
 
 	dprintfg("[do_munmap] munmap complete!\n");
 }

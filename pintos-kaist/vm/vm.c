@@ -12,6 +12,7 @@
 #include "userprog/process.h"
 #include <string.h>
 #include "filesys/file.h"
+#include "userprog/syscall.h"
 
 struct lazy_load_args
 {
@@ -509,7 +510,9 @@ bool supplemental_page_table_copy(struct supplemental_page_table *dst,
 				struct lazy_aux_file_backed *new_aux = malloc(sizeof(struct lazy_aux_file_backed));
 				struct lazy_aux_file_backed *prev_aux = (struct lazy_aux_file_backed *)uninit_page.aux;
 				*new_aux = *prev_aux;
+				lock_acquire(&filesys_lock);
 				new_aux->file = file_reopen(prev_aux->file);
+				lock_release(&filesys_lock);
 				ASSERT(new_aux->file != NULL);
 				if (!vm_alloc_page_with_initializer(
 						future_type,

@@ -340,7 +340,10 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 
 		dprintfg("[vm_try_handle_fault] checking f->rsp: %p\n", f->rsp);
 
-		void *rsp = is_kernel_vaddr(f->rsp) ? thread_current()->rsp : f->rsp;
+		// user가 false: 커널모드라는 의미. 시스템 콜을 통해서 이어진 폴트 루틴. 따라서 read같은 연산 중
+		// fault 발생하면 f->rsp를 참조하면 안 되고 쓰레드 구조체에 따로 저장된 rsp를 가져와야 함.
+		// user가 TRUE: 인터럽트 프레임에서 바로 가져오면 됨
+		void *rsp = user ? f->rsp : thread_current()->rsp; 
 
 		/* DEBUG: 기존 스택 성장 조건은 아래와 같았음.
 		* `if (f->rsp - 8 == addr)`
@@ -350,6 +353,7 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 		if (addr >= rsp - 8 && addr < USER_STACK && addr >= STACK_MAX) // 합법적인 스택 확장 요청인지 판단. user stack의 최대 크기인 1MB를 초과하지 않는지 check
 		{
 			dprintff("[vm_try_handle_fault] expending stack page\n");
+			// PANIC("expending stack!");
 			vm_stack_growth(pg_round_down(addr));
 			return true;
 		}

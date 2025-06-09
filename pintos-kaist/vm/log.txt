@@ -94,7 +94,27 @@ perl -I../.. ../../tests/userprog/write-normal.ck tests/userprog/write-normal te
 pass tests/userprog/write-normal
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/userprog/write-bad-ptr:write-bad-ptr -p ../../tests/userprog/sample.txt:sample.txt --swap-disk=4 -- -q   -f run write-bad-ptr 
 perl -I../.. ../../tests/userprog/write-bad-ptr.ck tests/userprog/write-bad-ptr tests/userprog/write-bad-ptr.result
-pass tests/userprog/write-bad-ptr
+FAIL tests/userprog/write-bad-ptr
+Kernel panic in run: PANIC at ../../threads/synch.c:263 in lock_acquire(): assertion `!lock_held_by_current_thread (lock)' failed.
+Call stack: 0x800421802a 0x800420a5c0 0x800421d3c1 0x800421c036 0x8004207240 0x800421d022 0x800421ce03 0x800420900d 0x800420942b 0x80042201c8 0x800421eff4 0x800421d0d8 0x800421d9a8 0x800421ce78 0x400160 0x4001d6 0x400c77
+Translation of call stack:
+0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
+0x000000800420a5c0: lock_acquire (threads/synch.c:267)
+0x000000800421d3c1: close (userprog/syscall.c:232)
+0x000000800421c036: process_exit (userprog/process.c:432 (discriminator 2))
+0x0000008004207240: thread_exit (threads/thread.c:328)
+0x000000800421d022: write (userprog/syscall.c:107)
+0x000000800421ce03: page_fault (userprog/exception.c:152)
+0x000000800420900d: intr_handler (threads/interrupt.c:352)
+0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
+0x00000080042201c8: inode_write_at (filesys/inode.c:277)
+0x000000800421eff4: file_write (filesys/file.c:107)
+0x000000800421d0d8: write (userprog/syscall.c:120)
+0x000000800421d9a8: syscall_handler (userprog/syscall.c:397)
+0x000000800421ce78: no_sti (userprog/syscall-entry.o:?)
+0x0000000000400160: (unknown)
+0x00000000004001d6: (unknown)
+0x0000000000400c77: (unknown)
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/userprog/write-boundary:write-boundary -p ../../tests/userprog/sample.txt:sample.txt --swap-disk=4 -- -q   -f run write-boundary 
 perl -I../.. ../../tests/userprog/write-boundary.ck tests/userprog/write-boundary tests/userprog/write-boundary.result
 pass tests/userprog/write-boundary
@@ -239,8 +259,7 @@ perl -I../.. ../../tests/vm/page-linear.ck tests/vm/page-linear tests/vm/page-li
 pass tests/vm/page-linear
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/page-parallel:page-parallel -p tests/vm/child-linear:child-linear --swap-disk=4 -- -q   -f run page-parallel 
 perl -I../.. ../../tests/vm/page-parallel.ck tests/vm/page-parallel tests/vm/page-parallel.result
-FAIL tests/vm/page-parallel
-run: wait for child 1: FAILED
+pass tests/vm/page-parallel
 pintos -v -k -T 600 -m 20   --fs-disk=10 -p tests/vm/page-merge-seq:page-merge-seq -p tests/vm/child-sort:child-sort --swap-disk=4 -- -q   -f run page-merge-seq 
 perl -I../.. ../../tests/vm/page-merge-seq.ck tests/vm/page-merge-seq tests/vm/page-merge-seq.result
 pass tests/vm/page-merge-seq
@@ -271,7 +290,7 @@ pass tests/vm/mmap-unmap
 dd if=/dev/zero of=tests/vm/zeros bs=1024 count=6
 6+0 records in
 6+0 records out
-6144 bytes (6.1 kB, 6.0 KiB) copied, 0.00493042 s, 1.2 MB/s
+6144 bytes (6.1 kB, 6.0 KiB) copied, 0.00473558 s, 1.3 MB/s
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-overlap:mmap-overlap -p tests/vm/zeros:zeros --swap-disk=4 -- -q   -f run mmap-overlap 
 perl -I../.. ../../tests/vm/mmap-overlap.ck tests/vm/mmap-overlap tests/vm/mmap-overlap.result
 pass tests/vm/mmap-overlap
@@ -513,8 +532,7 @@ perl -I../.. ../../tests/filesys/base/syn-remove.ck tests/filesys/base/syn-remov
 pass tests/filesys/base/syn-remove
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/syn-write:syn-write -p tests/filesys/base/child-syn-wrt:child-syn-wrt --swap-disk=4 -- -q   -f run syn-write 
 perl -I../.. ../../tests/filesys/base/syn-write.ck tests/filesys/base/syn-write tests/filesys/base/syn-write.result
-FAIL tests/filesys/base/syn-write
-run: wait for child 2 of 10 returned -1 (expected 1): FAILED
+pass tests/filesys/base/syn-write
 pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-single 
 perl -I../.. ../../tests/threads/alarm-single.ck tests/threads/alarm-single tests/threads/alarm-single.result
 pass tests/threads/alarm-single
@@ -523,7 +541,53 @@ perl -I../.. ../../tests/threads/alarm-multiple.ck tests/threads/alarm-multiple 
 pass tests/threads/alarm-multiple
 pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-simultaneous 
 perl -I../.. ../../tests/threads/alarm-simultaneous.ck tests/threads/alarm-simultaneous tests/threads/alarm-simultaneous.result
-pass tests/threads/alarm-simultaneous
+FAIL tests/threads/alarm-simultaneous
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (alarm-simultaneous) begin
+  (alarm-simultaneous) Creating 3 threads to sleep 5 times each.
+  (alarm-simultaneous) Each thread sleeps 10 ticks each time.
+  (alarm-simultaneous) Within an iteration, all threads should wake up on the same tick.
+  (alarm-simultaneous) iteration 0, thread 0: woke up after 10 ticks
+  (alarm-simultaneous) iteration 0, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 0, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) iteration 1, thread 0: woke up 10 ticks later
+  (alarm-simultaneous) iteration 1, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 1, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) iteration 2, thread 0: woke up 10 ticks later
+  (alarm-simultaneous) iteration 2, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 2, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) iteration 3, thread 0: woke up 10 ticks later
+  (alarm-simultaneous) iteration 3, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 3, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) iteration 4, thread 0: woke up 10 ticks later
+  (alarm-simultaneous) iteration 4, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 4, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) end
+Differences in `diff -u' format:
+  (alarm-simultaneous) begin
+  (alarm-simultaneous) Creating 3 threads to sleep 5 times each.
+  (alarm-simultaneous) Each thread sleeps 10 ticks each time.
+  (alarm-simultaneous) Within an iteration, all threads should wake up on the same tick.
+  (alarm-simultaneous) iteration 0, thread 0: woke up after 10 ticks
+  (alarm-simultaneous) iteration 0, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 0, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) iteration 1, thread 0: woke up 10 ticks later
+  (alarm-simultaneous) iteration 1, thread 1: woke up 0 ticks later
+- (alarm-simultaneous) iteration 1, thread 2: woke up 0 ticks later
+- (alarm-simultaneous) iteration 2, thread 0: woke up 10 ticks later
++ (alarm-simultaneous) iteration 1, thread 2: woke up 1 ticks later
++ (alarm-simultaneous) iteration 2, thread 0: woke up 9 ticks later
+  (alarm-simultaneous) iteration 2, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 2, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) iteration 3, thread 0: woke up 10 ticks later
+  (alarm-simultaneous) iteration 3, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 3, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) iteration 4, thread 0: woke up 10 ticks later
+  (alarm-simultaneous) iteration 4, thread 1: woke up 0 ticks later
+  (alarm-simultaneous) iteration 4, thread 2: woke up 0 ticks later
+  (alarm-simultaneous) end
 pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-priority 
 perl -I../.. ../../tests/threads/alarm-priority.ck tests/threads/alarm-priority tests/threads/alarm-priority.result
 pass tests/threads/alarm-priority
@@ -604,7 +668,7 @@ pass tests/userprog/read-zero
 pass tests/userprog/read-stdout
 pass tests/userprog/read-bad-fd
 pass tests/userprog/write-normal
-pass tests/userprog/write-bad-ptr
+FAIL tests/userprog/write-bad-ptr
 pass tests/userprog/write-boundary
 pass tests/userprog/write-zero
 pass tests/userprog/write-stdin
@@ -645,7 +709,7 @@ pass tests/vm/pt-write-code
 pass tests/vm/pt-write-code2
 FAIL tests/vm/pt-grow-stk-sc
 pass tests/vm/page-linear
-FAIL tests/vm/page-parallel
+pass tests/vm/page-parallel
 pass tests/vm/page-merge-seq
 FAIL tests/vm/page-merge-par
 FAIL tests/vm/page-merge-stk
@@ -694,10 +758,10 @@ pass tests/filesys/base/sm-seq-block
 pass tests/filesys/base/sm-seq-random
 pass tests/filesys/base/syn-read
 pass tests/filesys/base/syn-remove
-FAIL tests/filesys/base/syn-write
+pass tests/filesys/base/syn-write
 pass tests/threads/alarm-single
 pass tests/threads/alarm-multiple
-pass tests/threads/alarm-simultaneous
+FAIL tests/threads/alarm-simultaneous
 pass tests/threads/alarm-priority
 pass tests/threads/alarm-zero
 pass tests/threads/alarm-negative

@@ -109,11 +109,19 @@ void debug_backtrace (void);
 #define dprintfi(...) ((void)0)
 #endif
 ////////////////////////
-#define DEBUG_PRINTFJ
+// #define DEBUG_PRINTFJ
 
 #ifdef DEBUG_PRINTFJ
 #define dprintfj(...) printf(__VA_ARGS__)
 #else
 #define dprintfj(...) ((void)0)
+#endif
+////////////////////////
+// #define DEBUG_PRINTFK
+
+#ifdef DEBUG_PRINTFK
+#define dprintfk(...) printf(__VA_ARGS__)
+#else
+#define dprintfk(...) ((void)0)
 #endif
 ////////////////////////

@@ -14,6 +14,7 @@ typedef uint32_t disk_sector_t;
 /* Format specifier for printf(), e.g.:
  * printf ("sector=%"PRDSNu"\n", sector); */
 #define PRDSNu PRIu32
+#define SECTORS_PER_PAGE 8
 
 void disk_init (void);
 void disk_print_stats (void);

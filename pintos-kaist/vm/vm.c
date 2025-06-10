@@ -22,10 +22,15 @@ struct lazy_load_args
 	size_t zero_bytes;
 };
 
+static struct list frame_table;
+static struct lock frame_lock;
+
 /* 가상 메모리 서브시스템을 초기화합니다.
  * 각 서브시스템의 초기화 코드를 호출합니다. */
 void vm_init(void)
 {
+	list_init(&frame_table);
+	lock_init(&frame_lock);
 	vm_anon_init();
 	vm_file_init();
 #ifdef EFILESYS /* Project 4용 */
@@ -199,6 +204,13 @@ vm_get_victim(void)
 {
 	struct frame *victim = NULL;
 	/* TODO: 페이지 교체 정책은 여러분이 결정할 수 있습니다. */
+	lock_acquire(&frame_lock);
+	if (!list_empty(&frame_table))
+	{
+		struct list_elem *e = list_pop_front(&frame_table); // 가장 오래된 프레임 선택.
+		victim = list_entry(e, struct frame, frame_elem);
+	}
+	lock_release(&frame_lock);
 
 	return victim;
 }
@@ -208,9 +220,13 @@ vm_get_victim(void)
 static struct frame *
 vm_evict_frame(void)
 {
-	struct frame *victim UNUSED = vm_get_victim();
+	struct frame *victim = vm_get_victim();
 	/* TODO: victim을 스왑 아웃하고 교체된 프레임을 반환하세요. */
-
+	if (victim != NULL && swap_out(victim->page))
+	{
+		return victim;
+	}
+	PANIC("NOT REACHED"); // swap out이 실패를 리턴했나? 그런데 루틴이 끝나면 성공할 수밖에 없다.
 	return NULL;
 }
 
@@ -244,7 +260,10 @@ vm_get_frame(void)
 		free(frame);			  // frame 메타 데이터 자료구조 해제
 		frame = vm_evict_frame(); // TODO: evict frame 함수가 아직 구현되지 않음.
 	}
-	ASSERT(frame->kva != NULL);
+	ASSERT(frame != NULL);
+	lock_acquire(&frame_lock);
+	list_push_back(&frame_table, &frame->frame_elem); 
+	lock_release(&frame_lock);
 	return frame;
 }
 
@@ -332,7 +351,7 @@ You can use the functions in threads/mmu.c.
 bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 						 bool user, bool write, bool not_present)
 {
-	dprintfg("[vm_try_handle_fault] fault handle start. addr: %p\n", addr);
+	dprintfk("[vm_try_handle_fault] fault handle start. addr: %p\n", addr);
 
 	struct supplemental_page_table *spt = &thread_current()->spt; // 현재 쓰레드의 spt 가져옴.
 	if (not_present)
@@ -353,21 +372,26 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 
 		if (addr >= rsp - 8 && addr < USER_STACK && addr >= STACK_MAX) // 합법적인 스택 확장 요청인지 판단. user stack의 최대 크기인 1MB를 초과하지 않는지 check
 		{
-			dprintff("[vm_try_handle_fault] expending stack page\n");
+			dprintfk("[vm_try_handle_fault] expending stack page\n");
 			// PANIC("expending stack!");
 			vm_stack_growth(pg_round_down(addr));
 			return true;
 		}
 		else
 		{
-			dprintfg("[vm_try_handle_fault] trying to find page from spt\n");
+			dprintfk("[vm_try_handle_fault] trying to find page from spt\n");
 			page = spt_find_page(spt, addr); // page를 null로 설정해. stack growth 경우에는 spt 찾을 필요 없지 않나? 어차피 없을텐데.
+			if(page == NULL)
+			{
+				return false;
+			}
 			return vm_do_claim_page(page);	 // 그 페이지에 대응하는 프레임을 할당받아.
 		}
 
 	}
 	else
 	{
+		PANIC("[vm_try_handle_fault] panic!");
 		return false;
 	}
 }
@@ -416,10 +440,10 @@ vm_do_claim_page(struct page *page)
 	{
 		return false;
 	}
-	dprintfc("[vm_do_claim_page] routine start. page->va: %p\n", page->va);
+	dprintfj("[vm_do_claim_page] routine start. page->va: %p\n", page->va);
 
 	struct frame *frame = vm_get_frame(); // 메모리 공간에서 프레임 하나 확보
-	ASSERT(frame != NULL);
+	ASSERT(frame != NULL); // 리턴되는 frame이 유효한 것은 보장이 됨.
 
 	/* 링크 설정 */
 	frame->page = page; // 각각을 의미하는 구조체를 서로 링크시켜줌.
@@ -430,13 +454,23 @@ vm_do_claim_page(struct page *page)
 	{
 		if (!pml4_set_page(thread_current()->pml4, page->va, frame->kva, page->writable))
 		{
-			dprintfc("[vm_do_claim_page] pml4 set failed\n");
+			PANIC("pml4 set page failed");
+			dprintfj("[vm_do_claim_page] pml4 set failed\n");
 			return false;
 		}
 	}
+	else
+	{
+		PANIC("page already in pml4");
+	}
+	// 이까지 무난하게 통과 완료.
 
-	dprintfc("[vm_do_claim_page] do claim success. va: %p, pa: %p\n", page->va, page->frame->kva);
-	return swap_in(page, frame->kva);
+	dprintfj("[vm_do_claim_page] do claim success. va: %p, pa: %p\n", page->va, page->frame->kva);
+	if (swap_in(page, frame->kva) == true) // 할당된 프레임을 메모리에 올리고(이게 스왑 인이 필요 없는 상황일 수도 있지 않나?)
+	{
+		return true;
+	}
+	PANIC("NOT REACHED");
 }
 
 uint64_t page_hash(const struct hash_elem *e, void *aux)

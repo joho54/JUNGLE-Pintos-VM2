@@ -1,0 +1,724 @@
+                 from ../../include/threads/thread.h:5,
+                 from ../../include/userprog/process.h:4,
+                 from ../../userprog/process.c:1:
+../../userprog/process.c: In function ‘process_close_file_by_id’:
+gcc -c ../../tests/vm/mmap-twice.c -o tests/vm/mmap-twice.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-twice.d
+../../include/lib/stddef.h:4:14: warning: ‘return’ with a value, in function returning void
+ #define NULL ((void *) 0)
+              ^
+../../userprog/process.c:101:10: note: in expansion of macro ‘NULL’
+   return NULL;
+          ^~~~
+../../userprog/process.c:95:6: note: declared here
+ void process_close_file_by_id(int fd)
+      ^~~~~~~~~~~~~~~~~~~~~~~~
+../../vm/file.c: In function ‘file_backed_swap_in’:
+../../vm/file.c:48:46: warning: unused parameter ‘kva’ [-Wunused-parameter]
+ file_backed_swap_in(struct page *page, void *kva)
+                                              ^~~
+../../vm/file.c: In function ‘file_backed_swap_out’:
+../../vm/file.c:59:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+../../vm/file.c: In function ‘file_backed_destroy’:
+gcc -c ../../tests/vm/mmap-write.c -o tests/vm/mmap-write.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-write.d
+gcc -c ../../tests/vm/mmap-ro.c -o tests/vm/mmap-ro.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-ro.d
+../../userprog/process.c: In function ‘process_create_initd’:
+../../userprog/process.c:124:11: warning: passing argument 1 of ‘strtok_r’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+  strtok_r(file_name, " ", &save_ptr);
+           ^~~~~~~~~
+../../vm/file.c:77:22: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+  struct pml4 *pml4 = thread_current()->pml4;
+                      ^~~~~~~~~~~~~~
+../../vm/file.c:79:20: warning: passing argument 1 of ‘pml4_is_dirty’ from incompatible pointer type [-Wincompatible-pointer-types]
+  if (pml4_is_dirty(pml4, page->va))
+                    ^~~~
+gcc -c ../../tests/vm/mmap-exit.c -o tests/vm/mmap-exit.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-exit.d
+In file included from ../../vm/file.c:7:0:
+../../include/threads/mmu.h:18:6: note: expected ‘uint64_t * {aka long long unsigned int *}’ but argument is of type ‘struct pml4 *’
+ bool pml4_is_dirty (uint64_t *pml4, const void *upage);
+      ^~~~~~~~~~~~~
+In file included from ../../userprog/process.c:7:0:
+../../include/lib/string.h:25:7: note: expected ‘char *’ but argument is of type ‘const char *’
+ char *strtok_r (char *, const char *, char **);
+       ^~~~~~~~
+gcc -c ../../tests/vm/mmap-shuffle.c -o tests/vm/mmap-shuffle.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-shuffle.d
+../../userprog/process.c: In function ‘__do_fork’:
+../../userprog/process.c:273:12: warning: comparison between pointer and integer
+   if (file > 2)
+            ^
+../../userprog/process.c: In function ‘argument_stack’:
+../../userprog/process.c:311:12: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+  int pad = (int)*rsp % 8;
+            ^
+../../userprog/process.c: In function ‘process_exec’:
+../../userprog/process.c:376:31: warning: passing argument 3 of ‘argument_stack’ from incompatible pointer type [-Wincompatible-pointer-types]
+  argument_stack(parse, count, &_if.rsp); // 함수 내부에서 parse와 rsp의 값을 직접 변경하기 위해 주소 전달.
+                               ^
+../../userprog/process.c:295:6: note: expected ‘void **’ but argument is of type ‘uintptr_t * {aka long long unsigned int *}’
+ void argument_stack(char **argv, int argc, void **rsp)
+      ^~~~~~~~~~~~~~
+../../userprog/process.c:378:12: warning: assignment makes integer from pointer without a cast [-Wint-conversion]
+  _if.R.rsi = (char *)_if.rsp + 8;  // 두 번째 인자: argv. 스택의 첫 8바이트는 NULL이고, 그 다음 주소가 argv[0]이므로, rsp + 8이 argv 배열의 시작 주소.
+            ^
+../../userprog/process.c: In function ‘process_wait’:
+../../userprog/process.c:411:2: warning: implicit declaration of function ‘timer_msleep’; did you mean ‘file_seek’? [-Wimplicit-function-declaration]
+  timer_msleep(1);
+  ^~~~~~~~~~~~
+  file_seek
+../../vm/file.c:85:9: warning: unused variable ‘write_bytes’ [-Wunused-variable]
+   off_t write_bytes = file_write_at(file_page->file, page->va, file_page->size, file_page->file_ofs); // Writes SIZE bytes만큼 쓴다.
+         ^~~~~~~~~~~
+../../vm/file.c:78:34: warning: unused variable ‘spt’ [-Wunused-variable]
+  struct supplemental_page_table *spt = &thread_current()->spt;
+                                  ^~~
+../../vm/anon.c: In function ‘anon_initializer’:
+../../vm/anon.c:38:55: warning: unused parameter ‘type’ [-Wunused-parameter]
+ bool anon_initializer(struct page *page, enum vm_type type, void *kva)
+                                                       ^~~~
+../../vm/anon.c:38:67: warning: unused parameter ‘kva’ [-Wunused-parameter]
+ bool anon_initializer(struct page *page, enum vm_type type, void *kva)
+                                                                   ^~~
+In file included from ../../include/threads/vaddr.h:4:0,
+                 from ../../include/threads/pte.h:4,
+                 from ../../include/threads/mmu.h:6,
+                 from ../../vm/anon.c:6:
+../../vm/anon.c: In function ‘anon_swap_in’:
+gcc -c ../../tests/vm/mmap-bad-fd.c -o tests/vm/mmap-bad-fd.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-bad-fd.d
+../../include/lib/debug.h:123:23: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
+ #define dprintfk(...) printf(__VA_ARGS__)
+                       ^
+../../vm/anon.c:58:5: note: in expansion of macro ‘dprintfk’
+     dprintfk("[anon_swap_in] routine start. page->va: %p, kva: %p\n", page->va, kva);
+     ^~~~~~~~
+../../include/lib/debug.h:123:23: warning: incompatible implicit declaration of built-in function ‘printf’
+ #define dprintfk(...) printf(__VA_ARGS__)
+                       ^
+../../vm/anon.c:58:5: note: in expansion of macro ‘dprintfk’
+     dprintfk("[anon_swap_in] routine start. page->va: %p, kva: %p\n", page->va, kva);
+     ^~~~~~~~
+../../include/lib/debug.h:123:23: note: include ‘<stdio.h>’ or provide a declaration of ‘printf’
+ #define dprintfk(...) printf(__VA_ARGS__)
+                       ^
+../../vm/anon.c:58:5: note: in expansion of macro ‘dprintfk’
+     dprintfk("[anon_swap_in] routine start. page->va: %p, kva: %p\n", page->va, kva);
+     ^~~~~~~~
+gcc -c ../../tests/vm/mmap-clean.c -o tests/vm/mmap-clean.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-clean.d
+../../devices/disk.c:551:1: warning: no previous prototype for ‘register_disk_inspect_intr’ [-Wmissing-prototypes]
+ register_disk_inspect_intr (void) {
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~
+gcc -c ../../tests/vm/mmap-inherit.c -o tests/vm/mmap-inherit.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-inherit.d
+At top level:
+../../filesys/page_cache.c:20:1: warning: no previous prototype for ‘pagecache_init’ [-Wmissing-prototypes]
+ pagecache_init (void) {
+ ^~~~~~~~~~~~~~
+gcc -c ../../tests/vm/mmap-misalign.c -o tests/vm/mmap-misalign.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-misalign.d
+../../vm/anon.c: In function ‘anon_swap_out’:
+../../include/lib/debug.h:123:23: warning: incompatible implicit declaration of built-in function ‘printf’
+ #define dprintfk(...) printf(__VA_ARGS__)
+                       ^
+../../vm/anon.c:82:5: note: in expansion of macro ‘dprintfk’
+     dprintfk("[anon_swap_out] routine start. page->va: %p\n", page->va);
+     ^~~~~~~~
+../../include/lib/debug.h:123:23: note: include ‘<stdio.h>’ or provide a declaration of ‘printf’
+ #define dprintfk(...) printf(__VA_ARGS__)
+                       ^
+../../vm/anon.c:82:5: note: in expansion of macro ‘dprintfk’
+     dprintfk("[anon_swap_out] routine start. page->va: %p\n", page->va);
+     ^~~~~~~~
+../../devices/timer.c:32:20: warning: ‘sleep_list’ defined but not used [-Wunused-variable]
+ static struct list sleep_list; // Alarm clock 개선
+                    ^~~~~~~~~~
+../../userprog/exception.c: In function ‘page_fault’:
+gcc -c ../../tests/vm/mmap-null.c -o tests/vm/mmap-null.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-null.d
+../../filesys/page_cache.c:26:1: warning: no previous prototype for ‘page_cache_initializer’ [-Wmissing-prototypes]
+ page_cache_initializer (struct page *page, enum vm_type type, void *kva) {
+ ^~~~~~~~~~~~~~~~~~~~~~
+../../userprog/exception.c:155:3: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+   exit(-1);
+   ^~~~
+../../userprog/exception.c:155:3: warning: incompatible implicit declaration of built-in function ‘exit’
+../../userprog/exception.c:155:3: note: include ‘<stdlib.h>’ or provide a declaration of ‘exit’
+gcc -c ../../tests/vm/mmap-over-code.c -o tests/vm/mmap-over-code.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-over-code.d
+../../vm/anon.c:85:14: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘size_t {aka long unsigned int}’ [-Wformat=]
+     dprintfk("[anon_swap_out] scanned bitmap index: %d\n", page_num);
+              ^
+../../include/lib/debug.h:123:30: note: in definition of macro ‘dprintfk’
+ #define dprintfk(...) printf(__VA_ARGS__)
+                              ^~~~~~~~~~~
+../../vm/file.c: In function ‘lazy_load_file_backed’:
+../../vm/file.c:167:2: warning: implicit declaration of function ‘memset’ [-Wimplicit-function-declaration]
+  memset(page->frame->kva, 0, PGSIZE); // zero bytes 복사.
+  ^~~~~~
+../../vm/file.c:167:2: warning: incompatible implicit declaration of built-in function ‘memset’
+../../vm/file.c:167:2: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+gcc -c ../../tests/vm/mmap-over-data.c -o tests/vm/mmap-over-data.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-over-data.d
+../../vm/file.c:166:8: warning: unused variable ‘va’ [-Wunused-variable]
+  void *va = page->va;
+        ^~
+../../filesys/page_cache.c: In function ‘page_cache_initializer’:
+../../filesys/page_cache.c:26:57: warning: unused parameter ‘type’ [-Wunused-parameter]
+ page_cache_initializer (struct page *page, enum vm_type type, void *kva) {
+                                                         ^~~~
+../../filesys/page_cache.c:26:69: warning: unused parameter ‘kva’ [-Wunused-parameter]
+ page_cache_initializer (struct page *page, enum vm_type type, void *kva) {
+                                                                     ^~~
+gcc -c ../../tests/vm/mmap-over-stk.c -o tests/vm/mmap-over-stk.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-over-stk.d
+../../vm/anon.c: In function ‘anon_destroy’:
+../../vm/anon.c:111:23: warning: unused variable ‘anon_page’ [-Wunused-variable]
+     struct anon_page *anon_page = &page->anon;
+                       ^~~~~~~~~
+../../userprog/process.c: In function ‘lazy_load_segment’:
+../../userprog/process.c:878:8: warning: unused variable ‘va’ [-Wunused-variable]
+  void *va = page->va;
+        ^~
+../../filesys/page_cache.c: In function ‘page_cache_readahead’:
+../../filesys/page_cache.c:35:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+../../filesys/page_cache.c:34:36: warning: unused parameter ‘page’ [-Wunused-parameter]
+ page_cache_readahead (struct page *page, void *kva) {
+                                    ^~~~
+../../filesys/page_cache.c:34:48: warning: unused parameter ‘kva’ [-Wunused-parameter]
+ page_cache_readahead (struct page *page, void *kva) {
+                                                ^~~
+../../filesys/page_cache.c: In function ‘page_cache_writeback’:
+../../filesys/page_cache.c:40:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+../../filesys/page_cache.c:39:36: warning: unused parameter ‘page’ [-Wunused-parameter]
+ page_cache_writeback (struct page *page) {
+                                    ^~~~
+../../filesys/page_cache.c: In function ‘page_cache_destroy’:
+../../filesys/page_cache.c:44:34: warning: unused parameter ‘page’ [-Wunused-parameter]
+ page_cache_destroy (struct page *page) {
+                                  ^~~~
+../../filesys/page_cache.c: In function ‘page_cache_kworkerd’:
+../../filesys/page_cache.c:49:28: warning: unused parameter ‘aux’ [-Wunused-parameter]
+ page_cache_kworkerd (void *aux) {
+                            ^~~
+gcc -c ../../tests/vm/mmap-remove.c -o tests/vm/mmap-remove.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-remove.d
+../../userprog/process.c: In function ‘load_segment’:
+../../userprog/process.c:932:26: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+   struct lazy_aux *aux = malloc(sizeof(struct lazy_aux)); // 파일에서 세그먼트 읽어올 때 필요한 정보가 여기 들어간다.
+                          ^~~~~~
+../../userprog/process.c:932:26: warning: incompatible implicit declaration of built-in function ‘malloc’
+../../userprog/process.c:932:26: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+../../filesys/fat.c: In function ‘fat_create_chain’:
+../../filesys/fat.c:168:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../../filesys/fat.c: In function ‘fat_get’:
+../../filesys/fat.c:187:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../../filesys/fat.c: In function ‘cluster_to_sector’:
+../../filesys/fat.c:193:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+../../vm/file.c: In function ‘file_backed_initializer’:
+../../vm/file.c:44:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+gcc -c ../../tests/vm/mmap-zero.c -o tests/vm/mmap-zero.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-zero.d
+gcc -c ../../tests/vm/mmap-bad-fd2.c -o tests/vm/mmap-bad-fd2.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-bad-fd2.d
+../../filesys/page_cache.c: In function ‘page_cache_initializer’:
+../../filesys/page_cache.c:30:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+gcc -c ../../tests/vm/mmap-bad-fd3.c -o tests/vm/mmap-bad-fd3.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-bad-fd3.d
+../../devices/disk.c: In function ‘disk_init’:
+../../devices/disk.c:129:43: warning: ‘%d’ directive output may be truncated writing between 1 and 11 bytes into a region of size between 0 and 7 [-Wformat-truncation=]
+    snprintf (d->name, sizeof d->name, "%s:%d", c->name, dev_no);
+                                           ^~
+../../devices/disk.c:129:4: note: ‘snprintf’ output between 3 and 20 bytes into a destination of size 8
+    snprintf (d->name, sizeof d->name, "%s:%d", c->name, dev_no);
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gcc -c ../../tests/vm/mmap-zero-len.c -o tests/vm/mmap-zero-len.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-zero-len.d
+At top level:
+../../filesys/page_cache.c:49:1: warning: ‘page_cache_kworkerd’ defined but not used [-Wunused-function]
+ page_cache_kworkerd (void *aux) {
+ ^~~~~~~~~~~~~~~~~~~
+gcc -c ../../tests/vm/mmap-off.c -o tests/vm/mmap-off.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-off.d
+gcc -c ../../tests/vm/mmap-bad-off.c -o tests/vm/mmap-bad-off.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-bad-off.d
+gcc -c ../../tests/vm/mmap-kernel.c -o tests/vm/mmap-kernel.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/mmap-kernel.d
+gcc -c ../../tests/vm/lazy-file.c -o tests/vm/lazy-file.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/lazy-file.d
+gcc -c ../../tests/vm/lazy-anon.c -o tests/vm/lazy-anon.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/lazy-anon.d
+gcc -c ../../tests/vm/swap-file.c -o tests/vm/swap-file.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/swap-file.d
+gcc -c ../../tests/vm/swap-anon.c -o tests/vm/swap-anon.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/swap-anon.d
+gcc -c ../../tests/vm/swap-iter.c -o tests/vm/swap-iter.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/swap-iter.d
+gcc -c ../../tests/vm/swap-fork.c -o tests/vm/swap-fork.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/swap-fork.d
+gcc -c ../../tests/vm/child-linear.c -o tests/vm/child-linear.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/child-linear.d
+gcc -c ../../tests/vm/child-sort.c -o tests/vm/child-sort.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/child-sort.d
+gcc -c ../../tests/vm/child-qsort.c -o tests/vm/child-qsort.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/child-qsort.d
+gcc -c ../../tests/vm/qsort.c -o tests/vm/qsort.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/qsort.d
+gcc -c ../../tests/vm/child-qsort-mm.c -o tests/vm/child-qsort-mm.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/child-qsort-mm.d
+gcc -c ../../tests/vm/child-mm-wrt.c -o tests/vm/child-mm-wrt.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/child-mm-wrt.d
+gcc -c ../../tests/vm/child-inherit.c -o tests/vm/child-inherit.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/child-inherit.d
+../../vm/uninit.c: In function ‘uninit_destroy’:
+gcc -c ../../tests/vm/child-swap.c -o tests/vm/child-swap.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/child-swap.d
+../../vm/uninit.c:95:22: warning: unused variable ‘uninit’ [-Wunused-variable]
+  struct uninit_page *uninit = &page->uninit;
+                      ^~~~~~
+gcc -c ../../tests/filesys/base/lg-create.c -o tests/filesys/base/lg-create.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/lg-create.d
+gcc -c ../../tests/filesys/seq-test.c -o tests/filesys/seq-test.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/seq-test.d
+gcc -c ../../tests/filesys/base/lg-full.c -o tests/filesys/base/lg-full.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/lg-full.d
+gcc -c ../../tests/filesys/base/lg-random.c -o tests/filesys/base/lg-random.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/lg-random.d
+gcc -c ../../tests/filesys/base/lg-seq-block.c -o tests/filesys/base/lg-seq-block.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/lg-seq-block.d
+gcc -c ../../tests/filesys/base/lg-seq-random.c -o tests/filesys/base/lg-seq-random.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/lg-seq-random.d
+gcc -c ../../tests/filesys/base/sm-create.c -o tests/filesys/base/sm-create.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/sm-create.d
+gcc -c ../../tests/filesys/base/sm-full.c -o tests/filesys/base/sm-full.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/sm-full.d
+gcc -c ../../tests/filesys/base/sm-random.c -o tests/filesys/base/sm-random.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/sm-random.d
+gcc -c ../../tests/filesys/base/sm-seq-block.c -o tests/filesys/base/sm-seq-block.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/sm-seq-block.d
+gcc -c ../../tests/filesys/base/sm-seq-random.c -o tests/filesys/base/sm-seq-random.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/sm-seq-random.d
+gcc -c ../../tests/filesys/base/syn-read.c -o tests/filesys/base/syn-read.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/syn-read.d
+gcc -c ../../tests/filesys/base/syn-remove.c -o tests/filesys/base/syn-remove.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/syn-remove.d
+gcc -c ../../tests/filesys/base/syn-write.c -o tests/filesys/base/syn-write.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/syn-write.d
+gcc -c ../../tests/filesys/base/child-syn-read.c -o tests/filesys/base/child-syn-read.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/child-syn-read.d
+gcc -c ../../tests/filesys/base/child-syn-wrt.c -o tests/filesys/base/child-syn-wrt.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/filesys/base/child-syn-wrt.d
+gcc -c ../../tests/vm/cow/cow-simple.c -o tests/vm/cow/cow-simple.o -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../include/lib/user -I. -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers  -MMD -MF tests/vm/cow/cow-simple.d
+../../tests/vm/mmap-ro.c: In function ‘test_main’:
+../../tests/vm/mmap-ro.c:17:8: warning: unused variable ‘buf’ [-Wunused-variable]
+   char buf[1024];
+        ^~~
+../../tests/vm/swap-anon.c: In function ‘test_main’:
+../../tests/vm/swap-anon.c:28:11: warning: unused variable ‘pa’ [-Wunused-variable]
+     void* pa;
+           ^~
+rm -f libc.a
+ar r libc.a lib/debug.o lib/random.o lib/stdio.o lib/stdlib.o lib/string.o lib/arithmetic.o lib/user/debug.o lib/user/syscall.o lib/user/console.o
+ar: creating libc.a
+ld --no-relax -T threads/kernel.lds.s -o kernel.o threads/init.o threads/thread.o threads/interrupt.o threads/intr-stubs.o threads/synch.o threads/palloc.o threads/malloc.o threads/start.o threads/mmu.o tests/threads/tests.o tests/threads/alarm-wait.o tests/threads/alarm-simultaneous.o tests/threads/alarm-priority.o tests/threads/alarm-zero.o tests/threads/alarm-negative.o tests/threads/priority-change.o tests/threads/priority-donate-one.o tests/threads/priority-donate-multiple.o tests/threads/priority-donate-multiple2.o tests/threads/priority-donate-nest.o tests/threads/priority-donate-sema.o tests/threads/priority-donate-lower.o tests/threads/priority-fifo.o tests/threads/priority-preempt.o tests/threads/priority-sema.o tests/threads/priority-condvar.o tests/threads/priority-donate-chain.o tests/threads/mlfqs/mlfqs-load-1.o tests/threads/mlfqs/mlfqs-load-60.o tests/threads/mlfqs/mlfqs-load-avg.o tests/threads/mlfqs/mlfqs-recent-1.o tests/threads/mlfqs/mlfqs-fair.o tests/threads/mlfqs/mlfqs-block.o devices/timer.o devices/kbd.o devices/vga.o devices/serial.o devices/disk.o devices/input.o devices/intq.o lib/debug.o lib/random.o lib/stdio.o lib/stdlib.o lib/string.o lib/arithmetic.o lib/kernel/debug.o lib/kernel/list.o lib/kernel/bitmap.o lib/kernel/hash.o lib/kernel/console.o userprog/process.o userprog/exception.o userprog/syscall-entry.o userprog/syscall.o userprog/gdt.o userprog/tss.o filesys/filesys.o filesys/fat.o filesys/free-map.o filesys/file.o filesys/directory.o filesys/inode.o filesys/fsutil.o filesys/page_cache.o vm/vm.o vm/uninit.o vm/anon.o vm/file.o vm/inspect.o
+ranlib libc.a
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/args.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/args-none
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/args.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/args-single
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/args.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/args-multiple
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/args.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/args-many
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/args.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/args-dbl-space
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/halt.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/halt
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exit.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exit
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-normal.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-normal
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-empty.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-empty
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-null.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-null
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-bad-ptr.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-bad-ptr
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-long.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-long
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-exists.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-exists
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/create-bound.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/create-bound
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-normal.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-normal
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-missing.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-missing
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-boundary
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-empty.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-empty
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-null.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-null
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-bad-ptr.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-bad-ptr
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/open-twice.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/open-twice
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/close-normal.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/close-normal
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/close-twice.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/close-twice
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/close-bad-fd.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/close-bad-fd
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/read-normal.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/read-normal
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/read-bad-ptr.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/read-bad-ptr
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/read-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/read-boundary
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/read-zero.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/read-zero
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/read-stdout.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/read-stdout
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/read-bad-fd.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/read-bad-fd
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/write-normal.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/write-normal
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/write-bad-ptr.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/write-bad-ptr
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/write-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/write-boundary
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/write-zero.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/write-zero
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/write-stdin.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/write-stdin
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/write-bad-fd.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/write-bad-fd
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/fork-once.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/fork-once
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/fork-multiple.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/fork-multiple
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/fork-recursive.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/fork-recursive
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/fork-read.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/fork-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/fork-close.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/fork-close
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/fork-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/fork-boundary
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exec-once.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exec-once
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exec-arg.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exec-arg
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exec-boundary.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exec-boundary
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exec-missing.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exec-missing
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exec-bad-ptr.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exec-bad-ptr
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/exec-read.o tests/userprog/boundary.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/exec-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/wait-simple.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/wait-simple
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/wait-twice.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/wait-twice
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/wait-killed.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/wait-killed
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/wait-bad-pid.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/wait-bad-pid
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/multi-recurse.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/multi-recurse
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/multi-child-fd.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/multi-child-fd
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/rox-simple.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/rox-simple
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/rox-child.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/rox-child
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/rox-multichild.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/rox-multichild
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-read.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-write.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-write
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-read2.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-read2
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-write2.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-write2
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-jump.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-jump
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/bad-jump2.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/bad-jump2
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/child-simple.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/child-simple
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/args.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/child-args
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/child-bad.o tests/main.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/child-bad
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/child-close.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/child-close
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/child-rox.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/child-rox
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/userprog/child-read.o tests/userprog/boundary.o tests/lib.o lib/user/entry.o libc.a -o tests/userprog/child-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-grow-stack.o tests/arc4.o tests/cksum.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-grow-stack
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-grow-bad.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-grow-bad
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-big-stk-obj.o tests/arc4.o tests/cksum.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-big-stk-obj
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-bad-addr.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-bad-addr
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-bad-read.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-bad-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-write-code.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-write-code
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-write-code2.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-write-code2
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/pt-grow-stk-sc.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/pt-grow-stk-sc
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/page-linear.o tests/arc4.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/page-linear
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/page-parallel.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/page-parallel
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/page-merge-seq.o tests/arc4.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/page-merge-seq
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/page-merge-par.o tests/vm/parallel-merge.o tests/arc4.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/page-merge-par
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/page-merge-stk.o tests/vm/parallel-merge.o tests/arc4.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/page-merge-stk
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/page-merge-mm.o tests/vm/parallel-merge.o tests/arc4.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/page-merge-mm
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/page-shuffle.o tests/arc4.o tests/cksum.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/page-shuffle
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-read.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-close.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-close
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-unmap.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-unmap
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-overlap.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-overlap
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-twice.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-twice
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-write.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-write
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-ro.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-ro
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-exit.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-exit
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-shuffle.o tests/arc4.o tests/cksum.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-shuffle
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-bad-fd.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-bad-fd
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-clean.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-clean
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-inherit.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-inherit
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-misalign.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-misalign
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-null.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-null
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-over-code.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-over-code
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-over-data.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-over-data
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-over-stk.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-over-stk
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-remove.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-remove
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-zero.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-zero
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-bad-fd2.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-bad-fd2
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-bad-fd3.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-bad-fd3
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-zero-len.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-zero-len
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-off.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-off
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-bad-off.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-bad-off
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/mmap-kernel.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/mmap-kernel
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/lazy-file.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/lazy-file
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/lazy-anon.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/lazy-anon
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/swap-file.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/swap-file
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/swap-anon.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/swap-anon
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/swap-iter.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/swap-iter
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/swap-fork.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/swap-fork
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/child-linear.o tests/arc4.o tests/lib.o lib/user/entry.o libc.a -o tests/vm/child-linear
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/child-sort.o tests/lib.o lib/user/entry.o libc.a -o tests/vm/child-sort
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/child-qsort.o tests/vm/qsort.o tests/lib.o lib/user/entry.o libc.a -o tests/vm/child-qsort
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/child-qsort-mm.o tests/vm/qsort.o tests/lib.o lib/user/entry.o libc.a -o tests/vm/child-qsort-mm
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/child-mm-wrt.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/child-mm-wrt
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/child-inherit.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/child-inherit
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/child-swap.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/child-swap
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/lg-create.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/lg-create
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/lg-full.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/lg-full
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/lg-random.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/lg-random
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/lg-seq-block.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/lg-seq-block
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/lg-seq-random.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/lg-seq-random
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/sm-create.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/sm-create
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/sm-full.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/sm-full
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/sm-random.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/sm-random
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/sm-seq-block.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/sm-seq-block
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/sm-seq-random.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/sm-seq-random
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/syn-read.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/syn-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/syn-remove.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/syn-remove
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/syn-write.o tests/lib.o tests/filesys/seq-test.o tests/main.o lib/user/entry.o libc.a -o tests/filesys/base/syn-write
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/child-syn-read.o tests/lib.o tests/filesys/seq-test.o lib/user/entry.o libc.a -o tests/filesys/base/child-syn-read
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/filesys/base/child-syn-wrt.o tests/lib.o tests/filesys/seq-test.o lib/user/entry.o libc.a -o tests/filesys/base/child-syn-wrt
+gcc -g -msoft-float -O0 -fno-omit-frame-pointer -mno-red-zone -mcmodel=large -fno-plt -fno-pic -mno-sse -fno-stack-protector  -fno-stack-protector -Wno-builtin-declaration-mismatch -nostdlib -static -Wl,-T,../../lib/user/user.lds tests/vm/cow/cow-simple.o tests/lib.o tests/main.o lib/user/entry.o libc.a -o tests/vm/cow/cow-simple
+objcopy -O binary -R .note -R .comment -S kernel.o kernel.bin.tmp
+dd if=kernel.bin.tmp of=kernel.bin bs=4096 conv=sync
+41+1 records in
+42+0 records out
+172032 bytes (172 kB, 168 KiB) copied, 0.137896 s, 1.2 MB/s
+rm kernel.bin.tmp
+gcc -c ../../threads/loader.S -o threads/loader.o -Wa,--gstabs -mcmodel=large -nostdinc -I../.. -I../../include/lib -I../../include -I../../include/lib/kernel -I../../lib/kernel -DUSERPROG -DFILESYS -DVM -DKERNEL_LOAD_PAGES=`perl -e 'print +(-s "kernel.bin") / 4096;'`
+ld --no-relax -N -e start -Ttext 0x7c00 --oformat binary -o loader.bin threads/loader.o
+cat loader.bin kernel.bin > os.dsk
+make[2]: Leaving directory '/workspaces/JUNGLE-Pintos-VM2/pintos-kaist/vm/build'
+make[1]: Leaving directory '/workspaces/JUNGLE-Pintos-VM2/pintos-kaist/vm'
+jungle@8afb3edd4c47:/workspaces/JUNGLE-Pintos-VM2/pintos-kaist/vm$ cd build/
+jungle@8afb3edd4c47:/workspaces/JUNGLE-Pintos-VM2/pintos-kaist/vm/build$ pintos -v -k -T 180 -m 10   --fs-disk=10 -p tests/vm/swap-anon:swap-anon --swap-disk=
+30 -- -q   -f run swap-anon 
+qemu-system-x86_64: warning: TCG doesn't support requested feature: CPUID.01H:ECX.vmx [bit 5]
+Kernel command line: -q -f put swap-anon run swap-anon
+0 ~ 9fc00 1
+100000 ~ 9e0000 1
+Pintos booting with: 
+        base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
+        ext_mem: 0x100000 ~ 0x9e0000 (Usable: 9,088 kB)
+Calibrating timer...  26,188,800 loops/s.
+hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 104 sector (52 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+hd1:1: detected 60,480 sector (29 MB) disk, model "QEMU HARDDISK", serial "QM00004"
+Formatting file system...done.
+Boot complete.
+Putting 'swap-anon' into the file system...
+Executing 'swap-anon' - '0':
+(swap-anon) begin
+(swap-anon) write sparsely over page 0
+(swap-anon) write sparsely over page 512
+(swap-anon) write sparsely over page 1024
+[anon_swap_out] routine start. page->va: 0x4747f000
+[anon_swap_out] scanned bitmap index: 0
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x400000
+[anon_swap_out] scanned bitmap index: 1
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_in] routine start. page->va: 0x4747f000, kva: 0x8004522000 // 최초로 스왑 아웃 된 부분 다 스택이고, 스왑 인 된 부분도 스택.
+[anon_swap_in] routine over
+[anon_swap_out] routine start. page->va: 0x1a05000
+[anon_swap_out] scanned bitmap index: 0
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_in] routine start. page->va: 0x400000, kva: 0x8004523000 // 그냥 swap in이 제대로 안 되고 있는 거 아닌가? 코드가 훼손된 거 같은데.
+[anon_swap_in] routine over
+[anon_swap_out] routine start. page->va: 0x1a04000
+[anon_swap_out] scanned bitmap index: 1
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x401000
+[anon_swap_out] scanned bitmap index: 2
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x404000
+[anon_swap_out] scanned bitmap index: 3
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x402000
+[anon_swap_out] scanned bitmap index: 4
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x403000
+[anon_swap_out] scanned bitmap index: 5
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x604000
+[anon_swap_out] scanned bitmap index: 6
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x605000
+[anon_swap_out] scanned bitmap index: 7
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x606000
+[anon_swap_out] scanned bitmap index: 8
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x607000
+[anon_swap_out] scanned bitmap index: 9
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x608000
+[anon_swap_out] scanned bitmap index: 10
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x609000
+[anon_swap_out] scanned bitmap index: 11
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x60a000
+[anon_swap_out] scanned bitmap index: 12
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x60b000
+[anon_swap_out] scanned bitmap index: 13
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x60c000
+[anon_swap_out] scanned bitmap index: 14
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x60d000
+[anon_swap_out] scanned bitmap index: 15
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x60e000
+[anon_swap_out] scanned bitmap index: 16
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x60f000
+[anon_swap_out] scanned bitmap index: 17
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x610000
+[anon_swap_out] scanned bitmap index: 18
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x611000
+[anon_swap_out] scanned bitmap index: 19
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x612000
+[anon_swap_out] scanned bitmap index: 20
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x613000
+[anon_swap_out] scanned bitmap index: 21
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x614000
+[anon_swap_out] scanned bitmap index: 22
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x615000
+[anon_swap_out] scanned bitmap index: 23
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x616000
+[anon_swap_out] scanned bitmap index: 24
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x617000
+[anon_swap_out] scanned bitmap index: 25
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x618000
+[anon_swap_out] scanned bitmap index: 26
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x619000
+[anon_swap_out] scanned bitmap index: 27
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x61a000
+[anon_swap_out] scanned bitmap index: 28
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x61b000
+[anon_swap_out] scanned bitmap index: 29
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x61c000
+[anon_swap_out] scanned bitmap index: 30
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x61d000
+[anon_swap_out] scanned bitmap index: 31
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x61e000
+[anon_swap_out] scanned bitmap index: 32
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x61f000
+[anon_swap_out] scanned bitmap index: 33
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x620000
+[anon_swap_out] scanned bitmap index: 34
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x621000
+[anon_swap_out] scanned bitmap index: 35
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x622000
+[anon_swap_out] scanned bitmap index: 36
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x623000
+[anon_swap_out] scanned bitmap index: 37
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x624000
+[anon_swap_out] scanned bitmap index: 38
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x625000
+[anon_swap_out] scanned bitmap index: 39
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap
+[anon_swap_out] clearing pml4
+[anon_swap_out] returning true
+[anon_swap_out] routine start. page->va: 0x626000
+[anon_swap_out] scanned bitmap index: 40
+[anon_swap_out] writing to disk
+[anon_swap_out] setting bitmap

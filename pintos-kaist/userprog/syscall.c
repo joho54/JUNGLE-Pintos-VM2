@@ -241,9 +241,9 @@ void close(int fd){
 	struct file *file_obj = process_get_file_by_fd(fd);
 	if (file_obj == NULL)
 		return;
-	lock_acquire(&filesys_lock);
+	// lock_acquire(&filesys_lock);
 	file_close(file_obj);
-	lock_release(&filesys_lock);
+	// lock_release(&filesys_lock);
 	process_close_file_by_id(fd);
 }
 

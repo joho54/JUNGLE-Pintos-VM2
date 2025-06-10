@@ -50,7 +50,6 @@ static bool
 file_backed_swap_in(struct page *page, void *kva)
 {
 	// TODO: swap
-	PANIC("filebacked swap in"); // 분명히 호출히 호출돼야 하잖아.
 	struct file_page *file_page = &page->file;
 	lock_acquire(&filesys_lock);
 	file_read_at(file_page->file, page->va, file_page->size, file_page->file_ofs);
@@ -235,9 +234,9 @@ void do_munmap(void *addr)
 			break;
 		}
 	}
-	lock_acquire(&filesys_lock);
+	// lock_acquire(&filesys_lock);
 	file_close(file); // 파일을 닫습니다. 해당 파일 구조체는 mmap 시 reopen 되어 독립적인 카운트를 유지합니다.
-	lock_release(&filesys_lock);
+	// lock_release(&filesys_lock);
 
 	dprintfg("[do_munmap] munmap complete!\n");
 }

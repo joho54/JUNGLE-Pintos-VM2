@@ -435,10 +435,10 @@ void process_exit(void)
 	{
 		if (curr->fd_table[i] != NULL)
 		{
-			if(!lock_held_by_current_thread(&filesys_lock))
-				lock_acquire(&filesys_lock);
+			// if(!lock_held_by_current_thread(&filesys_lock))
+				// lock_acquire(&filesys_lock);
             file_close(curr->fd_table[i]); // 시스템 콜 없이 직접 닫기
-			lock_release(&filesys_lock);
+			// lock_release(&filesys_lock);
             curr->fd_table[i] = NULL;
 		}
 	}
@@ -446,17 +446,17 @@ void process_exit(void)
 	palloc_free_multiple(curr->fd_table, FDT_PAGES);
 	dprintfj("[process_exit: %s] pivot 3\n", thread_current()->name);
 	
-	if(!lock_held_by_current_thread(&filesys_lock))
-	{
+	// if(!lock_held_by_current_thread(&filesys_lock))
+	// {
 
-		dprintfj("[process_exit: %s] pivot 3-2\n", thread_current()->name);
-		lock_acquire(&filesys_lock);
+	// 	dprintfj("[process_exit: %s] pivot 3-2\n", thread_current()->name);
+	// 	lock_acquire(&filesys_lock);
 
-	} 
+	// } 
 	dprintfj("[process_exit: %s] pivot 4\n", thread_current()->name);
 	file_close(curr->running); // 현재 실행 중인 파일도 닫는다. load()에 있었던 걸 여기로 옮김.
 	dprintfj("[process_exit: %s] pivot 5\n", thread_current()->name);
-	lock_release(&filesys_lock);
+	// lock_release(&filesys_lock);
 	dprintfj("[process_exit: %s] pivot 6\n", thread_current()->name);
 	process_cleanup();
 	dprintfj("[process_exit: %s] pivot 7\n", thread_current()->name);

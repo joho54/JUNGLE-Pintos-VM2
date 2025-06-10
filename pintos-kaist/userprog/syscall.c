@@ -196,36 +196,24 @@ bool remove(const char *file) {
  * @param file: 오픈할 파일.
  */
 int open(const char *filename) {
-	dprintfg("[open] routine start. filename: %p\n", filename);
-	dprintfi("[open: %s] pivot 1 \n", thread_current()->name);
 	check_address(filename); // 이상한 포인터면 즉시 종료
-	dprintfg("[open] validation complete\n");
-	dprintfi("[open: %s] pivot 2 \n", thread_current()->name);
 	lock_acquire(&filesys_lock);
-	dprintfi("[open: %s] pivot 2-2 \n", thread_current()->name);
 
 	struct file *file_obj = filesys_open(filename);
 	lock_release(&filesys_lock);
-	dprintfi("[open: %s] pivot 3 \n", thread_current()->name);
 	
 	if (file_obj == NULL) {
 		return -1;
 	}
 
-	dprintfi("[open: %s] pivot 4 \n", thread_current()->name);
 	int fd = process_add_file(file_obj);
-	dprintfi("[open: %s] pivot 5 \n", thread_current()->name);
-	dprintfg("[open] process add file done\n");
 
 	if (fd == -1) { // fd table 꽉찬 경우 그냥 닫아버림
-		dprintfg("[open] failed\n");
 		lock_acquire(&filesys_lock);
 		file_close(file_obj);
 		lock_release(&filesys_lock);
     	file_obj = NULL;
 	}
-	dprintfi("[open: %s] pivot 6 \n", thread_current()->name);
-	dprintfg("[open] success. returnin fd: %d\n", fd);
 	
 	return fd;
 }

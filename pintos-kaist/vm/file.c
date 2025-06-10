@@ -187,11 +187,14 @@ bool lazy_load_file_backed(struct page *page, void *aux)
 	file_page->cnt = lazy_aux->cnt;
 
 	dprintfd("[lazy_load_file_backed] reading file\n");
+	lock_acquire(&filesys_lock);
 	if (file_read_at(lazy_aux->file, page->frame->kva, lazy_aux->length, lazy_aux->offset) != (int)lazy_aux->length)
 	{
+		lock_release(&filesys_lock);
 		free(lazy_aux);
 		return false;
 	}
+	lock_release(&filesys_lock);
 	return true;
 }
 

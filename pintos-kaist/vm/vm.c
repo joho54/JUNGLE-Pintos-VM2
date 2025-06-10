@@ -391,7 +391,6 @@ bool vm_try_handle_fault(struct intr_frame *f, void *addr,
 	}
 	else
 	{
-		PANIC("[vm_try_handle_fault] panic!");
 		return false;
 	}
 }

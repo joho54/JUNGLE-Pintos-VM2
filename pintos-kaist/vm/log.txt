@@ -178,46 +178,16 @@ perl -I../.. ../../tests/userprog/bad-write.ck tests/userprog/bad-write tests/us
 pass tests/userprog/bad-write
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/userprog/bad-read2:bad-read2 --swap-disk=4 -- -q   -f run bad-read2 < /dev/null 2> tests/userprog/bad-read2.errors > tests/userprog/bad-read2.output
 perl -I../.. ../../tests/userprog/bad-read2.ck tests/userprog/bad-read2 tests/userprog/bad-read2.result
-FAIL tests/userprog/bad-read2
-Kernel panic in run: PANIC at ../../vm/vm.c:394 in vm_try_handle_fault(): [vm_try_handle_fault] panic!
-Call stack: 0x800421802a 0x8004221453 0x800421ce4d 0x800420900d 0x800420942b 0x40018b 0x400c2c
-Translation of call stack:
-0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
-0x0000008004221453: vm_try_handle_fault (vm/vm.c:397)
-0x000000800421ce4d: page_fault (userprog/exception.c:149)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x000000000040018b: (unknown)
-0x0000000000400c2c: (unknown)
+pass tests/userprog/bad-read2
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/userprog/bad-write2:bad-write2 --swap-disk=4 -- -q   -f run bad-write2 < /dev/null 2> tests/userprog/bad-write2.errors > tests/userprog/bad-write2.output
 perl -I../.. ../../tests/userprog/bad-write2.ck tests/userprog/bad-write2 tests/userprog/bad-write2.result
-FAIL tests/userprog/bad-write2
-Kernel panic in run: PANIC at ../../vm/vm.c:394 in vm_try_handle_fault(): [vm_try_handle_fault] panic!
-Call stack: 0x800421802a 0x8004221453 0x800421ce4d 0x800420900d 0x800420942b 0x400172 0x400c13
-Translation of call stack:
-0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
-0x0000008004221453: vm_try_handle_fault (vm/vm.c:397)
-0x000000800421ce4d: page_fault (userprog/exception.c:149)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x0000000000400172: (unknown)
-0x0000000000400c13: (unknown)
+pass tests/userprog/bad-write2
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/userprog/bad-jump:bad-jump --swap-disk=4 -- -q   -f run bad-jump < /dev/null 2> tests/userprog/bad-jump.errors > tests/userprog/bad-jump.output
 perl -I../.. ../../tests/userprog/bad-jump.ck tests/userprog/bad-jump tests/userprog/bad-jump.result
 pass tests/userprog/bad-jump
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/userprog/bad-jump2:bad-jump2 --swap-disk=4 -- -q   -f run bad-jump2 < /dev/null 2> tests/userprog/bad-jump2.errors > tests/userprog/bad-jump2.output
 perl -I../.. ../../tests/userprog/bad-jump2.ck tests/userprog/bad-jump2 tests/userprog/bad-jump2.result
-FAIL tests/userprog/bad-jump2
-Kernel panic in run: PANIC at ../../vm/vm.c:394 in vm_try_handle_fault(): [vm_try_handle_fault] panic!
-Call stack: 0x800421802a 0x8004221453 0x800421ce4d 0x800420900d 0x800420942b 0x40018b 0x400c2c
-Translation of call stack:
-0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
-0x0000008004221453: vm_try_handle_fault (vm/vm.c:397)
-0x000000800421ce4d: page_fault (userprog/exception.c:149)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x000000000040018b: (unknown)
-0x0000000000400c2c: (unknown)
+pass tests/userprog/bad-jump2
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/pt-grow-stack:pt-grow-stack --swap-disk=4 -- -q   -f run pt-grow-stack < /dev/null 2> tests/vm/pt-grow-stack.errors > tests/vm/pt-grow-stack.output
 perl -I../.. ../../tests/vm/pt-grow-stack.ck tests/vm/pt-grow-stack tests/vm/pt-grow-stack.result
 pass tests/vm/pt-grow-stack
@@ -235,17 +205,7 @@ perl -I../.. ../../tests/vm/pt-bad-read.ck tests/vm/pt-bad-read tests/vm/pt-bad-
 pass tests/vm/pt-bad-read
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/pt-write-code:pt-write-code --swap-disk=4 -- -q   -f run pt-write-code < /dev/null 2> tests/vm/pt-write-code.errors > tests/vm/pt-write-code.output
 perl -I../.. ../../tests/vm/pt-write-code.ck tests/vm/pt-write-code tests/vm/pt-write-code.result
-FAIL tests/vm/pt-write-code
-Kernel panic in run: PANIC at ../../vm/vm.c:394 in vm_try_handle_fault(): [vm_try_handle_fault] panic!
-Call stack: 0x800421802a 0x8004221453 0x800421ce4d 0x800420900d 0x800420942b 0x400bca 0x400c13
-Translation of call stack:
-0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
-0x0000008004221453: vm_try_handle_fault (vm/vm.c:397)
-0x000000800421ce4d: page_fault (userprog/exception.c:149)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x0000000000400bca: (unknown)
-0x0000000000400c13: (unknown)
+pass tests/vm/pt-write-code
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/pt-write-code2:pt-write-code2 -p ../../tests/vm/sample.txt:sample.txt --swap-disk=4 -- -q   -f run pt-write-code2 < /dev/null 2> tests/vm/pt-write-code2.errors > tests/vm/pt-write-code2.output
 perl -I../.. ../../tests/vm/pt-write-code2.ck tests/vm/pt-write-code2 tests/vm/pt-write-code2.result
 pass tests/vm/pt-write-code2
@@ -263,88 +223,13 @@ perl -I../.. ../../tests/vm/page-merge-seq.ck tests/vm/page-merge-seq tests/vm/p
 pass tests/vm/page-merge-seq
 pintos -v -k -T 600 -m 20   --fs-disk=10 -p tests/vm/page-merge-par:page-merge-par -p tests/vm/child-sort:child-sort --swap-disk=10 -- -q   -f run page-merge-par < /dev/null 2> tests/vm/page-merge-par.errors > tests/vm/page-merge-par.output
 perl -I../.. ../../tests/vm/page-merge-par.ck tests/vm/page-merge-par tests/vm/page-merge-par.result
-FAIL tests/vm/page-merge-par
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421802a 0x800421cd56 0x800420900d 0x800420942b 0x800421824c 0x800420772e 0x800420a818 0x800421b2ee 0x800421b39b 0x800421552d 0x80042091d0 0x800421cd21 0x800420900d 0x800420942b 0x800421824c 0x800420772e 0x800420a818 0x800420c166 0x8004221498 0x8004221c5e 0x800421a5f8 0x8004221c30 0x800421c11f 0x800421c0bb 0x8004207240 0x800421d088 0x800421d83d 0x800421ced7 0x400c7f 0x40048d 0x4007f7 0x400107 0x401504 0x40154d
-Translation of call stack:
-0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
-0x000000800421cd56: kill (userprog/exception.c:103)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x000000800421824c: list_next (lib/kernel/list.c:78)
-0x000000800420772e: remove_with_lock (threads/thread.c:476)
-0x000000800420a818: lock_release (threads/synch.c:319)
-0x000000800421b2ee: release_console (lib/kernel/console.c:103)
-0x000000800421b39b: vprintf (lib/kernel/console.c:125)
-0x000000800421552d: printf (lib/stdio.c:80)
-0x00000080042091d0: intr_dump_frame (threads/interrupt.c:387)
-0x000000800421cd21: kill (userprog/exception.c:97)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x000000800421824c: list_next (lib/kernel/list.c:78)
-0x000000800420772e: remove_with_lock (threads/thread.c:476)
-0x000000800420a818: lock_release (threads/synch.c:319)
-0x000000800420c166: free (threads/malloc.c:233)
-0x0000008004221498: vm_dealloc_page (vm/vm.c:405)
-0x0000008004221c5e: spt_destructor (vm/vm.c:604)
-0x000000800421a5f8: hash_clear (lib/kernel/hash.c:59)
-0x0000008004221c30: supplemental_page_table_kill (vm/vm.c:598)
-0x000000800421c11f: process_cleanup (userprog/process.c:483)
-0x000000800421c0bb: process_exit (userprog/process.c:464)
-0x0000008004207240: thread_exit (threads/thread.c:328)
-0x000000800421d088: write (userprog/syscall.c:110)
-0x000000800421d83d: syscall_handler (userprog/syscall.c:386)
-0x000000800421ced7: no_sti (userprog/syscall-entry.o:?)
-0x0000000000400c7f: (unknown)
-0x000000000040048d: (unknown)
-0x00000000004007f7: (unknown)
-0x0000000000400107: (unknown)
-0x0000000000401504: (unknown)
-0x000000000040154d: (unknown)
+pass tests/vm/page-merge-par
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/page-merge-stk:page-merge-stk -p tests/vm/child-qsort:child-qsort --swap-disk=10 -- -q   -f run page-merge-stk < /dev/null 2> tests/vm/page-merge-stk.errors > tests/vm/page-merge-stk.output
 perl -I../.. ../../tests/vm/page-merge-stk.ck tests/vm/page-merge-stk tests/vm/page-merge-stk.result
-FAIL tests/vm/page-merge-stk
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421802a 0x800421cd56 0x800420900d 0x800420942b 0x800421824c 0x800420772e 0x800420a818 0x800421b2ee 0x800421b39b 0x800421552d 0x80042091d0 0x800421cd21 0x800420900d 0x800420942b 0x800421824c 0x800420772e 0x800420a818 0x800420c166 0x8004221498 0x8004221c5e 0x800421a5f8 0x8004221c30 0x800421c11f 0x800421c0bb 0x8004207240 0x800421d088 0x800421d83d 0x800421ced7 0x400c7f 0x40048d 0x4007f7 0x400107 0x401504 0x40154d
-Translation of call stack:
-0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
-0x000000800421cd56: kill (userprog/exception.c:103)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x000000800421824c: list_next (lib/kernel/list.c:78)
-0x000000800420772e: remove_with_lock (threads/thread.c:476)
-0x000000800420a818: lock_release (threads/synch.c:319)
-0x000000800421b2ee: release_console (lib/kernel/console.c:103)
-0x000000800421b39b: vprintf (lib/kernel/console.c:125)
-0x000000800421552d: printf (lib/stdio.c:80)
-0x00000080042091d0: intr_dump_frame (threads/interrupt.c:387)
-0x000000800421cd21: kill (userprog/exception.c:97)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x000000800421824c: list_next (lib/kernel/list.c:78)
-0x000000800420772e: remove_with_lock (threads/thread.c:476)
-0x000000800420a818: lock_release (threads/synch.c:319)
-0x000000800420c166: free (threads/malloc.c:233)
-0x0000008004221498: vm_dealloc_page (vm/vm.c:405)
-0x0000008004221c5e: spt_destructor (vm/vm.c:604)
-0x000000800421a5f8: hash_clear (lib/kernel/hash.c:59)
-0x0000008004221c30: supplemental_page_table_kill (vm/vm.c:598)
-0x000000800421c11f: process_cleanup (userprog/process.c:483)
-0x000000800421c0bb: process_exit (userprog/process.c:464)
-0x0000008004207240: thread_exit (threads/thread.c:328)
-0x000000800421d088: write (userprog/syscall.c:110)
-0x000000800421d83d: syscall_handler (userprog/syscall.c:386)
-0x000000800421ced7: no_sti (userprog/syscall-entry.o:?)
-0x0000000000400c7f: (unknown)
-0x000000000040048d: (unknown)
-0x00000000004007f7: (unknown)
-0x0000000000400107: (unknown)
-0x0000000000401504: (unknown)
-0x000000000040154d: (unknown)
+pass tests/vm/page-merge-stk
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/page-merge-mm:page-merge-mm -p tests/vm/child-qsort-mm:child-qsort-mm --swap-disk=10 -- -q   -f run page-merge-mm < /dev/null 2> tests/vm/page-merge-mm.errors > tests/vm/page-merge-mm.output
 perl -I../.. ../../tests/vm/page-merge-mm.ck tests/vm/page-merge-mm tests/vm/page-merge-mm.result
-FAIL tests/vm/page-merge-mm
-run: wait for child 0: FAILED
+pass tests/vm/page-merge-mm
 pintos -v -k -T 600 -m 20   --fs-disk=10 -p tests/vm/page-shuffle:page-shuffle --swap-disk=4 -- -q   -f run page-shuffle < /dev/null 2> tests/vm/page-shuffle.errors > tests/vm/page-shuffle.output
 perl -I../.. ../../tests/vm/page-shuffle.ck tests/vm/page-shuffle tests/vm/page-shuffle.result
 pass tests/vm/page-shuffle
@@ -360,7 +245,7 @@ pass tests/vm/mmap-unmap
 dd if=/dev/zero of=tests/vm/zeros bs=1024 count=6
 6+0 records in
 6+0 records out
-6144 bytes (6.1 kB, 6.0 KiB) copied, 0.00510212 s, 1.2 MB/s
+6144 bytes (6.1 kB, 6.0 KiB) copied, 0.0048305 s, 1.3 MB/s
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-overlap:mmap-overlap -p tests/vm/zeros:zeros --swap-disk=4 -- -q   -f run mmap-overlap < /dev/null 2> tests/vm/mmap-overlap.errors > tests/vm/mmap-overlap.output
 perl -I../.. ../../tests/vm/mmap-overlap.ck tests/vm/mmap-overlap tests/vm/mmap-overlap.result
 pass tests/vm/mmap-overlap
@@ -372,17 +257,7 @@ perl -I../.. ../../tests/vm/mmap-write.ck tests/vm/mmap-write tests/vm/mmap-writ
 pass tests/vm/mmap-write
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-ro:mmap-ro -p ../../tests/vm/large.txt:large.txt --swap-disk=4 -- -q   -f run mmap-ro < /dev/null 2> tests/vm/mmap-ro.errors > tests/vm/mmap-ro.output
 perl -I../.. ../../tests/vm/mmap-ro.ck tests/vm/mmap-ro tests/vm/mmap-ro.result
-FAIL tests/vm/mmap-ro
-Kernel panic in run: PANIC at ../../vm/vm.c:394 in vm_try_handle_fault(): [vm_try_handle_fault] panic!
-Call stack: 0x800421802a 0x8004221453 0x800421ce4d 0x800420900d 0x800420942b 0x400cc9 0x400d12
-Translation of call stack:
-0x000000800421802a: debug_panic (lib/kernel/debug.c:32)
-0x0000008004221453: vm_try_handle_fault (vm/vm.c:397)
-0x000000800421ce4d: page_fault (userprog/exception.c:149)
-0x000000800420900d: intr_handler (threads/interrupt.c:352)
-0x000000800420942b: intr_entry (threads/intr-stubs.o:?)
-0x0000000000400cc9: (unknown)
-0x0000000000400d12: (unknown)
+pass tests/vm/mmap-ro
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/vm/mmap-exit:mmap-exit -p tests/vm/child-mm-wrt:child-mm-wrt --swap-disk=4 -- -q   -f run mmap-exit < /dev/null 2> tests/vm/mmap-exit.errors > tests/vm/mmap-exit.output
 perl -I../.. ../../tests/vm/mmap-exit.ck tests/vm/mmap-exit tests/vm/mmap-exit.result
 pass tests/vm/mmap-exit
@@ -487,15 +362,13 @@ perl -I../.. ../../tests/filesys/base/sm-seq-random.ck tests/filesys/base/sm-seq
 pass tests/filesys/base/sm-seq-random
 pintos -v -k -T 300 -m 20   --fs-disk=10 -p tests/filesys/base/syn-read:syn-read -p tests/filesys/base/child-syn-read:child-syn-read --swap-disk=4 -- -q   -f run syn-read < /dev/null 2> tests/filesys/base/syn-read.errors > tests/filesys/base/syn-read.output
 perl -I../.. ../../tests/filesys/base/syn-read.ck tests/filesys/base/syn-read tests/filesys/base/syn-read.result
-FAIL tests/filesys/base/syn-read
-run: wait for child 1 of 10 returned -1 (expected 0): FAILED
+pass tests/filesys/base/syn-read
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/syn-remove:syn-remove --swap-disk=4 -- -q   -f run syn-remove < /dev/null 2> tests/filesys/base/syn-remove.errors > tests/filesys/base/syn-remove.output
 perl -I../.. ../../tests/filesys/base/syn-remove.ck tests/filesys/base/syn-remove tests/filesys/base/syn-remove.result
 pass tests/filesys/base/syn-remove
 pintos -v -k -T 60 -m 20   --fs-disk=10 -p tests/filesys/base/syn-write:syn-write -p tests/filesys/base/child-syn-wrt:child-syn-wrt --swap-disk=4 -- -q   -f run syn-write < /dev/null 2> tests/filesys/base/syn-write.errors > tests/filesys/base/syn-write.output
 perl -I../.. ../../tests/filesys/base/syn-write.ck tests/filesys/base/syn-write tests/filesys/base/syn-write.result
-FAIL tests/filesys/base/syn-write
-run: wait for child 1 of 10 returned -1 (expected 0): FAILED
+pass tests/filesys/base/syn-write
 pintos -v -k -T 60 -m 20   --fs-disk=10  --swap-disk=4 -- -q  -threads-tests -f run alarm-single < /dev/null 2> tests/threads/alarm-single.errors > tests/threads/alarm-single.output
 perl -I../.. ../../tests/threads/alarm-single.ck tests/threads/alarm-single tests/threads/alarm-single.result
 pass tests/threads/alarm-single
@@ -613,24 +486,24 @@ pass tests/userprog/rox-child
 pass tests/userprog/rox-multichild
 pass tests/userprog/bad-read
 pass tests/userprog/bad-write
-FAIL tests/userprog/bad-read2 // 상관 없음
-FAIL tests/userprog/bad-write2 // 상관 없음
+pass tests/userprog/bad-read2
+pass tests/userprog/bad-write2
 pass tests/userprog/bad-jump
-FAIL tests/userprog/bad-jump2 // 상관 없음
+pass tests/userprog/bad-jump2
 pass tests/vm/pt-grow-stack
 pass tests/vm/pt-grow-bad
 pass tests/vm/pt-big-stk-obj
 pass tests/vm/pt-bad-addr
 pass tests/vm/pt-bad-read
-FAIL tests/vm/pt-write-code  // 상관 없음
+pass tests/vm/pt-write-code
 pass tests/vm/pt-write-code2
 pass tests/vm/pt-grow-stk-sc
 pass tests/vm/page-linear
 pass tests/vm/page-parallel
-pass tests/vm/page-merge-seq 
-FAIL tests/vm/page-merge-par // 
-FAIL tests/vm/page-merge-stk //
-FAIL tests/vm/page-merge-mm //
+pass tests/vm/page-merge-seq
+pass tests/vm/page-merge-par
+pass tests/vm/page-merge-stk
+pass tests/vm/page-merge-mm
 pass tests/vm/page-shuffle
 pass tests/vm/mmap-read
 pass tests/vm/mmap-close
@@ -638,7 +511,7 @@ pass tests/vm/mmap-unmap
 pass tests/vm/mmap-overlap
 pass tests/vm/mmap-twice
 pass tests/vm/mmap-write
-FAIL tests/vm/mmap-ro // 상관 없음.
+pass tests/vm/mmap-ro
 pass tests/vm/mmap-exit
 pass tests/vm/mmap-shuffle
 pass tests/vm/mmap-bad-fd
@@ -673,9 +546,9 @@ pass tests/filesys/base/sm-full
 pass tests/filesys/base/sm-random
 pass tests/filesys/base/sm-seq-block
 pass tests/filesys/base/sm-seq-random
-FAIL tests/filesys/base/syn-read
+pass tests/filesys/base/syn-read
 pass tests/filesys/base/syn-remove
-FAIL tests/filesys/base/syn-write
+pass tests/filesys/base/syn-write
 pass tests/threads/alarm-single
 pass tests/threads/alarm-multiple
 pass tests/threads/alarm-simultaneous
@@ -695,7 +568,7 @@ pass tests/threads/priority-sema
 pass tests/threads/priority-condvar
 pass tests/threads/priority-donate-chain
 FAIL tests/vm/cow/cow-simple
-11 of 141 tests failed.
+1 of 141 tests failed.
 ../../tests/Make.tests:28: recipe for target 'check' failed
 make[1]: *** [check] Error 1
 make[1]: Leaving directory '/workspaces/JUNGLE-Pintos-VM2/pintos-kaist/vm/build'

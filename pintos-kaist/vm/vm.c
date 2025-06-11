@@ -453,14 +453,10 @@ vm_do_claim_page(struct page *page)
 	{
 		if (!pml4_set_page(thread_current()->pml4, page->va, frame->kva, page->writable))
 		{
-			PANIC("pml4 set page failed");
+			
 			dprintfj("[vm_do_claim_page] pml4 set failed\n");
 			return false;
 		}
-	}
-	else
-	{
-		PANIC("page already in pml4");
 	}
 	// 이까지 무난하게 통과 완료.
 

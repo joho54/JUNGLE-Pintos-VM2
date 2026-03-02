@@ -155,7 +155,7 @@ fat_boot_create (void) {
 void
 fat_fs_init (void) {
     // fat_boot bs가 이미 초기화 됐다고 가정.
-    fat_fs->fat = malloc(fat_fs->bs.total_sectors * size_of(int)); 
+    fat_fs->fat = malloc(fat_fs->bs.total_sectors * sizeof(int)); 
     fat_fs->fat_length = fat_fs->bs.total_sectors; 
     fat_fs->data_start = fat_fs->bs.fat_start + fat_fs->bs.fat_sectors; 
     fat_fs->last_clst = fat_fs->bs.root_dir_cluster; 
@@ -176,7 +176,7 @@ fat_create_chain (cluster_t clst) {
     cluster_t next_clst=0;  // 안전하게 0으로 초기화
     for (unsigned int i = 0; i < fat_fs->fat_length; i++) {
         // clst 인덱스 계산
-        clst_idx = (fat_fs->last_clst+i) % fat_fs->fat_length;
+        cluster_t clst_idx = (fat_fs->last_clst+i) % fat_fs->fat_length;
         if (clst_idx < 2) continue; 
         if (fat_fs->fat[clst_idx]==0) {
             next_clst = clst_idx;

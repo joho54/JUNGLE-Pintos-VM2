@@ -1,6 +1,8 @@
 #ifndef USERPROG_SYSCALL_H
 #define USERPROG_SYSCALL_H
 
+#include "filesys/off_t.h"
+#include <stdbool.h> 
 struct lock filesys_lock;
 
 void syscall_init (void);

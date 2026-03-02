@@ -28,7 +28,20 @@ RUN echo "jungle ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/jungle
 USER jungle
 WORKDIR /home/jungle
 
+# .bashrc 끝에 환경 변수나 alias 추가
+RUN echo "source /workspaces/pintos/pintos-kaist/activate" >> /home/jungle/.bashrc
+RUN echo "alias vi='vim'" >> /home/jungle/.bashrc
+
 RUN echo "source /workspaces/pintos_lab_docker/pintos-kaist/activate" >> /home/jungle/.bashrc
+
+# --- 여기서부터 추가 ---
+RUN echo 'syntax on' >> /home/jungle/.vimrc && \
+    echo 'set number' >> /home/jungle/.vimrc && \
+    echo 'set background=dark' >> /home/jungle/.vimrc && \
+    echo 'colorscheme desert' >> /home/jungle/.vimrc && \
+    echo 'set tabstop=4' >> /home/jungle/.vimrc && \
+    echo 'set shiftwidth=4' >> /home/jungle/.vimrc && \
+    echo 'set expandtab' >> /home/jungle/.vimrc
 
 # Clone the repository
 # RUN git clone https://github.com/casys-kaist/pintos-kaist /home/jungle/pintos

@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
+/*test*/
+
 /* Should be less than DISK_SECTOR_SIZE */
 struct fat_boot {
 	unsigned int magic;
@@ -152,7 +154,12 @@ fat_boot_create (void) {
 
 void
 fat_fs_init (void) {
-	/* TODO: Your code goes here. */
+    // fat_boot bs가 이미 초기화 됐다고 가정.
+    fat_fs->fat = malloc(fat_fs->bs.total_sectors * size_of(int)); 
+    fat_fs->fat_length = fat_fs->bs.total_sectors; 
+    fat_fs->data_start = fat_fs->bs.fat_start + fat_fs->bs.fat_sectors; 
+    fat_fs->last_clst = fat_fs->bs.root_dir_cluster; 
+    lock_init(&fat_fs->write_lock); 
 }
 
 /*----------------------------------------------------------------------------*/
@@ -164,7 +171,24 @@ fat_fs_init (void) {
  * Returns 0 if fails to allocate a new cluster. */
 cluster_t
 fat_create_chain (cluster_t clst) {
-	/* TODO: Your code goes here. */
+    lock_acquire(&fat_fs->write_lock);
+    int next_clst;
+    for (unsigned int i = 0; i++; i < fat_fs->fat_length) {
+        // clst 인덱스 계산
+        clst_idx = (fat_fs->last_clst+i) % fat_fs->fat_length;
+        if (fat_fs->fat[clst_idx]==0) {
+            next_clst = clst_idx;
+        }
+    } 
+    if(clst == 0) {
+        fat_fs->fat[next_clst] = EOF; // 어차피 0일 거긴 한데 명시적 초기화.
+        return next_clst
+    }
+    else if(clst != 0) {
+        fat_fs->fat[clst]=next_clst; // 이전 클러스터의 다음 요소로 현재 클러스터 지정.
+        return next_clst;
+    }
+    lock_release(&fat_fs->write_lock);
 }
 
 /* Remove the chain of clusters starting from CLST.

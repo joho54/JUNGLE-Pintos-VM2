@@ -200,23 +200,49 @@ fat_create_chain (cluster_t clst) {
  * If PCLST is 0, assume CLST as the start of the chain. */
 void
 fat_remove_chain (cluster_t clst, cluster_t pclst) {
-	/* TODO: Your code goes here. */
+    // clst로부터 시작하는 그 후의 체인들을 전부 삭제(=0으로 초기화)
+    // PCLST가 0이라면 clst가 시작 체인인 것. 근데 그게 중요한가? 
+    lock_acquire(&fat_fs->write_lock);
+    
+    // while 루프 쓰는게 좋을듯?
+    cluster_t curr = clst;
+    while(true) {
+        
+        cluster_t next = fat_fs->fat[curr]; 
+        if (fat_fs->fat[curr] == EOChain) {
+            fat_fs->fat[curr] = 0; // 마지막 요소를 비우고 종료 
+            break;
+        }
+        else {
+            fat_fs->fat[curr] = 0; // 현재 체인 0으로 초기화   
+            curr = next;
+        }    
+    }
+    if (pclst == 0) ; // 아마도 신경 쓸 필요 없을듯. clst가 체인의 시작 지점인 거니까 
+    else {
+        fat_fs->fat[pclst] = EOChain;
+    } 
+    lock_release(&fat_fs->write_lock);
 }
 
 /* Update a value in the FAT table. */
 void
 fat_put (cluster_t clst, cluster_t val) {
-	/* TODO: Your code goes here. */
+    ASSERT(clst >= 2 && clst < fat_fs->fat_length);
+    // NOTE: fat_put / fat_get은 원자적인 도구로, 호출자 쪽에서 락을 거는 것이 안전하다고 함.  
+    fat_fs->fat[clst]=val; 
 }
 
 /* Fetch a value in the FAT table. */
 cluster_t
 fat_get (cluster_t clst) {
-	/* TODO: Your code goes here. */
+    return  fat_fs->fat[clst];
 }
 
 /* Covert a cluster # to a sector number. */
 disk_sector_t
 cluster_to_sector (cluster_t clst) {
-	/* TODO: Your code goes here. */
+    ASSERT(clst >= 2 && clst < fat_fs->fat_length);
+    disk_sector_t sector = clst + fat_fs->data_start;
+    return sector; 
 }

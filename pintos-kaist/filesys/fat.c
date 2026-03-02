@@ -172,23 +172,28 @@ fat_fs_init (void) {
 cluster_t
 fat_create_chain (cluster_t clst) {
     lock_acquire(&fat_fs->write_lock);
-    int next_clst;
-    for (unsigned int i = 0; i++; i < fat_fs->fat_length) {
+
+    cluster_t next_clst=0;  // 안전하게 0으로 초기화
+    for (unsigned int i = 0; i < fat_fs->fat_length; i++) {
         // clst 인덱스 계산
         clst_idx = (fat_fs->last_clst+i) % fat_fs->fat_length;
+        if (clst_idx < 2) continue; 
         if (fat_fs->fat[clst_idx]==0) {
             next_clst = clst_idx;
+            fat_fs->fat[next_clst]=EOChain;
+            fat_fs->last_clst=next_clst; 
+            break;
         }
     } 
     if(clst == 0) {
-        fat_fs->fat[next_clst] = EOF; // 어차피 0일 거긴 한데 명시적 초기화.
-        return next_clst
     }
     else if(clst != 0) {
         fat_fs->fat[clst]=next_clst; // 이전 클러스터의 다음 요소로 현재 클러스터 지정.
-        return next_clst;
     }
+    
     lock_release(&fat_fs->write_lock);
+    
+    return next_clst;
 }
 
 /* Remove the chain of clusters starting from CLST.

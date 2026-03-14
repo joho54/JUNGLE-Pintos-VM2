@@ -18,6 +18,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     sudo \
     qemu-system-x86 \
     python3 \
+    exuberant-ctags \
     && locale-gen ko_KR.UTF-8 && update-locale LANG=ko_KR.UTF-8 
 # && apt-get clean \
 # && rm -rf /var/lib/apt/lists/*
@@ -43,6 +44,7 @@ RUN echo 'syntax on' >> /home/jungle/.vimrc && \
     echo 'set shiftwidth=4' >> /home/jungle/.vimrc && \
     echo 'set expandtab' >> /home/jungle/.vimrc
 
+RUN echo "set tags=/workspaces/pintos/pintos-kaist/tags,./tags,tags;/" >> /home/jungle/.vimrc
 # Clone the repository
 # RUN git clone https://github.com/casys-kaist/pintos-kaist /home/jungle/pintos
 

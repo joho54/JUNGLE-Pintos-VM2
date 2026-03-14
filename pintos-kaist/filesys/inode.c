@@ -80,17 +80,27 @@ inode_create (disk_sector_t sector, off_t length) {
 		size_t sectors = bytes_to_sectors (length);
 		disk_inode->length = length;
 		disk_inode->magic = INODE_MAGIC;
-		if (free_map_allocate (sectors, &disk_inode->start)) {
+   
+     /*
+    	// free map 방식은 inode할당 시점에 파일 사이즈 length만큼 다 할당해놔야 하니까 inode를 섹터에 쓰기 전에 
+        // free_map에서 할당 가능한 영역이 먼저 있는지, 할당을 먼저 하고 inode를 쓰는게 정상
+        // 반면 fat 방식은 sector에 그대로 쓰기만 하면 됨. 조건문과 disk_write의 상관관계가 fat 방식에서는 빈약함
+        if (free_map_allocate (sectors, &disk_inode->start)) {
 			disk_write (filesys_disk, sector, disk_inode);
 			if (sectors > 0) {
 				static char zeros[DISK_SECTOR_SIZE];
 				size_t i;
-
+                // non extensible file sys에서는 섹터에 먼저 0을 다 채워넣어야 함. 
+                // fat extensible에서는 그럴 필요 없음. 
 				for (i = 0; i < sectors; i++) 
 					disk_write (filesys_disk, disk_inode->start + i, zeros); 
 			}
 			success = true; 
 		} 
+     */
+        // 그런데 최소한 sector가 있는지 알기는 해야 하지 않나? 이게 실패할 수도 있잖아. 
+        // disk_write는 실패하면 그냥 panic을 일으키게 돼 있음. 이것의 성공 실패 여부는 disk_write가 감당할 일.
+        disk_write (filesys_disk, sector, disk_inode);   
 		free (disk_inode);
 	}
 	return success;
@@ -236,17 +246,21 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
 	const uint8_t *buffer = buffer_;
 	off_t bytes_written = 0;
 	uint8_t *bounce = NULL;
-
-	if (inode->deny_write_cnt)
+    
+    // 가장 먼저 inode가  
+	
+    if (inode->deny_write_cnt)
 		return 0;
 
 	while (size > 0) {
 		/* Sector to write, starting byte offset within sector. */
+        /* 쓰기를 수행할 섹터. 섹터의 바이트 오프셋에서부터 시작*/
 		disk_sector_t sector_idx = byte_to_sector (inode, offset);
 		int sector_ofs = offset % DISK_SECTOR_SIZE;
 
 		/* Bytes left in inode, bytes left in sector, lesser of the two. */
-		off_t inode_left = inode_length (inode) - offset;
+		/* inode와 섹터에 남은 수 중 최소값 */
+        off_t inode_left = inode_length (inode) - offset;
 		int sector_left = DISK_SECTOR_SIZE - sector_ofs;
 		int min_left = inode_left < sector_left ? inode_left : sector_left;
 

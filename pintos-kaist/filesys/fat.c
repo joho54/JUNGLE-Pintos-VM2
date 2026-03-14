@@ -228,21 +228,22 @@ fat_remove_chain (cluster_t clst, cluster_t pclst) {
 /* Update a value in the FAT table. */
 void
 fat_put (cluster_t clst, cluster_t val) {
-    ASSERT(clst >= 2 && clst < fat_fs->fat_length);
     // NOTE: fat_put / fat_get은 원자적인 도구로, 호출자 쪽에서 락을 거는 것이 안전하다고 함.  
+    ASSERT(clst >= 1 && clst < fat_fs->fat_length);
     fat_fs->fat[clst]=val; 
 }
 
 /* Fetch a value in the FAT table. */
 cluster_t
 fat_get (cluster_t clst) {
+    ASSERT(clst >= 1 && clst < fat_fs->fat_length);
     return  fat_fs->fat[clst];
 }
 
 /* Covert a cluster # to a sector number. */
 disk_sector_t
 cluster_to_sector (cluster_t clst) {
-    ASSERT(clst >= 2 && clst < fat_fs->fat_length);
+    ASSERT(clst >= 1 && clst < fat_fs->fat_length);
     disk_sector_t sector = clst + fat_fs->data_start;
     return sector; 
 }

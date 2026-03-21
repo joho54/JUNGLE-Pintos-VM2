@@ -2,6 +2,7 @@
 #include <debug.h>
 #include <stdio.h>
 #include <string.h>
+#include "filesys/fat.h"
 #include "filesys/file.h"
 #include "filesys/free-map.h"
 #include "filesys/inode.h"
@@ -59,16 +60,23 @@ filesys_done (void) {
  * or if internal memory allocation fails. */
 bool
 filesys_create (const char *name, off_t initial_size) {
+    cluster_t inode_cluster = 0; 
 	disk_sector_t inode_sector = 0;
 	struct dir *dir = dir_open_root ();
+
+    inode_cluster = fat_create_chain(0);
+    if (!inode_cluster) return false; 
+
+    inode_sector = cluster_to_sector(inode_cluster); 
+
 	bool success = (dir != NULL
-			&& free_map_allocate (1, &inode_sector)
 			&& inode_create (inode_sector, initial_size)
 			&& dir_add (dir, name, inode_sector));
-	if (!success && inode_sector != 0)
-		free_map_release (inode_sector, 1);
-	dir_close (dir);
-
+	if (!success && inode_cluster != 0) {
+        fat_remove_chain(inode_cluster, 0);       
+	}
+    dir_close (dir);
+    
 	return success;
 }
 

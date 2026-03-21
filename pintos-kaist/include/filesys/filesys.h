@@ -2,6 +2,7 @@
 #define FILESYS_FILESYS_H
 
 #include <stdbool.h>
+#include "devices/disk.h"
 #include "filesys/off_t.h"
 
 /* Sectors of system file inodes. */

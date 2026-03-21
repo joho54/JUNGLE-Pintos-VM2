@@ -3,6 +3,7 @@
 #include <debug.h>
 #include <round.h>
 #include <string.h>
+#include "filesys/fat.h"
 #include "filesys/filesys.h"
 #include "filesys/free-map.h"
 #include "threads/malloc.h"
@@ -155,14 +156,14 @@ inode_close (struct inode *inode) {
 	if (--inode->open_cnt == 0) {
 		/* Remove from inode list and release lock. */
 		list_remove (&inode->elem);
-
-		/* Deallocate blocks if removed. */
-		if (inode->removed) {
-			free_map_release (inode->sector, 1);
-			free_map_release (inode->data.start,
-					bytes_to_sectors (inode->data.length)); 
-		}
-
+        if (inode->removed) {
+            // inode->sector는 inode가 디스크에 저장되는 섹터.  
+            fat_remove_chain(sector_to_cluster(inode->sector), 0);
+            // 밑에 조건문은 왜 있는거지?  아하! 위에 것은 inode 메타데이터를 지우는 거고, 아래 remove는 data 자체의 섹터를 지우는 거구나 
+            if (inode->data.start != 0) {
+                fat_remove_chain(inode->data.start, 0); 
+            }
+        }
 		free (inode); 
 	}
 }
@@ -205,6 +206,10 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 
 
 		/* Bytes left in inode, bytes left in sector, lesser of the two. */
+        // - 208줄의 논리가 read에서 있어야 하는 이유를 잘 모르겠음.
+        // - disk sector로부터 읽어들일 데이터가 현재 inode 데이터 크기를 초과하는지 점검하고 작은 쪽을 선택하는 것으로 이해함.
+        // - 마지막 섹터를 읽을 때 chunk이상으로 읽지 않기 위해 있는 코드임. 
+
 		off_t inode_left = inode_length (inode) - offset;
 		int sector_left = DISK_SECTOR_SIZE - sector_ofs;
 		int min_left = inode_left < sector_left ? inode_left : sector_left;

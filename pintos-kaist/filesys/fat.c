@@ -6,19 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 
-/*test*/
-
-/* Should be less than DISK_SECTOR_SIZE */
-struct fat_boot {
-	unsigned int magic;
-	unsigned int sectors_per_cluster; /* Fixed to 1 */
-	unsigned int total_sectors;
-	unsigned int fat_start;
-	unsigned int fat_sectors; /* Size of FAT in sectors. */
-	unsigned int root_dir_cluster;
-};
-
-
 struct fat_fs *fat_fs;
 
 void fat_boot_create (void);
@@ -237,4 +224,10 @@ cluster_to_sector (cluster_t clst) {
     ASSERT(clst >= 1 && clst < fat_fs->fat_length);
     disk_sector_t sector = clst + fat_fs->data_start;
     return sector; 
+}
+
+cluster_t
+sector_to_cluster (disk_sector_t sect) {
+    cluster_t clst = sect - fat_fs->data_start; 
+    return clst; 
 }

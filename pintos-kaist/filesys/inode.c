@@ -81,23 +81,6 @@ inode_create (disk_sector_t sector, off_t length) {
 		disk_inode->length = length;
 		disk_inode->magic = INODE_MAGIC;
    
-     /*
-    	// free map 방식은 inode할당 시점에 파일 사이즈 length만큼 다 할당해놔야 하니까 inode를 섹터에 쓰기 전에 
-        // free_map에서 할당 가능한 영역이 먼저 있는지, 할당을 먼저 하고 inode를 쓰는게 정상
-        // 반면 fat 방식은 sector에 그대로 쓰기만 하면 됨. 조건문과 disk_write의 상관관계가 fat 방식에서는 빈약함
-        if (free_map_allocate (sectors, &disk_inode->start)) {
-			disk_write (filesys_disk, sector, disk_inode);
-			if (sectors > 0) {
-				static char zeros[DISK_SECTOR_SIZE];
-				size_t i;
-                // non extensible file sys에서는 섹터에 먼저 0을 다 채워넣어야 함. 
-                // fat extensible에서는 그럴 필요 없음. 
-				for (i = 0; i < sectors; i++) 
-					disk_write (filesys_disk, disk_inode->start + i, zeros); 
-			}
-			success = true; 
-		} 
-     */
         // 그런데 최소한 sector가 있는지 알기는 해야 하지 않나? 이게 실패할 수도 있잖아. 
         // disk_write는 실패하면 그냥 panic을 일으키게 돼 있음. 이것의 성공 실패 여부는 disk_write가 감당할 일.
         
@@ -107,7 +90,6 @@ inode_create (disk_sector_t sector, off_t length) {
             disk_write (filesys_disk, sector, disk_inode);   
             success = true;    
         }
-        success = false;
 		free (disk_inode);
 	}
 	return success;
@@ -201,11 +183,26 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 	uint8_t *buffer = buffer_;
 	off_t bytes_read = 0;
 	uint8_t *bounce = NULL;
-
+    // fat 방식으로 읽기 할 수 있도록 수정해야 함. 
 	while (size > 0) {
 		/* Disk sector to read, starting byte offset within sector. */
-		disk_sector_t sector_idx = byte_to_sector (inode, offset);
-		int sector_ofs = offset % DISK_SECTOR_SIZE;
+        cluster_t curr = inode->data.start; 
+
+        int step = offset / DISK_SECTOR_SIZE;
+        for (; step > 0; --step) {
+            cluster_t next = fat_fs->fat[curr]; 
+            if (next == EOChain) {
+                curr = next;
+                break; 
+            }
+            curr = next;
+        }
+        
+        if (curr == 0 || curr == EOChain) break; 
+        
+        disk_sector_t sector_idx = cluster_to_sector(curr);
+        int sector_ofs = offset % DISK_SECTOR_SIZE;
+
 
 		/* Bytes left in inode, bytes left in sector, lesser of the two. */
 		off_t inode_left = inode_length (inode) - offset;

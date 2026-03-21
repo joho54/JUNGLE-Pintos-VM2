@@ -35,4 +35,16 @@ cluster_t fat_get (cluster_t clst);
 void fat_put (cluster_t clst, cluster_t val);
 disk_sector_t cluster_to_sector (cluster_t clst);
 
-#endif /* filesys/fat.h */
+
+/* FAT FS */
+struct fat_fs {
+	struct fat_boot bs;
+	unsigned int *fat;
+	unsigned int fat_length;
+	disk_sector_t data_start;
+	cluster_t last_clst;
+	struct lock write_lock;
+};
+
+extern struct fat_fs *fat_fs;
+endif /* filesys/fat.h */

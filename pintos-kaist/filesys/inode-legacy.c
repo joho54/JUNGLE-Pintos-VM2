@@ -253,72 +253,59 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
 	const uint8_t *buffer = buffer_;
 	off_t bytes_written = 0;
 	uint8_t *bounce = NULL;
+    
+    // 가장 먼저 inode가  
 	
     if (inode->deny_write_cnt)
 		return 0;
     
-    
-    // step이 다 찰때까지. 만약 cluster가 부족하면 중간에 확장해야 함.  
-    while (size > 0) {
-        // loop invariant: for given offset, find proper sector idx. (that means you have to set proper offset at the end of the loop.) 
-        // 여기서 할 일: 무조건 오프셋을 존중해서 그 다음 섹터 찾기
-        // 굳이 처음부터 찾을 필요는 없잖아. basic filesys에서는 advance rule을 바꿔야 함. asis: offset을 계속 늘리기만 함. byte_to_sector로 한번에 인덱스를 찾으니까 상관 없음.
-        // tobe: 근데 깝치지 말고 그냥 이대로 가는게 낫지 않을까용? ㅇㅋ. 
-        unsigned step = offset / DISK_SECTOR_SIZE;
- 
-        // inode의 start_cluster를 찾는다.
-        cluster_t curr = inode->data.start;
-        for (; step > 0; --step) {
-            cluster_t next = fat_fs->fat[curr]; 
-            if (next == EOChain) {
-                next = fat_create_chain(curr);
-            }
-            curr = next;
-            if (next == 0) break;     
-        }   
-        if (curr == 0) break;  
-        // 여기서부터는 같음. 
-        disk_sector_t sector_idx = cluster_to_sector(curr);   
-        int sector_ofs = offset % DISK_SECTOR_SIZE; 
-            
-        int sector_left = DISK_SECTOR_SIZE - sector_ofs;
-        int chunk_size = size < sector_left ? size : sector_left; 
-        
-        if (chunk_size <= 0) break; 
-        if (sector_ofs == 0 && chunk_size == DISK_SECTOR_SIZE) {
-            // 중간 섹터일 경우 
-            disk_write(filesys_disk, sector_idx, buffer + bytes_written); 
-        }  else {
-            // 마지막 섹터일 경우  
-            // 우선 섹터 잔여 데이터 카피를 위한 메모리 확보 
-            if (bounce == NULL) {
-                bounce = malloc (DISK_SECTOR_SIZE);
-                if (bounce == NULL) break; // 쓰기 실패  
-            }
-            if (sector_ofs > 0 || chunk_size < sector_left) 
-                // 써야하는 청크 사이즈가 섹터의 남은 공간보다 작을 경우: 그냥 섹터 전체 내용을 메모리 섹터(바운스)에 복사. 보전 필요함. 
-                disk_read (filesys_disk, sector_idx, bounce);
-            else
-                memset(bounce, 0, DISK_SECTOR_SIZE); // 써야 하는 청크 사이즈가 섹터 남은 데이터보다 클 경우: 섹터 잔여 내용을 우선 삭제(보안). 섹터 데이터 보전x.
-            memcpy(bounce + sector_ofs, buffer + bytes_written, chunk_size); // bounce 데이터 뒤에 sector_ofs으로 메모리 복사 시작 지점 설정, buffer에서 복사할 시작 지점 설정, 
-            // 청크 사이즈만큼 버퍼에서 bounce 앞딴까지 복제. (맞나?) 데이터 복제는 큰 주소에서 작은 순서 방향임. 
-            // 이제 정리된 bounce + sector_ofs 지점 메모리 데이터를 디스크 섹터에 그대로 복제
-            disk_write(filesys_disk, sector_idx, bounce); 
-            // 어라? bounce는 섹터 뒷 부분에 있던 데이터였는데 생각해보니 여기서는 메모리 주소상 아래쪽에 가 있네. 메모리 주소 공간과 섹터 주소 공간은 주소 크기가 비례하나?
-        }
-        
-        /* Advance. */
-        size -= chunk_size;
-        offset += chunk_size; 
-        bytes_written += chunk_size; 
-    } 
-        
-    if (offset > inode->data.length) {
-        inode->data.length = offset;
-        disk_write(filesys_disk, inode->sector, &inode->data);  
-    }
-    
-    free (bounce);
+	while (size > 0) {
+		/* Sector to write, starting byte offset within sector. */
+        /* 쓰기를 수행할 섹터. 섹터의 바이트 오프셋에서부터 시작*/
+		disk_sector_t sector_idx = byte_to_sector (inode, offset);
+		int sector_ofs = offset % DISK_SECTOR_SIZE;
+
+		/* Bytes left in inode, bytes left in sector, lesser of the two. */
+		/* inode와 섹터에 남은 수 중 최소값 */
+        off_t inode_left = inode_length (inode) - offset;
+		int sector_left = DISK_SECTOR_SIZE - sector_ofs;
+		int min_left = inode_left < sector_left ? inode_left : sector_left;
+
+		/* Number of bytes to actually write into this sector. */
+		int chunk_size = size < min_left ? size : min_left;
+		if (chunk_size <= 0)
+			break;
+
+		if (sector_ofs == 0 && chunk_size == DISK_SECTOR_SIZE) {
+			/* Write full sector directly to disk. */
+			disk_write (filesys_disk, sector_idx, buffer + bytes_written); 
+		} else {
+			/* We need a bounce buffer. */
+			if (bounce == NULL) {
+				bounce = malloc (DISK_SECTOR_SIZE);
+				if (bounce == NULL)
+					break;
+			}
+
+			/* If the sector contains data before or after the chunk
+			   we're writing, then we need to read in the sector
+			   first.  Otherwise we start with a sector of all zeros. */
+			if (sector_ofs > 0 || chunk_size < sector_left) 
+				disk_read (filesys_disk, sector_idx, bounce);
+			else
+				memset (bounce, 0, DISK_SECTOR_SIZE);
+			memcpy (bounce + sector_ofs, buffer + bytes_written, chunk_size);
+			disk_write (filesys_disk, sector_idx, bounce); 
+		}
+
+		/* Advance. */
+		size -= chunk_size;
+		offset += chunk_size;
+		bytes_written += chunk_size;
+	}
+	free (bounce);
+	
+
     return bytes_written;
 }
 

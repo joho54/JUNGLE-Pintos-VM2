@@ -78,7 +78,6 @@ inode_create (disk_sector_t sector, off_t length) {
 
 	disk_inode = calloc (1, sizeof *disk_inode);
 	if (disk_inode != NULL) {
-		size_t sectors = bytes_to_sectors (length);
 		disk_inode->length = length;
 		disk_inode->magic = INODE_MAGIC;
    

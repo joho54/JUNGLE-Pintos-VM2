@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <list.h>
+#include "filesys/fat.h"
 #include "filesys/filesys.h"
 #include "filesys/inode.h"
 #include "threads/malloc.h"
@@ -46,7 +47,7 @@ dir_open (struct inode *inode) {
  * Return true if successful, false on failure. */
 struct dir *
 dir_open_root (void) {
-	return dir_open (inode_open (ROOT_DIR_SECTOR));
+	return dir_open (inode_open (cluster_to_sector(ROOT_DIR_CLUSTER)));
 }
 
 /* Opens and returns a new directory for the same inode as DIR.
@@ -84,9 +85,11 @@ lookup (const struct dir *dir, const char *name,
 
 	ASSERT (dir != NULL);
 	ASSERT (name != NULL);
-
+    // 디렉토리 헤드섹터를 선형 탐색
+    printf("DEBUG lookup: reading file %s in dir\n",name); 
 	for (ofs = 0; inode_read_at (dir->inode, &e, sizeof e, ofs) == sizeof e;
 			ofs += sizeof e)
+        // dir_entry가 사용중이고 파일 이름이 같으면 반환
 		if (e.in_use && !strcmp (name, e.name)) {
 			if (ep != NULL)
 				*ep = e;
@@ -110,10 +113,14 @@ dir_lookup (const struct dir *dir, const char *name,
 	ASSERT (name != NULL);
 
 	if (lookup (dir, name, &e, NULL))
-		*inode = inode_open (e.inode_sector);
-	else
+    {    
+    	*inode = inode_open (e.inode_sector);
+        printf("DEBUG: inode hydrated. e.inode_sector=%d\n", e.inode_sector); 
+     }
+	else {
+        printf("DEBUG: lookup failed\n");
 		*inode = NULL;
-
+    }
 	return *inode != NULL;
 }
 
@@ -139,7 +146,7 @@ dir_add (struct dir *dir, const char *name, disk_sector_t inode_sector) {
 	/* Check that NAME is not in use. */
 	if (lookup (dir, name, NULL, NULL))
 		goto done;
-
+	printf("DEBUG dir_add: name usable: %s\n", name);
 	/* Set OFS to offset of free slot.
 	 * If there are no free slots, then it will be set to the
 	 * current end-of-file.
@@ -147,17 +154,28 @@ dir_add (struct dir *dir, const char *name, disk_sector_t inode_sector) {
 	 * inode_read_at() will only return a short read at end of file.
 	 * Otherwise, we'd need to verify that we didn't get a short
 	 * read due to something intermittent such as low memory. */
+
+    // dir_entry e 버퍼에ofs 부터 dir_entry 사이즈만큼 읽으면서 전진. dir->inode가 뭘 저장하지? 디렉토리 메타 데이터 그 자체고, 지금 관심사는 여기에 file을 저장하는 것
+    // dir->inode 자체는? 결국 inmemory inode 구조체를 이해해야 함. 
+    // ofs를 더해가면서 inode를 읽는다는게 무슨 의미지?
+    // inode의 데이터가 시작되는 디스크 섹터부터 ofs만큼 말 그대로 읽어서 buffer에 복사하는 것이다. 
+    // 내가 놓치고 있는 것: sector에서 dir_entry scale의 offset으로 읽어 가는 것의 추상적인 의미
+    // dir->inode->data start 섹터에는 dir entry가 차례로 저장된다.
+    // 왜 이런 구조를 취하는 거지? 아 그냥 애초에 디렉토리 내부에 파일 메타데이터를 저장하라고 있는게 inode data sector인 건가.
+    // 그렇다. 디렉토리도 결국 파일이고, 섹터에 저장하는게 단지 내용물이 아니라 파일들의 메타데이터일 뿐인 거다.   
 	for (ofs = 0; inode_read_at (dir->inode, &e, sizeof e, ofs) == sizeof e;
 			ofs += sizeof e)
 		if (!e.in_use)
 			break;
-
+    printf("DEBUG dir_add: writing slot from inode sector ofs %d\n", ofs );
+    printf("DEBUG dir_add: copied sector area into inmemory dir entry %d\n", e); 
 	/* Write slot. */
 	e.in_use = true;
 	strlcpy (e.name, name, sizeof e.name);
 	e.inode_sector = inode_sector;
+    // save inmemory dir_entry into disk sector
 	success = inode_write_at (dir->inode, &e, sizeof e, ofs) == sizeof e;
-
+    printf("DEBUG dir_add: success? %d\n", success);    
 done:
 	return success;
 }

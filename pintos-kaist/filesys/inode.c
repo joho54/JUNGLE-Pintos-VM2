@@ -126,6 +126,7 @@ inode_open (disk_sector_t sector) {
 	inode->deny_write_cnt = 0;
 	inode->removed = false;
 	disk_read (filesys_disk, inode->sector, &inode->data);
+    printf("DEBUG inode open: inode->data.start=%d\n", inode->data.start);
 	return inode;
 }
 
@@ -188,8 +189,10 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 	while (size > 0) {
 		/* Disk sector to read, starting byte offset within sector. */
         cluster_t curr = inode->data.start; 
-
         int step = offset / DISK_SECTOR_SIZE;
+
+        printf("DEBUG inode_read_at: read start. step=%d\n", step); 
+
         for (; step > 0; --step) {
             cluster_t next = fat_fs->fat[curr]; 
             if (next == EOChain) {
@@ -199,11 +202,13 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
             curr = next;
         }
         
-        if (curr == 0 || curr == EOChain) break; 
-        
+        if (curr == 0 || curr == EOChain) {
+             printf("DEBUG: read finished\n");
+             break; 
+        }
+
         disk_sector_t sector_idx = cluster_to_sector(curr);
         int sector_ofs = offset % DISK_SECTOR_SIZE;
-
 
 		/* Bytes left in inode, bytes left in sector, lesser of the two. */
         // - 208줄의 논리가 read에서 있어야 하는 이유를 잘 모르겠음.
@@ -238,9 +243,11 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 		size -= chunk_size;
 		offset += chunk_size;
 		bytes_read += chunk_size;
+        printf("DEBUG inode_read_at: advancing. bytes_read=%d\n",bytes_read);
 	}
-	free (bounce);
 
+	free (bounce);
+    printf("DEBUG inode_read_at: total bytes read=%d\n", bytes_read); 
 	return bytes_read;
 }
 
@@ -255,34 +262,49 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
 	const uint8_t *buffer = buffer_;
 	off_t bytes_written = 0;
 	uint8_t *bounce = NULL;
-	
+    
+    printf("DEBUG inode_write_at: routinen start. bytes should be written=%d\n", size);
+    	
     if (inode->deny_write_cnt)
 		return 0;
-    
+    printf("DEBUG inode_write_at: starting writing\n");
     
     // step이 다 찰때까지. 만약 cluster가 부족하면 중간에 확장해야 함.  
     while (size > 0) {
         // loop invariant: for given offset, find proper sector idx. (that means you have to set proper offset at the end of the loop.) 
         // 여기서 할 일: 무조건 오프셋을 존중해서 그 다음 섹터 찾기
-        // 굳이 처음부터 찾을 필요는 없잖아. basic filesys에서는 advance rule을 바꿔야 함. asis: offset을 계속 늘리기만 함. byte_to_sector로 한번에 인덱스를 찾으니까 상관 없음.
+        // 굳이 처음부터 찾을 필요는 없잖아. basic filesys에서는 advance rule을 바꿔야 함. 
+        // asis: offset을 계속 늘리기만 함. byte_to_sector로 한번에 인덱스를 찾으니까 상관 없음.
         // tobe: 근데 깝치지 말고 그냥 이대로 가는게 낫지 않을까용? ㅇㅋ. 
         unsigned step = offset / DISK_SECTOR_SIZE;
+
+        printf("DEBUG inode_write_at: sector advance steps=%d\n",step );
  
         // inode의 start_cluster를 찾는다.
-        cluster_t curr = inode->data.start;
+        cluster_t curr = inode->data.start; // DEBUG: 주어진 inode->data.start가 잘못됐을 수 있겠구나!
+        printf("DEBUG inode_write_at: curr=%d\n", curr);
         for (; step > 0; --step) {
             cluster_t next = fat_fs->fat[curr]; 
             if (next == EOChain) {
                 next = fat_create_chain(curr);
+                printf("DEBUG inode_write_at: fat chain extended\n");
             }
             curr = next;
             if (next == 0) break;     
         }   
-        if (curr == 0) break;  
+        if (curr == 0) {
+            printf("DEBUG inode_write_at: exiting. curr = %d/n", curr);
+            break;
+        } 
+
+        printf("DEBUG inode_write_at: cluster=%d\n", curr);  
+
         // 여기서부터는 같음. 
         disk_sector_t sector_idx = cluster_to_sector(curr);   
         int sector_ofs = offset % DISK_SECTOR_SIZE; 
-            
+
+        printf("DEBUG indoe_write_at: sector=%d\n", sector_idx); 
+    
         int sector_left = DISK_SECTOR_SIZE - sector_ofs;
         int chunk_size = size < sector_left ? size : sector_left; 
         
@@ -308,11 +330,14 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
             disk_write(filesys_disk, sector_idx, bounce); 
             // 어라? bounce는 섹터 뒷 부분에 있던 데이터였는데 생각해보니 여기서는 메모리 주소상 아래쪽에 가 있네. 메모리 주소 공간과 섹터 주소 공간은 주소 크기가 비례하나?
         }
+
+        printf("DEBUG inode_write_at: advancing...");
         
         /* Advance. */
         size -= chunk_size;
         offset += chunk_size; 
         bytes_written += chunk_size; 
+        printf("DEBUG inode_write_at: bytes written=%d\n", bytes_written); 
     } 
         
     if (offset > inode->data.length) {
@@ -321,6 +346,7 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
     }
     
     free (bounce);
+    printf("DEBUG inode_write_at: routine finished. bytes written=%d\n", bytes_written);
     return bytes_written;
 }
 

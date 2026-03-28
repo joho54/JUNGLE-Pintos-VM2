@@ -184,6 +184,7 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 	uint8_t *buffer = buffer_;
 	off_t bytes_read = 0;
 	uint8_t *bounce = NULL;
+
     // fat 방식으로 읽기 할 수 있도록 수정해야 함. 
 	while (size > 0) {
 		/* Disk sector to read, starting byte offset within sector. */
@@ -191,11 +192,13 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
         int step = offset / DISK_SECTOR_SIZE;
 
         printf("DEBUG inode_read_at: read start. step=%d\n", step); 
+        printf("DEBUG inode_read_at: current cluster=%d\n", curr);  
 
         for (; step > 0; --step) {
             cluster_t next = fat_fs->fat[curr]; 
             if (next == EOChain) {
                 curr = next;
+                printf("DEBUG inode_read_at: fat chain finished on cluster %d\n", curr);
                 break; 
             }
             curr = next;
@@ -220,8 +223,12 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 
 		/* Number of bytes to actually copy out of this sector. */
 		int chunk_size = size < min_left ? size : min_left;
-		if (chunk_size <= 0)
-			break;
+		if (chunk_size <= 0) {
+            printf("DEBUG inode_read_at: no more sector to read\n");
+            break;
+        }
+        
+        printf("DEBUG inode_read_at: reading sector_idx=%d\n", sector_idx);
 
 		if (sector_ofs == 0 && chunk_size == DISK_SECTOR_SIZE) {
 			/* Read full sector directly into caller's buffer. */
@@ -243,7 +250,8 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 		offset += chunk_size;
 		bytes_read += chunk_size;
         printf("DEBUG inode_read_at: advancing. bytes_read=%d\n",bytes_read);
-	}
+        printf("DEBUG inode_read_at: \n");    
+    }
 
 	free (bounce);
     printf("DEBUG inode_read_at: total bytes read=%d\n", bytes_read); 
@@ -292,7 +300,7 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
             if (next == 0) break;     
         }   
         if (curr == 0) {
-            printf("DEBUG inode_write_at: exiting. curr = %d/n", curr);
+            printf("DEBUG inode_write_at: exiting. curr = %d\n", curr);
             break;
         } 
 
@@ -330,7 +338,7 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
             // 어라? bounce는 섹터 뒷 부분에 있던 데이터였는데 생각해보니 여기서는 메모리 주소상 아래쪽에 가 있네. 메모리 주소 공간과 섹터 주소 공간은 주소 크기가 비례하나?
         }
 
-        printf("DEBUG inode_write_at: advancing...");
+        printf("DEBUG inode_write_at: advancing...\n");
         
         /* Advance. */
         size -= chunk_size;

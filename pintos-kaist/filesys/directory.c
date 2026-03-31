@@ -82,14 +82,17 @@ lookup (const struct dir *dir, const char *name,
 		struct dir_entry *ep, off_t *ofsp) {
 	struct dir_entry e;
 	size_t ofs;
+    
+    printf("DEBUG lookup: dir->inode->sector=%d\n", inode_get_inumber(dir->inode));
 
 	ASSERT (dir != NULL);
 	ASSERT (name != NULL);
     // 디렉토리 헤드섹터를 선형 탐색
     printf("DEBUG lookup: reading file %s in dir\n",name); 
 	for (ofs = 0; inode_read_at (dir->inode, &e, sizeof e, ofs) == sizeof e;
-			ofs += sizeof e)
+			ofs += sizeof e) {
         // dir_entry가 사용중이고 파일 이름이 같으면 반환
+        printf("name = %s, e.name = %s\n", name, e.name);
 		if (e.in_use && !strcmp (name, e.name)) {
 			if (ep != NULL)
 				*ep = e;
@@ -97,6 +100,7 @@ lookup (const struct dir *dir, const char *name,
 				*ofsp = ofs;
 			return true;
 		}
+    }
 	return false;
 }
 
@@ -138,7 +142,9 @@ dir_add (struct dir *dir, const char *name, disk_sector_t inode_sector) {
 
 	ASSERT (dir != NULL);
 	ASSERT (name != NULL);
-
+    
+    printf("DEBUG dir_add: dir->inode->sector=%d\n", inode_get_inumber(dir->inode));
+       
 	/* Check NAME for validity. */
 	if (*name == '\0' || strlen (name) > NAME_MAX)
 		return false;
@@ -168,12 +174,13 @@ dir_add (struct dir *dir, const char *name, disk_sector_t inode_sector) {
 		if (!e.in_use)
 			break;
     printf("DEBUG dir_add: writing slot from inode sector ofs %d\n", ofs );
-    printf("DEBUG dir_add: copied sector area into inmemory dir entry %d\n", e); 
 	/* Write slot. */
 	e.in_use = true;
 	strlcpy (e.name, name, sizeof e.name);
-	e.inode_sector = inode_sector;
+	e.inode_sector = inode_sector; // directory data가 실제로 저장되는 섹터
+    printf("DEBUG dir_add: e.inode_sector=%d\n", inode_sector);
     // save inmemory dir_entry into disk sector
+    printf("DEBUG dir_add: inmemory dir_entry saving. name=%s\n",e.name );
 	success = inode_write_at (dir->inode, &e, sizeof e, ofs) == sizeof e;
     printf("DEBUG dir_add: success? %d\n", success);    
 done:

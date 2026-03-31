@@ -67,7 +67,6 @@ filesys_create (const char *name, off_t initial_size) {
     inode_cluster = fat_create_chain(0);
     printf("DEBUG filesys_create: inode_cluster=%d\n", inode_cluster);
     if (!inode_cluster) return false;
-
     inode_sector = cluster_to_sector(inode_cluster);
     printf("DEBUG filesys_create: inode_sector=%d\n", inode_sector);
 
@@ -94,7 +93,7 @@ filesys_open (const char *name) {
 	struct dir *dir = dir_open_root ();
 	struct inode *inode = NULL;
 
-
+    printf("DEBUG filesys_open: opening file name %s\n", name);
 	if (dir != NULL)
 		dir_lookup (dir, name, &inode);
 	dir_close (dir);

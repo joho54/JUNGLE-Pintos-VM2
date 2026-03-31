@@ -84,9 +84,10 @@ inode_create (disk_sector_t sector, off_t length) {
         // 그런데 최소한 sector가 있는지 알기는 해야 하지 않나? 이게 실패할 수도 있잖아. 
         // disk_write는 실패하면 그냥 panic을 일으키게 돼 있음. 이것의 성공 실패 여부는 disk_write가 감당할 일.
         // DEBUG: fat_create_chain을 filesys.c file_create에서도 수행하면서 inode_create 호출, 체인이 중복 생성 -> 어차피 inode sector가 주어지기 때문에 sector_to_cluster로 처리하는게 맞을듯.  
-        cluster_t first_cluster = sector_to_cluster(sector); 
-        if (first_cluster != 0) {
-            disk_inode->start = first_cluster; // start a new chain       
+        cluster_t data_start = fat_create_chain(0);
+        
+        if (data_start != 0) {
+            disk_inode->start = data_start; // start a new chain       
             disk_write (filesys_disk, sector, disk_inode);   
             success = true;    
         }
@@ -126,7 +127,8 @@ inode_open (disk_sector_t sector) {
 	inode->removed = false;
 	disk_read (filesys_disk, inode->sector, &inode->data);
     printf("DEBUG inode open: inode->data.start=%d\n", inode->data.start);
-	return inode;
+    printf("DEBUG inode open: inode->sector=%d\n", inode->sector);
+    return inode;
 }
 
 /* Reopens and returns INODE. */
@@ -185,17 +187,19 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 	off_t bytes_read = 0;
 	uint8_t *bounce = NULL;
 
+    printf("DEBUG inode_read_at: routine start. inode=%p, buffer=%p, size=%d, offset=%d, inode->data.start=%d\n", inode, buffer_, size, offset, inode->data.start);
+
     // fat 방식으로 읽기 할 수 있도록 수정해야 함. 
 	while (size > 0) {
 		/* Disk sector to read, starting byte offset within sector. */
         cluster_t curr = inode->data.start; 
         int step = offset / DISK_SECTOR_SIZE;
-
+        
         printf("DEBUG inode_read_at: read start. step=%d\n", step); 
-        printf("DEBUG inode_read_at: current cluster=%d\n", curr);  
-
+         lock_acquire(&fat_fs->write_lock);
         for (; step > 0; --step) {
-            cluster_t next = fat_fs->fat[curr]; 
+            cluster_t next = fat_fs->fat[curr];
+            printf("DEBUG inode_read_at: next cluster=%d\n", next); 
             if (next == EOChain) {
                 curr = next;
                 printf("DEBUG inode_read_at: fat chain finished on cluster %d\n", curr);
@@ -203,15 +207,18 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
             }
             curr = next;
         }
+        lock_release(&fat_fs->write_lock);
         
         if (curr == 0 || curr == EOChain) {
-             printf("DEBUG: read finished\n");
+             printf("DEBUG inode_read_at: read finished. curr=%d\n", curr);
              break; 
         }
-
+        
+        printf("DEBUG inode_read_at: current cluster=%d\n", curr);  
         disk_sector_t sector_idx = cluster_to_sector(curr);
         int sector_ofs = offset % DISK_SECTOR_SIZE;
-
+        printf("DEBUG inode_read_at: current sector=%d\n", sector_idx);
+        printf("DEBUG inode_read_at: sector_ofs=%d\n", sector_ofs);
 		/* Bytes left in inode, bytes left in sector, lesser of the two. */
         // - 208줄의 논리가 read에서 있어야 하는 이유를 잘 모르겠음.
         // - disk sector로부터 읽어들일 데이터가 현재 inode 데이터 크기를 초과하는지 점검하고 작은 쪽을 선택하는 것으로 이해함.
@@ -223,6 +230,10 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 
 		/* Number of bytes to actually copy out of this sector. */
 		int chunk_size = size < min_left ? size : min_left;
+
+        printf("DEBUG inode_read_at: inode_left=%d, sector_left=%d, min_left=%d, size=%d\n", inode_left, sector_left, min_left, size );
+
+        printf("DEBUG inode_read_at: chunk size=%d\n", chunk_size);
 		if (chunk_size <= 0) {
             printf("DEBUG inode_read_at: no more sector to read\n");
             break;
@@ -232,11 +243,13 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 
 		if (sector_ofs == 0 && chunk_size == DISK_SECTOR_SIZE) {
 			/* Read full sector directly into caller's buffer. */
-			disk_read (filesys_disk, sector_idx, buffer + bytes_read); 
+			printf("DEBUG inode_read_at: reading middle sector\n");
+            disk_read (filesys_disk, sector_idx, buffer + bytes_read); 
 		} else {
 			/* Read sector into bounce buffer, then partially copy
 			 * into caller's buffer. */
 			if (bounce == NULL) {
+                printf("DEBUG inode_read_at: reading final sector\n");
 				bounce = malloc (DISK_SECTOR_SIZE);
 				if (bounce == NULL)
 					break;
@@ -246,7 +259,10 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 		}
 
 		/* Advance. */
-		size -= chunk_size;
+        printf("DEBUG inode_read_at: %d-%d\n", size, chunk_size); 		
+
+        size -= chunk_size;
+        printf("DEBUG inode_read_at: size after advance=%d\n", size);
 		offset += chunk_size;
 		bytes_read += chunk_size;
         printf("DEBUG inode_read_at: advancing. bytes_read=%d\n",bytes_read);
@@ -290,6 +306,8 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
         // inode의 start_cluster를 찾는다.
         cluster_t curr = inode->data.start; // DEBUG: 주어진 inode->data.start가 잘못됐을 수 있겠구나!
         printf("DEBUG inode_write_at: curr=%d\n", curr);
+
+        lock_acquire(&fat_fs->write_lock);        
         for (; step > 0; --step) {
             cluster_t next = fat_fs->fat[curr]; 
             if (next == EOChain) {
@@ -298,7 +316,8 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
             }
             curr = next;
             if (next == 0) break;     
-        }   
+        }  
+        lock_release(&fat_fs->write_lock);  
         if (curr == 0) {
             printf("DEBUG inode_write_at: exiting. curr = %d\n", curr);
             break;

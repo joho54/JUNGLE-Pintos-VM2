@@ -14,7 +14,7 @@
 /* On-disk inode.
  * Must be exactly DISK_SECTOR_SIZE bytes long. */
 struct inode_disk {
-	disk_sector_t start;                /* First data sector. */
+	disk_sector_t start;                /* First data ~~sector~~ CLUSTER!!! */
 	off_t length;                       /* File size in bytes. */
 	unsigned magic;                     /* Magic number. */
 	uint32_t unused[125];               /* Not used. */
@@ -196,7 +196,6 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
         int step = offset / DISK_SECTOR_SIZE;
         
         printf("DEBUG inode_read_at: read start. step=%d\n", step); 
-         lock_acquire(&fat_fs->write_lock);
         for (; step > 0; --step) {
             cluster_t next = fat_fs->fat[curr];
             printf("DEBUG inode_read_at: next cluster=%d\n", next); 
@@ -207,7 +206,6 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
             }
             curr = next;
         }
-        lock_release(&fat_fs->write_lock);
         
         if (curr == 0 || curr == EOChain) {
              printf("DEBUG inode_read_at: read finished. curr=%d\n", curr);
@@ -307,7 +305,6 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
         cluster_t curr = inode->data.start; // DEBUG: 주어진 inode->data.start가 잘못됐을 수 있겠구나!
         printf("DEBUG inode_write_at: curr=%d\n", curr);
 
-        lock_acquire(&fat_fs->write_lock);        
         for (; step > 0; --step) {
             cluster_t next = fat_fs->fat[curr]; 
             if (next == EOChain) {
@@ -317,7 +314,6 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
             curr = next;
             if (next == 0) break;     
         }  
-        lock_release(&fat_fs->write_lock);  
         if (curr == 0) {
             printf("DEBUG inode_write_at: exiting. curr = %d\n", curr);
             break;

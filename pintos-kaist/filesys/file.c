@@ -15,10 +15,10 @@ struct file {
  * allocation fails or if INODE is null. */
 
 void file_my_dbg (struct file *file, int asdf) {
-	printf("BEFORE[%d] OP: file, %p",asdf,file);
-	printf(" file_obj->deny_write %d\n",file->deny_write);
+	dprintf("BEFORE[%d] OP: file, %p",asdf,file);
+	dprintf(" file_obj->deny_write %d\n",file->deny_write);
 	file->deny_write = false;
-	printf("AFTER[%d] OP: file_obj->deny_write %p, %d\n",asdf,file, file->deny_write);
+	dprintf("AFTER[%d] OP: file_obj->deny_write %p, %d\n",asdf,file, file->deny_write);
 }
 
 struct file *

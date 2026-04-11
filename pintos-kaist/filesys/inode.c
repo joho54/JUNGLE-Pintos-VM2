@@ -83,9 +83,17 @@ inode_create (disk_sector_t sector, off_t length) {
    
         // 그런데 최소한 sector가 있는지 알기는 해야 하지 않나? 이게 실패할 수도 있잖아. 
         // disk_write는 실패하면 그냥 panic을 일으키게 돼 있음. 이것의 성공 실패 여부는 disk_write가 감당할 일.
-        // DEBUG: fat_create_chain을 filesys.c file_create에서도 수행하면서 inode_create 호출, 체인이 중복 생성 -> 어차피 inode sector가 주어지기 때문에 sector_to_cluster로 처리하는게 맞을듯.  
+        // DEBUG: fat_create_chain을 filesys.c file_create에서도 수행하면서 inode_create 호출, 체인이 중복 생성 -> 어차피 inode sector가 주어지기 때문에 sector_to_cluster로 처리하는게 맞을듯.
+        //  REPLY: 위 글은 틀렸다. file_create에서 하는 건 메타데이터 inode를 저장하기 위한 cluster이고, 여기서 할당하는 data_start는 payload를 위한 것이다.  
+        // DEBUG: data_start로부터 length 사이즈만큼 클러스터를 할당해줘야 맞다. 체인을 그 개수만큼 확장해놔야 한다. 
+            
         cluster_t data_start = fat_create_chain(0);
-        
+        cluster_t prev_clst = data_start; 
+        for (int i = 0; i < DIV_ROUND_UP(length, DISK_SECTOR_SIZE); i++) {
+            cluster_t curr = fat_create_chain(prev_clst);
+            prev_clst = curr;
+        }
+
         if (data_start != 0) {
             disk_inode->start = data_start; // start a new chain       
             disk_write (filesys_disk, sector, disk_inode);   

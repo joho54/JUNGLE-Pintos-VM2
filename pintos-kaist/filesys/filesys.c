@@ -60,24 +60,33 @@ filesys_done (void) {
  * or if internal memory allocation fails. */
 bool
 filesys_create (const char *name, off_t initial_size) {
+
     cluster_t inode_cluster = 0;
 	disk_sector_t inode_sector = 0;
+
 	struct dir *dir = dir_open_root ();
+
 	dprintf("DEBUG filesys_create: dir=%p\n", dir);
     inode_cluster = fat_create_chain(0);
+
     dprintf("DEBUG filesys_create: inode_cluster=%d\n", inode_cluster);
+
     if (!inode_cluster) return false;
+
     inode_sector = cluster_to_sector(inode_cluster);
     dprintf("DEBUG filesys_create: inode_sector=%d\n", inode_sector);
 
 	bool ic = inode_create (inode_sector, initial_size);
 	dprintf("DEBUG filesys_create: inode_create=%d\n", ic);
+
 	bool da = (dir != NULL) && ic && dir_add (dir, name, inode_sector);
 	dprintf("DEBUG filesys_create: dir_add=%d\n", da);
+
 	bool success = da;
 	if (!success && inode_cluster != 0) {
         fat_remove_chain(inode_cluster, 0);
 	}
+
     dir_close (dir);
 
 	return success;

@@ -16,6 +16,7 @@
 struct inode_disk {
 	disk_sector_t start;                /* First data ~~sector~~ CLUSTER!!! */
 	off_t length;                       /* File size in bytes. */
+    bool is_dir; 
 	unsigned magic;                     /* Magic number. */
 	uint32_t unused[125];               /* Not used. */
 };
@@ -66,7 +67,7 @@ inode_init (void) {
  * Returns true if successful.
  * Returns false if memory or disk allocation fails. */
 bool
-inode_create (disk_sector_t sector, off_t length) {
+inode_create (disk_sector_t sector, off_t length, bool is_dir) {
 	struct inode_disk *disk_inode = NULL;
 	bool success = false;
 
@@ -80,6 +81,7 @@ inode_create (disk_sector_t sector, off_t length) {
 	if (disk_inode != NULL) {
 		disk_inode->length = length;
 		disk_inode->magic = INODE_MAGIC;
+        disk_inode->is_dir = is_dir;
    
         // 그런데 최소한 sector가 있는지 알기는 해야 하지 않나? 이게 실패할 수도 있잖아. 
         // disk_write는 실패하면 그냥 panic을 일으키게 돼 있음. 이것의 성공 실패 여부는 disk_write가 감당할 일.

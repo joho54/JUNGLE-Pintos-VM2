@@ -33,7 +33,7 @@ static void __do_fork(void *);
 /* General process initializer for initd and other process. */
 static void process_init(void)
 {
-	struct thread *curr = thread_current();
+	struct thread *curr = thread_current(); // 잠깐...이거 구현 잘못된 거 같은데. general process initialization을 해야 하는데 왜 아무것도 안 하지?
 }
 
 // 파일 객체에 대한 파일 디스크립터를 생성, 프로세스에 추가, 해당 fd 리턴
@@ -139,6 +139,9 @@ initd(void *f_name)
 #endif
 
 	process_init();
+
+    struct thread curr = thread_current();
+    curr->cwd = dir_open_root() ;
 
 	if (process_exec(f_name) < 0)
 		PANIC("Fail to launch initd\n");
@@ -275,7 +278,7 @@ static void __do_fork(void *aux)
 		current->fd_table[i] = file;
 	}
 	current->next_fd = parent->next_fd;
-
+    current->cwd = dir_reopen(parent->cwd);
 	sema_up(&current->load_sema); // 자식 동기화 대기 해제
 	process_init();
 

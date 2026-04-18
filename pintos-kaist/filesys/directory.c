@@ -25,7 +25,7 @@ struct dir_entry {
  * given SECTOR.  Returns true if successful, false on failure. */
 bool
 dir_create (disk_sector_t sector, size_t entry_cnt) {
-	return inode_create (sector, entry_cnt * sizeof (struct dir_entry));
+	return inode_create (sector, entry_cnt * sizeof (struct dir_entry), true);
 }
 
 /* Opens and returns the directory for the given INODE, of which
@@ -239,4 +239,40 @@ dir_readdir (struct dir *dir, char name[NAME_MAX + 1]) {
 		}
 	}
 	return false;
+}
+
+struct *dir
+dir_change(struct dir *cwd, const char *path) {
+    char path[] = *path;   
+    char *token, *save_ptr;
+    struct dir *dir_curr; // current dir for search
+    struct dir *dir_prev;
+
+    struct inode *inode_curr;
+
+    char *slash = '/';
+    bool is_absolute = strcmp(&path[0], slash);
+    
+    if (is_absolute) 
+    {
+        dir_curr = dir_open_root();
+        token = strtok_r(path, "/", &save_ptr);
+        if(!strcmp(&dir_curr->name, &token)) return NULL;
+    }
+    else
+    {
+        dir_curr = dir_open(cwd); 
+    }
+    
+    
+    for (token = strtok_r (path, "/", &save_ptr); token != NULL; token = strtok_r (NULL, "/", &save_ptr)) {
+        if(!dir_lookup(dir_curr, token, &inode_curr)) return NULL;
+        dir_prev = dir_curr;
+        dir_curr = dir_open(inode);
+        dir_close(dir_prev);      
+    }
+
+    dir_close(cwd);
+    cwd = dir_open(dir_curr);
+
 }

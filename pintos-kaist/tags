@@ -78,7 +78,6 @@ DATA_SIZE	tests/vm/page-merge-seq.c	16;"	d	file:
 DATA_SIZE	tests/vm/parallel-merge.c	15;"	d	file:
 DEPENDS	filesys/build/Makefile	/^DEPENDS = $(patsubst %.o,%.d,$(OBJECTS))$/;"	m
 DEPENDS	userprog/build/Makefile	/^DEPENDS = $(patsubst %.o,%.d,$(OBJECTS))$/;"	m
-DEPENDS	vm/build/Makefile	/^DEPENDS = $(patsubst %.o,%.d,$(OBJECTS))$/;"	m
 DEVICES_DISK_H	include/devices/disk.h	2;"	d
 DEVICES_INPUT_H	include/devices/input.h	2;"	d
 DEVICES_INTQ_H	include/devices/intq.h	2;"	d
@@ -102,18 +101,18 @@ E820_MAP4	include/threads/loader.h	21;"	d
 EFER_LME	threads/start.S	/^#define EFER_LME (1 << 8)$/;"	d
 EFER_MSR	threads/start.S	/^#define EFER_MSR 0xC0000080$/;"	d
 EFER_SCE	threads/start.S	/^#define EFER_SCE (1 << 0)$/;"	d
-EI_NIDENT	userprog/process.c	514;"	d	file:
+EI_NIDENT	userprog/process.c	517;"	d	file:
 ELEM_BITS	lib/kernel/bitmap.c	22;"	d	file:
-ELF	userprog/process.c	562;"	d	file:
+ELF	userprog/process.c	565;"	d	file:
 ELF64_PHDR	userprog/process.c	/^struct ELF64_PHDR$/;"	s	file:
 ELF64_hdr	userprog/process.c	/^struct ELF64_hdr$/;"	s	file:
-EOChain	include/filesys/fat.h	14;"	d
+EOChain	include/filesys/fat.h	15;"	d
 EXIT_FAILURE	include/lib/user/syscall.h	21;"	d
 EXIT_SUCCESS	include/lib/user/syscall.h	20;"	d
 EXPECTED_DEPTH_TO_PASS	tests/userprog/no-vm/multi-oom.c	/^static const int EXPECTED_DEPTH_TO_PASS = 10;$/;"	v	file:
 EXPECTED_REPETITIONS	tests/userprog/no-vm/multi-oom.c	/^static const int EXPECTED_REPETITIONS = 10;$/;"	v	file:
-FAT_BOOT_SECTOR	include/filesys/fat.h	18;"	d
-FAT_MAGIC	include/filesys/fat.h	13;"	d
+FAT_BOOT_SECTOR	include/filesys/fat.h	19;"	d
+FAT_MAGIC	include/filesys/fat.h	14;"	d
 FCR_REG	devices/serial.c	31;"	d	file:
 FDCOUNT_LIMIT	include/threads/thread.h	36;"	d
 FDT_PAGES	include/threads/thread.h	35;"	d
@@ -142,7 +141,7 @@ FLAG_NT	include/threads/flags.h	10;"	d
 FLAG_TF	include/threads/flags.h	5;"	d
 FNV_64_BASIS	lib/kernel/hash.c	241;"	d	file:
 FNV_64_PRIME	lib/kernel/hash.c	240;"	d	file:
-FREE_MAP_SECTOR	include/filesys/filesys.h	8;"	d
+FREE_MAP_SECTOR	include/filesys/filesys.h	9;"	d
 GRAY_ON_BLACK	devices/vga.c	21;"	d	file:
 GROUP	lib/stdio.c	/^		GROUP = 1 << 5          \/* '\\'' *\/$/;"	e	enum:printf_conversion::__anon3	file:
 Get	tests/Algorithm/Diff.pm	/^sub Get$/;"	s
@@ -150,7 +149,8 @@ IER_RECV	devices/serial.c	37;"	d	file:
 IER_REG	devices/serial.c	23;"	d	file:
 IER_XMIT	devices/serial.c	38;"	d	file:
 IIR_REG	devices/serial.c	30;"	d	file:
-INODE_MAGIC	filesys/inode.c	11;"	d	file:
+INODE_MAGIC	filesys/inode-legacy.c	11;"	d	file:
+INODE_MAGIC	filesys/inode.c	12;"	d	file:
 INT	lib/stdio.c	/^		INT = 3,                \/* (none) *\/$/;"	e	enum:printf_conversion::__anon4	file:
 INT16_MAX	include/lib/stdint.h	9;"	d
 INT16_MIN	include/lib/stdint.h	10;"	d
@@ -238,7 +238,6 @@ NULL	include/lib/stddef.h	4;"	d
 Next	tests/Algorithm/Diff.pm	/^sub Next {$/;"	s
 OBJECTS	filesys/build/Makefile	/^OBJECTS = $(patsubst %.c,%.o,$(patsubst %.S,%.o,$(SOURCES)))$/;"	m
 OBJECTS	userprog/build/Makefile	/^OBJECTS = $(patsubst %.c,%.o,$(patsubst %.S,%.o,$(SOURCES)))$/;"	m
-OBJECTS	vm/build/Makefile	/^OBJECTS = $(patsubst %.c,%.o,$(patsubst %.S,%.o,$(SOURCES)))$/;"	m
 ONE_MB	tests/vm/child-swap.c	14;"	d	file:
 ONE_MB	tests/vm/swap-anon.c	18;"	d	file:
 ONE_MB	tests/vm/swap-iter.c	14;"	d	file:
@@ -266,11 +265,11 @@ PDPESHIFT	include/threads/pte.h	21;"	d
 PDX	include/threads/pte.h	27;"	d
 PDXSHIFT	include/threads/pte.h	22;"	d
 PF_P	include/userprog/exception.h	5;"	d
-PF_R	userprog/process.c	527;"	d	file:
+PF_R	userprog/process.c	530;"	d	file:
 PF_U	include/userprog/exception.h	7;"	d
 PF_W	include/userprog/exception.h	6;"	d
-PF_W	userprog/process.c	526;"	d	file:
-PF_X	userprog/process.c	525;"	d	file:
+PF_W	userprog/process.c	529;"	d	file:
+PF_X	userprog/process.c	528;"	d	file:
 PGBITS	include/threads/vaddr.h	19;"	d
 PGMASK	include/threads/vaddr.h	21;"	d
 PGSHIFT	include/threads/vaddr.h	18;"	d
@@ -339,15 +338,15 @@ PTRDIFF_MAX	include/lib/stdint.h	47;"	d
 PTRDIFF_MIN	include/lib/stdint.h	46;"	d
 PTX	include/threads/pte.h	28;"	d
 PTXSHIFT	include/threads/pte.h	23;"	d
-PT_DYNAMIC	userprog/process.c	518;"	d	file:
-PT_INTERP	userprog/process.c	519;"	d	file:
-PT_LOAD	userprog/process.c	517;"	d	file:
-PT_NOTE	userprog/process.c	520;"	d	file:
-PT_NULL	userprog/process.c	516;"	d	file:
-PT_PHDR	userprog/process.c	522;"	d	file:
-PT_SHLIB	userprog/process.c	521;"	d	file:
-PT_STACK	userprog/process.c	523;"	d	file:
-Phdr	userprog/process.c	563;"	d	file:
+PT_DYNAMIC	userprog/process.c	521;"	d	file:
+PT_INTERP	userprog/process.c	522;"	d	file:
+PT_LOAD	userprog/process.c	520;"	d	file:
+PT_NOTE	userprog/process.c	523;"	d	file:
+PT_NULL	userprog/process.c	519;"	d	file:
+PT_PHDR	userprog/process.c	525;"	d	file:
+PT_SHLIB	userprog/process.c	524;"	d	file:
+PT_STACK	userprog/process.c	526;"	d	file:
+Phdr	userprog/process.c	566;"	d	file:
 Prev	tests/Algorithm/Diff.pm	/^sub Prev {$/;"	s
 QUEUE	devices/serial.c	/^static enum { UNINIT, POLL, QUEUE } mode;$/;"	e	enum:__anon5	file:
 R	include/threads/interrupt.h	/^	struct gp_registers R;$/;"	m	struct:intr_frame	typeref:struct:intr_frame::gp_registers
@@ -355,8 +354,8 @@ RBR_REG	devices/serial.c	21;"	d	file:
 READDIR_MAX_LEN	include/lib/user/syscall.h	17;"	d
 REAL	threads/intr-stubs.S	/^#define REAL$/;"	d
 RELOC	threads/start.S	/^#define RELOC(x) (x - LOADER_KERN_BASE)$/;"	d
-ROOT_DIR_CLUSTER	include/filesys/fat.h	19;"	d
-ROOT_DIR_SECTOR	include/filesys/filesys.h	9;"	d
+ROOT_DIR_CLUSTER	include/filesys/fat.h	20;"	d
+ROOT_DIR_SECTOR	include/filesys/filesys.h	10;"	d
 ROUND_DOWN	include/lib/round.h	14;"	d
 ROUND_UP	include/lib/round.h	6;"	d
 ROW_CNT	devices/vga.c	14;"	d	file:
@@ -364,7 +363,7 @@ Range	tests/Algorithm/Diff.pm	/^sub Range {$/;"	s
 Reset	tests/Algorithm/Diff.pm	/^sub Reset$/;"	s
 SCHAR_MAX	include/lib/limits.h	6;"	d
 SCHAR_MIN	include/lib/limits.h	7;"	d
-SECTORS_PER_CLUSTER	include/filesys/fat.h	17;"	d
+SECTORS_PER_CLUSTER	include/filesys/fat.h	18;"	d
 SECTORS_PER_PAGE	include/devices/disk.h	17;"	d
 SEG64	userprog/gdt.c	59;"	d	file:
 SEL_CNT	include/threads/loader.h	41;"	d
@@ -385,11 +384,9 @@ SIZET	lib/stdio.c	/^		SIZET = 8               \/* z *\/$/;"	e	enum:printf_conver
 SIZE_MAX	include/lib/stdint.h	49;"	d
 SOURCES	filesys/build/Makefile	/^SOURCES = $(foreach dir,$(KERNEL_SUBDIRS),$($(dir)_SRC))$/;"	m
 SOURCES	userprog/build/Makefile	/^SOURCES = $(foreach dir,$(KERNEL_SUBDIRS),$($(dir)_SRC))$/;"	m
-SOURCES	vm/build/Makefile	/^SOURCES = $(foreach dir,$(KERNEL_SUBDIRS),$($(dir)_SRC))$/;"	m
 SPACE	lib/stdio.c	/^		SPACE = 1 << 2,         \/* ' ' *\/$/;"	e	enum:printf_conversion::__anon3	file:
 SRCDIR	filesys/build/Makefile	/^SRCDIR = ..\/..$/;"	m
 SRCDIR	userprog/build/Makefile	/^SRCDIR = ..\/..$/;"	m
-SRCDIR	vm/build/Makefile	/^SRCDIR = ..\/..$/;"	m
 STACK_MAX	include/threads/vaddr.h	39;"	d
 STA_BSY	devices/disk.c	32;"	d	file:
 STA_DRDY	devices/disk.c	33;"	d	file:
@@ -676,7 +673,7 @@ boot_pdpt1	threads/start.S	/^boot_pdpt1:$/;"	l
 boot_pdpt2	threads/start.S	/^boot_pdpt2:$/;"	l
 boot_pml4e	threads/start.S	/^boot_pml4e:$/;"	l
 bootstrap	threads/start.S	/^bootstrap:$/;"	l
-bs	filesys/fat.c	/^	struct fat_boot bs;$/;"	m	struct:fat_fs	typeref:struct:fat_fs::fat_boot	file:
+bs	include/filesys/fat.h	/^	struct fat_boot bs;$/;"	m	struct:fat_fs	typeref:struct:fat_fs::fat_boot
 bsearch	lib/stdlib.c	/^bsearch (const void *key, const void *array, size_t cnt,$/;"	f
 bss_init	threads/init.c	/^bss_init (void) {$/;"	f	file:
 bucket	include/lib/kernel/hash.h	/^	struct list *bucket;        \/* Current bucket. *\/$/;"	m	struct:hash_iterator	typeref:struct:hash_iterator::list
@@ -717,7 +714,9 @@ buf_b	tests/filesys/extended/symlink-file.c	/^static char buf_b[FILE_SIZE];$/;"	
 buffer	devices/input.c	/^static struct intq buffer;$/;"	v	typeref:struct:intq	file:
 busy_wait	devices/timer.c	/^busy_wait (int64_t loops) {$/;"	f	file:
 byte_cnt	lib/kernel/bitmap.c	/^byte_cnt (size_t bit_cnt) {$/;"	f	file:
+byte_to_sector	filesys/inode-legacy.c	/^byte_to_sector (const struct inode *inode, off_t pos) {$/;"	f	file:
 byte_to_sector	filesys/inode.c	/^byte_to_sector (const struct inode *inode, off_t pos) {$/;"	f	file:
+bytes_to_sectors	filesys/inode-legacy.c	/^bytes_to_sectors (off_t size) {$/;"	f	file:
 bytes_to_sectors	filesys/inode.c	/^bytes_to_sectors (off_t size) {$/;"	f	file:
 c_thread_func	tests/threads/priority-donate-multiple2.c	/^c_thread_func (void *a_ UNUSED) $/;"	f	file:
 c_thread_func	tests/threads/priority-donate-multiple2.c	/^static thread_func c_thread_func;$/;"	v	file:
@@ -791,15 +790,18 @@ crctab	tests/cksum.c	/^static unsigned long crctab[] = {$/;"	v	file:
 create	lib/user/syscall.c	/^create (const char *file, unsigned initial_size) {$/;"	f
 create	userprog/syscall.c	/^bool create(const char *file, unsigned initial_size) {		$/;"	f
 cs	include/threads/interrupt.h	/^	uint16_t cs;$/;"	m	struct:intr_frame
+cwd	include/threads/thread.h	/^    struct dir cwd; \/\/ 디렉토리 하나는 그냥 로컬로 정의하는게 편하지 않을까 싶은데. $/;"	m	struct:thread	typeref:struct:thread::dir
 cx	devices/vga.c	/^static size_t cx, cy;$/;"	v	file:
 cy	devices/vga.c	/^static size_t cx, cy;$/;"	v	file:
+data	filesys/inode-legacy.c	/^	struct inode_disk data;             \/* Inode content. *\/$/;"	m	struct:inode	typeref:struct:inode::inode_disk	file:
 data	filesys/inode.c	/^	struct inode_disk data;             \/* Inode content. *\/$/;"	m	struct:inode	typeref:struct:inode::inode_disk	file:
-data_start	filesys/fat.c	/^	disk_sector_t data_start;$/;"	m	struct:fat_fs	file:
+data_start	include/filesys/fat.h	/^	disk_sector_t data_start;$/;"	m	struct:fat_fs
 db	userprog/gdt.c	/^	unsigned db : 1;$/;"	m	struct:segment_desc	file:
 debug_backtrace	lib/debug.c	/^debug_backtrace (void) {$/;"	f
 debug_panic	lib/kernel/debug.c	/^debug_panic (const char *file, int line, const char *function,$/;"	f
 debug_panic	lib/user/debug.c	/^debug_panic (const char *file, int line, const char *function,$/;"	f
 deny_write	filesys/file.c	/^	bool deny_write;            \/* Has file_deny_write() been called? *\/$/;"	m	struct:file	file:
+deny_write_cnt	filesys/inode-legacy.c	/^	int deny_write_cnt;                 \/* 0: writes ok, >0: deny writes. *\/$/;"	m	struct:inode	file:
 deny_write_cnt	filesys/inode.c	/^	int deny_write_cnt;                 \/* 0: writes ok, >0: deny writes. *\/$/;"	m	struct:inode	file:
 desc	threads/malloc.c	/^	struct desc *desc;          \/* Owning descriptor, null for big block. *\/$/;"	m	struct:arena	typeref:struct:arena::desc	file:
 desc	threads/malloc.c	/^struct desc {$/;"	s	file:
@@ -899,6 +901,7 @@ e_shstrndx	userprog/process.c	/^	uint16_t e_shstrndx;$/;"	m	struct:ELF64_hdr	fil
 e_type	userprog/process.c	/^	uint16_t e_type;$/;"	m	struct:ELF64_hdr	file:
 e_version	userprog/process.c	/^	uint32_t e_version;$/;"	m	struct:ELF64_hdr	file:
 eflags	include/threads/interrupt.h	/^	uint64_t eflags;$/;"	m	struct:intr_frame
+elem	filesys/inode-legacy.c	/^	struct list_elem elem;              \/* Element in inode list. *\/$/;"	m	struct:inode	typeref:struct:inode::list_elem	file:
 elem	filesys/inode.c	/^	struct list_elem elem;              \/* Element in inode list. *\/$/;"	m	struct:inode	typeref:struct:inode::list_elem	file:
 elem	include/lib/kernel/hash.h	/^	struct hash_elem *elem;     \/* Current hash element in current bucket. *\/$/;"	m	struct:hash_iterator	typeref:struct:hash_iterator::hash_elem
 elem	include/threads/thread.h	/^	struct list_elem elem;              \/* List element. *\/$/;"	m	struct:thread	typeref:struct:thread::list_elem
@@ -927,23 +930,23 @@ fail	tests/tests.pm	/^sub fail {$/;"	s
 fail	tests/threads/tests.c	/^fail (const char *format, ...) $/;"	f
 failure_cnt	tests/internal/stdio.c	/^static int failure_cnt;$/;"	v	file:
 false	include/lib/stdbool.h	6;"	d
-fat	filesys/fat.c	/^	unsigned int *fat;$/;"	m	struct:fat_fs	file:
-fat_boot	filesys/fat.c	/^struct fat_boot {$/;"	s	file:
+fat	include/filesys/fat.h	/^	unsigned int *fat;$/;"	m	struct:fat_fs
+fat_boot	include/filesys/fat.h	/^struct fat_boot {$/;"	s
 fat_boot_create	filesys/fat.c	/^fat_boot_create (void) {$/;"	f
 fat_close	filesys/fat.c	/^fat_close (void) {$/;"	f
 fat_create	filesys/fat.c	/^fat_create (void) {$/;"	f
 fat_create_chain	filesys/fat.c	/^fat_create_chain (cluster_t clst) {$/;"	f
-fat_fs	filesys/fat.c	/^static struct fat_fs *fat_fs;$/;"	v	typeref:struct:fat_fs	file:
-fat_fs	filesys/fat.c	/^struct fat_fs {$/;"	s	file:
+fat_fs	filesys/fat.c	/^struct fat_fs *fat_fs;$/;"	v	typeref:struct:fat_fs
+fat_fs	include/filesys/fat.h	/^struct fat_fs {$/;"	s
 fat_fs_init	filesys/fat.c	/^fat_fs_init (void) {$/;"	f
 fat_get	filesys/fat.c	/^fat_get (cluster_t clst) {$/;"	f
 fat_init	filesys/fat.c	/^fat_init (void) {$/;"	f
-fat_length	filesys/fat.c	/^	unsigned int fat_length;$/;"	m	struct:fat_fs	file:
+fat_length	include/filesys/fat.h	/^	unsigned int fat_length;$/;"	m	struct:fat_fs
 fat_open	filesys/fat.c	/^fat_open (void) {$/;"	f
 fat_put	filesys/fat.c	/^fat_put (cluster_t clst, cluster_t val) {$/;"	f
 fat_remove_chain	filesys/fat.c	/^fat_remove_chain (cluster_t clst, cluster_t pclst) {$/;"	f
-fat_sectors	filesys/fat.c	/^	unsigned int fat_sectors; \/* Size of FAT in sectors. *\/$/;"	m	struct:fat_boot	file:
-fat_start	filesys/fat.c	/^	unsigned int fat_start;$/;"	m	struct:fat_boot	file:
+fat_sectors	include/filesys/fat.h	/^	unsigned int fat_sectors; \/* Size of FAT in sectors. *\/$/;"	m	struct:fat_boot
+fat_start	include/filesys/fat.h	/^	unsigned int fat_start;$/;"	m	struct:fat_boot
 fb	devices/vga.c	/^static uint8_t (*fb)[COL_CNT][2];$/;"	v	file:
 fd_table	include/threads/thread.h	/^	struct file **fd_table;$/;"	m	struct:thread	typeref:struct:thread::file
 file	filesys/file.c	/^struct file {$/;"	s	file:
@@ -1119,20 +1122,34 @@ initial_thread	threads/thread.c	/^static struct thread *initial_thread;$/;"	v	ty
 inl	include/threads/io.h	/^inl (uint16_t port) {$/;"	f
 inode	filesys/directory.c	/^	struct inode *inode;                \/* Backing store. *\/$/;"	m	struct:dir	typeref:struct:dir::inode	file:
 inode	filesys/file.c	/^	struct inode *inode;        \/* File's inode. *\/$/;"	m	struct:file	typeref:struct:file::inode	file:
+inode	filesys/inode-legacy.c	/^struct inode {$/;"	s	file:
 inode	filesys/inode.c	/^struct inode {$/;"	s	file:
+inode_allow_write	filesys/inode-legacy.c	/^inode_allow_write (struct inode *inode) {$/;"	f
 inode_allow_write	filesys/inode.c	/^inode_allow_write (struct inode *inode) {$/;"	f
+inode_close	filesys/inode-legacy.c	/^inode_close (struct inode *inode) {$/;"	f
 inode_close	filesys/inode.c	/^inode_close (struct inode *inode) {$/;"	f
+inode_create	filesys/inode-legacy.c	/^inode_create (disk_sector_t sector, off_t length) {$/;"	f
 inode_create	filesys/inode.c	/^inode_create (disk_sector_t sector, off_t length) {$/;"	f
+inode_deny_write	filesys/inode-legacy.c	/^inode_deny_write (struct inode *inode) $/;"	f
 inode_deny_write	filesys/inode.c	/^inode_deny_write (struct inode *inode) $/;"	f
+inode_disk	filesys/inode-legacy.c	/^struct inode_disk {$/;"	s	file:
 inode_disk	filesys/inode.c	/^struct inode_disk {$/;"	s	file:
+inode_get_inumber	filesys/inode-legacy.c	/^inode_get_inumber (const struct inode *inode) {$/;"	f
 inode_get_inumber	filesys/inode.c	/^inode_get_inumber (const struct inode *inode) {$/;"	f
+inode_init	filesys/inode-legacy.c	/^inode_init (void) {$/;"	f
 inode_init	filesys/inode.c	/^inode_init (void) {$/;"	f
+inode_length	filesys/inode-legacy.c	/^inode_length (const struct inode *inode) {$/;"	f
 inode_length	filesys/inode.c	/^inode_length (const struct inode *inode) {$/;"	f
+inode_open	filesys/inode-legacy.c	/^inode_open (disk_sector_t sector) {$/;"	f
 inode_open	filesys/inode.c	/^inode_open (disk_sector_t sector) {$/;"	f
+inode_read_at	filesys/inode-legacy.c	/^inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {$/;"	f
 inode_read_at	filesys/inode.c	/^inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {$/;"	f
+inode_remove	filesys/inode-legacy.c	/^inode_remove (struct inode *inode) {$/;"	f
 inode_remove	filesys/inode.c	/^inode_remove (struct inode *inode) {$/;"	f
+inode_reopen	filesys/inode-legacy.c	/^inode_reopen (struct inode *inode) {$/;"	f
 inode_reopen	filesys/inode.c	/^inode_reopen (struct inode *inode) {$/;"	f
 inode_sector	filesys/directory.c	/^	disk_sector_t inode_sector;         \/* Sector number of header. *\/$/;"	m	struct:dir_entry	file:
+inode_write_at	filesys/inode-legacy.c	/^inode_write_at (struct inode *inode, const void *buffer_, off_t size,$/;"	f
 inode_write_at	filesys/inode.c	/^inode_write_at (struct inode *inode, const void *buffer_, off_t size,$/;"	f
 inplace_merge	lib/kernel/list.c	/^inplace_merge (struct list_elem *a0, struct list_elem *a1b0,$/;"	f	file:
 input_full	devices/input.c	/^input_full (void) {$/;"	f
@@ -1249,7 +1266,7 @@ kva	include/vm/vm.h	/^	void *kva;          \/* 커널 가상 주소 *\/$/;"	m	st
 l	userprog/gdt.c	/^	unsigned l : 1;$/;"	m	struct:segment_desc	file:
 l_thread_func	tests/threads/priority-donate-sema.c	/^l_thread_func (void *ls_) $/;"	f	file:
 l_thread_func	tests/threads/priority-donate-sema.c	/^static thread_func l_thread_func;$/;"	v	file:
-last_clst	filesys/fat.c	/^	cluster_t last_clst;$/;"	m	struct:fat_fs	file:
+last_clst	include/filesys/fat.h	/^	cluster_t last_clst;$/;"	m	struct:fat_fs
 last_mask	lib/kernel/bitmap.c	/^last_mask (const struct bitmap *b) {$/;"	f	file:
 lazy_aux	include/userprog/process.h	/^struct lazy_aux {$/;"	s
 lazy_aux_file_backed	include/vm/file.h	/^struct lazy_aux_file_backed {$/;"	s
@@ -1262,6 +1279,7 @@ left_ctrl	devices/kbd.c	/^static bool left_ctrl, right_ctrl;      \/* Left and r
 left_shift	devices/kbd.c	/^static bool left_shift, right_shift;    \/* Left and right Shift keys. *\/$/;"	v	file:
 len_hi	threads/palloc.c	/^	uint32_t len_hi;$/;"	m	struct:e820_entry	file:
 len_lo	threads/palloc.c	/^	uint32_t len_lo;$/;"	m	struct:e820_entry	file:
+length	filesys/inode-legacy.c	/^	off_t length;                       \/* File size in bytes. *\/$/;"	m	struct:inode_disk	file:
 length	filesys/inode.c	/^	off_t length;                       \/* File size in bytes. *\/$/;"	m	struct:inode_disk	file:
 length	include/vm/file.h	/^	size_t length;$/;"	m	struct:lazy_aux_file_backed
 length	lib/stdio.c	/^	int length;         \/* Length of output string. *\/$/;"	m	struct:vsnprintf_aux	file:
@@ -1333,8 +1351,9 @@ loops_per_tick	devices/timer.c	/^static unsigned loops_per_tick;$/;"	v	file:
 ltr	include/intrinsic.h	/^static __inline void ltr(uint16_t sel) {$/;"	f
 m_thread_func	tests/threads/priority-donate-sema.c	/^m_thread_func (void *ls_) $/;"	f	file:
 m_thread_func	tests/threads/priority-donate-sema.c	/^static thread_func m_thread_func;$/;"	v	file:
-magic	filesys/fat.c	/^	unsigned int magic;$/;"	m	struct:fat_boot	file:
+magic	filesys/inode-legacy.c	/^	unsigned magic;                     \/* Magic number. *\/$/;"	m	struct:inode_disk	file:
 magic	filesys/inode.c	/^	unsigned magic;                     \/* Magic number. *\/$/;"	m	struct:inode_disk	file:
+magic	include/filesys/fat.h	/^	unsigned int magic;$/;"	m	struct:fat_boot
 magic	include/threads/thread.h	/^	unsigned magic;                     \/* Detects stack overflow. *\/$/;"	m	struct:thread
 magic	tests/userprog/dup2/dup2-complex.c	/^char magic[] = {$/;"	v
 magic	tests/userprog/fork-multiple.c	/^int magic = 3;$/;"	v
@@ -1430,8 +1449,10 @@ ofs	vm/vm.c	/^	off_t ofs;$/;"	m	struct:lazy_load_args	file:
 op	tests/threads/priority-fifo.c	/^    int **op;                   \/* Output buffer position. *\/$/;"	m	struct:simple_thread_data	file:
 open	lib/user/syscall.c	/^open (const char *file) {$/;"	f
 open	userprog/syscall.c	/^int open(const char *filename) {$/;"	f
+open_cnt	filesys/inode-legacy.c	/^	int open_cnt;                       \/* Number of openers. *\/$/;"	m	struct:inode	file:
 open_cnt	filesys/inode.c	/^	int open_cnt;                       \/* Number of openers. *\/$/;"	m	struct:inode	file:
 open_file	tests/tests.pm	/^sub open_file {$/;"	s
+open_inodes	filesys/inode-legacy.c	/^static struct list open_inodes;$/;"	v	typeref:struct:list	file:
 open_inodes	filesys/inode.c	/^static struct list open_inodes;$/;"	v	typeref:struct:list	file:
 operations	include/vm/vm.h	/^	const struct page_operations *operations; \/* 페이지 연산 테이블 *\/$/;"	m	struct:page	typeref:struct:page::page_operations
 original_priority	include/threads/thread.h	/^	int original_priority;$/;"	m	struct:thread
@@ -1630,6 +1651,7 @@ remove	userprog/syscall.c	/^bool remove(const char *file) {	$/;"	f
 remove_elem	lib/kernel/hash.c	/^remove_elem (struct hash *h, struct hash_elem *e) {$/;"	f	file:
 remove_tree	tests/filesys/extended/dir-rm-tree.c	/^remove_tree (int at, int bt, int ct, int dt) $/;"	f	file:
 remove_with_lock	threads/thread.c	/^void remove_with_lock(struct lock *lock)$/;"	f
+removed	filesys/inode-legacy.c	/^	bool removed;                       \/* True if deleted, false otherwise. *\/$/;"	m	struct:inode	file:
 removed	filesys/inode.c	/^	bool removed;                       \/* True if deleted, false otherwise. *\/$/;"	m	struct:inode	file:
 res1	include/userprog/tss.h	/^	uint32_t res1;$/;"	m	struct:task_state
 res1	userprog/gdt.c	/^	unsigned res1 : 8;$/;"	m	struct:segment_descriptor64	file:
@@ -1645,7 +1667,7 @@ right_alt	devices/kbd.c	/^static bool left_alt, right_alt;        \/* Left and r
 right_ctrl	devices/kbd.c	/^static bool left_ctrl, right_ctrl;      \/* Left and right Ctl keys. *\/$/;"	v	file:
 right_shift	devices/kbd.c	/^static bool left_shift, right_shift;    \/* Left and right Shift keys. *\/$/;"	v	file:
 rip	include/threads/interrupt.h	/^	uintptr_t rip;$/;"	m	struct:intr_frame
-root_dir_cluster	filesys/fat.c	/^	unsigned int root_dir_cluster;$/;"	m	struct:fat_boot	file:
+root_dir_cluster	include/filesys/fat.h	/^	unsigned int root_dir_cluster;$/;"	m	struct:fat_boot
 rr10	include/intrinsic.h	/^static __inline uint64_t rr10(void) {$/;"	f
 rr8	include/intrinsic.h	/^static __inline uint64_t rr8(void) {$/;"	f
 rr9	include/intrinsic.h	/^static __inline uint64_t rr9(void) {$/;"	f
@@ -1680,8 +1702,10 @@ schedule	threads/thread.c	/^schedule(void)$/;"	f	file:
 sdiff	tests/Algorithm/Diff.pm	/^sub sdiff$/;"	s
 sdiv64	lib/arithmetic.c	/^sdiv64 (int64_t n, int64_t d) {$/;"	f	file:
 second	tests/threads/priority-donate-chain.c	/^    struct lock *second;$/;"	m	struct:lock_pair	typeref:struct:lock_pair::lock	file:
+sector	filesys/inode-legacy.c	/^	disk_sector_t sector;               \/* Sector number of disk location. *\/$/;"	m	struct:inode	file:
 sector	filesys/inode.c	/^	disk_sector_t sector;               \/* Sector number of disk location. *\/$/;"	m	struct:inode	file:
-sectors_per_cluster	filesys/fat.c	/^	unsigned int sectors_per_cluster; \/* Fixed to 1 *\/$/;"	m	struct:fat_boot	file:
+sector_to_cluster	filesys/fat.c	/^sector_to_cluster (disk_sector_t sect) {$/;"	f
+sectors_per_cluster	include/filesys/fat.h	/^	unsigned int sectors_per_cluster; \/* Fixed to 1 *\/$/;"	m	struct:fat_boot
 seek	lib/user/syscall.c	/^seek (int fd, unsigned position) {$/;"	f
 seek	userprog/syscall.c	/^void seek(int fd, unsigned position) {$/;"	f
 segment_desc	userprog/gdt.c	/^struct segment_desc {$/;"	s	file:
@@ -1749,7 +1773,8 @@ spt_insert_page	vm/vm.c	/^bool spt_insert_page(struct supplemental_page_table *s
 spt_remove_page	vm/vm.c	/^void spt_remove_page(struct supplemental_page_table *spt, struct page *page)$/;"	f
 ss	include/threads/interrupt.h	/^	uint16_t ss;$/;"	m	struct:intr_frame
 ss	threads/interrupt.c	/^	unsigned ss : 16;         \/\/ segment selector$/;"	m	struct:gate	file:
-start	filesys/inode.c	/^	disk_sector_t start;                \/* First data sector. *\/$/;"	m	struct:inode_disk	file:
+start	filesys/inode-legacy.c	/^	disk_sector_t start;                \/* First data sector. *\/$/;"	m	struct:inode_disk	file:
+start	filesys/inode.c	/^	disk_sector_t start;                \/* First data ~~sector~~ CLUSTER!!! *\/$/;"	m	struct:inode_disk	file:
 start	tests/threads/alarm-simultaneous.c	/^    int64_t start;              \/* Current time at start of test. *\/$/;"	m	struct:sleep_test	file:
 start	tests/threads/alarm-wait.c	/^    int64_t start;              \/* Current time at start of test. *\/$/;"	m	struct:sleep_test	file:
 start	threads/loader.S	/^start:$/;"	l
@@ -2044,7 +2069,7 @@ timer_ticks	devices/timer.c	/^timer_ticks (void) {$/;"	f
 timer_usleep	devices/timer.c	/^timer_usleep (int64_t us) {$/;"	f
 tolower	include/lib/ctype.h	/^static inline int tolower (int c) { return isupper (c) ? c - 'A' + 'a' : c; }$/;"	f
 too_many_loops	devices/timer.c	/^too_many_loops (unsigned loops) {$/;"	f	file:
-total_sectors	filesys/fat.c	/^	unsigned int total_sectors;$/;"	m	struct:fat_boot	file:
+total_sectors	include/filesys/fat.h	/^	unsigned int total_sectors;$/;"	m	struct:fat_boot
 toupper	include/lib/ctype.h	/^static inline int toupper (int c) { return islower (c) ? c - 'a' + 'A' : c; }$/;"	f
 traverse_balanced	tests/Algorithm/Diff.pm	/^sub traverse_balanced$/;"	s
 traverse_sequences	tests/Algorithm/Diff.pm	/^sub traverse_sequences$/;"	s
@@ -2079,6 +2104,7 @@ uninit_new	vm/uninit.c	/^uninit_new (struct page *page, void *va, vm_initializer
 uninit_ops	vm/uninit.c	/^static const struct page_operations uninit_ops = {$/;"	v	typeref:struct:page_operations	file:
 uninit_page	include/vm/uninit.h	/^struct uninit_page {$/;"	s
 unshifted_keymap	devices/kbd.c	/^static const struct keymap unshifted_keymap[] = {$/;"	v	typeref:struct:keymap	file:
+unused	filesys/inode-legacy.c	/^	uint32_t unused[125];               \/* Not used. *\/$/;"	m	struct:inode_disk	file:
 unused	filesys/inode.c	/^	uint32_t unused[125];               \/* Not used. *\/$/;"	m	struct:inode_disk	file:
 usage	tests/filesys/extended/tar.c	/^usage (void) $/;"	f	file:
 usage	threads/init.c	/^usage (void) {$/;"	f	file:
@@ -2158,7 +2184,7 @@ write_cnt	devices/disk.c	/^	long long write_cnt;        \/* Number of sectors wr
 write_cnt	lib/kernel/console.c	/^static int64_t write_cnt;$/;"	v	file:
 write_header	tests/filesys/extended/tar.c	/^write_header (const char *file_name,$/;"	f	file:
 write_ier	devices/serial.c	/^write_ier (void) {$/;"	f	file:
-write_lock	filesys/fat.c	/^	struct lock write_lock;$/;"	m	struct:fat_fs	typeref:struct:fat_fs::lock	file:
+write_lock	include/filesys/fat.h	/^	struct lock write_lock;$/;"	m	struct:fat_fs	typeref:struct:fat_fs::lock
 write_msr	include/intrinsic.h	/^static __inline void write_msr(uint32_t ecx, uint64_t val) {$/;"	f
 write_some_bytes	tests/filesys/extended/grow-two-files.c	/^write_some_bytes (const char *file_name, int fd, const char *buf, size_t *ofs) $/;"	f	file:
 write_some_bytes	tests/filesys/extended/symlink-dir.c	/^write_some_bytes (const char *file_name, int fd, const char *buf, size_t *ofs)$/;"	f	file:

@@ -5,7 +5,7 @@
 
 #include "userprog/syscall.h"
 #include <stdio.h>
-#include <syscall-nr.h>
+#include <syscall-nr.h> // user prog에서 사용하는 syscall enum 정의
 #include "threads/interrupt.h"
 #include "threads/thread.h"
 #include "threads/loader.h"
@@ -337,6 +337,11 @@ void munmap(void *addr){
 
 }
 
+void chdir(const char *dir) 
+{
+    // dir 문자열은 상대주소일 수도 있고 절대주소일 수도 있음. 
+
+}
 
 void syscall_init (void) {
 	write_msr(MSR_STAR, ((uint64_t)SEL_UCSEG - 0x10) << 48  |
@@ -423,6 +428,10 @@ void syscall_handler (struct intr_frame *f UNUSED) {
 		case SYS_MUNMAP:
 			munmap(f->R.rdi);
 			break;
+        case SYS_CHDIR:
+            chdir(f->R.rdi);
+            break;
+
 		default:
 			printf("FATAL: UNDEFINED SYSTEM CALL!, %d", sys_call_number);
 			exit(-1);

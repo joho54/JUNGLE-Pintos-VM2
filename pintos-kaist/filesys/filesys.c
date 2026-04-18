@@ -76,7 +76,8 @@ filesys_create (const char *name, off_t initial_size) {
     inode_sector = cluster_to_sector(inode_cluster);
     dprintf("DEBUG filesys_create: inode_sector=%d\n", inode_sector);
 
-	bool ic = inode_create (inode_sector, initial_size);
+    // 파일 생성 주체의 inode_create 호출
+	bool ic = inode_create (inode_sector, initial_size, false);
 	dprintf("DEBUG filesys_create: inode_create=%d\n", ic);
 
 	bool da = (dir != NULL) && ic && dir_add (dir, name, inode_sector);

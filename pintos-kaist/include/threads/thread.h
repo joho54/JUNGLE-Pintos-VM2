@@ -143,6 +143,7 @@ struct thread {
  
 	struct file *running; // 현재 실행 중인 파일
 	/*-- Project 2. User Programs 과제 --*/
+    struct dir *cwd; 
 };
 
 /* If false (default), use round-robin scheduler.

@@ -25,8 +25,9 @@ struct dir_entry {
  * given SECTOR.  Returns true if successful, false on failure. */
 bool
 dir_create (disk_sector_t sector, size_t entry_cnt) {
-	return inode_create (sector, entry_cnt * sizeof (struct dir_entry), true);
+    return inode_create (sector, entry_cnt * sizeof (struct dir_entry));
 }
+
 
 /* Opens and returns the directory for the given INODE, of which
  * it takes ownership.  Returns a null pointer on failure. */
@@ -274,5 +275,74 @@ dir_change(struct dir *cwd, const char *path) {
 
     dir_close(cwd);
     cwd = dir_open(dir_curr);
-
+    return cwd; 
 }
+
+
+bool dir_make(const char *dir) {
+    char *token, *save_ptr;
+    char *slash = '/';
+    bool is_absolute = strcmp(&dir[0], slash);
+    struct dir *dir_curr, *dir_prev;
+
+    if(is_absolute)
+    {
+        token = strtok_r(dir, "/", &save_ptr);
+        if(!strcmp(&dir_curr->name, &token)) return NULL;
+        dir_curr = dir_open_root();
+    }
+    else 
+    {
+        dir_curr = dir_open(cwd);
+    }
+
+    for (token = strtok_r (dir, "/", &save_ptr); token != NULL; token = strtok_r (NULL, "/", &save_ptr)) {
+        // 이 시점에서 분기
+        if(!dir_lookup(dir_curr, token, &inode_curr)) {
+            if (token != NULL) {
+                return false;
+            }
+            else { break; }
+        }
+    
+        dir_prev = dir_curr;
+        dir_curr = dir_open(inode);
+        dir_close(dir_prev);
+     }
+        
+    // suppose we got the parent dir to create new one.
+    // suppose that is struct dir dir_curr    
+    // so what should we do? 
+    // create new dir_entry and write it to the dir_curr->inode using inode_write_at.
+    struct dir_entry e; 
+    strcp(token, e->name);
+
+    cluster_t inode_clst = fat_create_chain(0);
+    sector_t inode_sect = cluster_to_sector(inode_clst);
+    dc = dir_create(inode_sect, ENTRY_SIZE); 
+
+    if (!dc) return NULL;
+
+    e->inode_sector = inode_sect; 
+    e->in_use = true; 
+
+    inode_write_at(dir_curr->inode, e, sizeof dir_entry, OFFSET);
+
+    // suppose we have new directory now. we can reach it via inode_clst or inode_sect
+    // 1. we have to put . and .. dir_entry
+    struct dir_entry curr, parent;
+    strcp(&'.', curr->name);
+    curr->inode_sector = inode_sect;
+    curr->in_use = true;
+
+    strcp(&'..', parent->name); 
+    parent->inode_sector = dir_curr->inode->sector;
+    parent->in_use = true;
+     
+}
+
+
+
+
+
+

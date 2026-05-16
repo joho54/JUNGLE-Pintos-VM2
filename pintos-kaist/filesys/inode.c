@@ -101,6 +101,9 @@ inode_create (disk_sector_t sector, off_t length, bool is_dir) {
             disk_write (filesys_disk, sector, disk_inode);   
             success = true;    
         }
+
+        // if is_dir == true, payload should contain . and .. pointing self and parent dir inode
+
 		free (disk_inode);
 	}
 	return success;

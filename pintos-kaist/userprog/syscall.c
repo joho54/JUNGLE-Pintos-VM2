@@ -337,11 +337,20 @@ void munmap(void *addr){
 
 }
 
-void chdir(const char *dir) 
+bool chdir(const char *dir) 
 {
     // dir 문자열은 상대주소일 수도 있고 절대주소일 수도 있음. 
 
 }
+
+/* Creates the directory named dir, which may be relative or absolute. 
+* Returns true if successful, false on failure. 
+* Fails if dir already exists or if any directory name in dir,
+*  besides the last, does not already exist.
+*  That is, mkdir("/a/b/c") succeeds only if /a/b already exists and /a/b/c does not. */
+bool mkdir(const char *dir) {
+    dir_make(dir);
+}  
 
 void syscall_init (void) {
 	write_msr(MSR_STAR, ((uint64_t)SEL_UCSEG - 0x10) << 48  |

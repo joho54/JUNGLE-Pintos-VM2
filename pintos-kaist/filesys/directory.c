@@ -7,7 +7,7 @@
 #include "filesys/filesys.h"
 #include "filesys/inode.h"
 #include "threads/malloc.h"
-
+#include "threads/thread.c"
 /* A directory. */
 struct dir {
 	struct inode *inode;                /* Backing store. */
@@ -242,74 +242,64 @@ dir_readdir (struct dir *dir, char name[NAME_MAX + 1]) {
 	return false;
 }
 
+
 struct *dir
-dir_change(struct dir *cwd, const char *path) {
-    char path[] = *path;   
-    char *token, *save_ptr;
-    struct dir *dir_curr; // current dir for search
-    struct dir *dir_prev;
+dir_get(char *path) {
+    /*
+    * returns the directory address of given directory path 
+    * both supports absolute and relative path
+    */
 
-    struct inode *inode_curr;
-
-    char *slash = '/';
-    bool is_absolute = strcmp(&path[0], slash);
-    
-    if (is_absolute) 
+    // 1. determine is_absolute
+    bool is_absolute = false;
+    // if string to compare is already fixed to 1 character (/) we don't need strcmp
+    ASSERT(path != null);
+    if (*path == '/') 
     {
-        dir_curr = dir_open_root();
-        token = strtok_r(path, "/", &save_ptr);
-        if(!strcmp(&dir_curr->name, &token)) return NULL;
+        is_absolute = true; 
+    }
+
+    // 2. set dir_curr 
+    struct dir *dir_curr, *dir_prev;
+    if(is_absolute) 
+    {
+        dir_curr = dir_open_root();  
     }
     else
     {
-        dir_curr = dir_open(cwd); 
-    }
-    
-    
-    for (token = strtok_r (path, "/", &save_ptr); token != NULL; token = strtok_r (NULL, "/", &save_ptr)) {
-        if(!dir_lookup(dir_curr, token, &inode_curr)) return NULL;
-        dir_prev = dir_curr;
-        dir_curr = dir_open(inode);
-        dir_close(dir_prev);      
+        dir_curr = thread_current()->cwd; 
     }
 
-    dir_close(cwd);
-    cwd = dir_open(dir_curr);
-    return cwd; 
+    // 3. tokenize path and search
+    char copied_path[] = *path; // first copy the string into local
+    char *token, *save_ptr; // set local char ptr
+    struct inode *inode_curr;
+    for (token = strtok_r(copied_path, "/", &save_ptr); token != NULL ; token = strtok_r(NULL, "/", &save_ptr)) 
+    {
+        inode_curr = dir_get_inode(dir_curr); 
+        if(!dir_lookup(dir_curr, token, inode_curr)) return NULL;
+        dir_prev = dir_curr;
+        dir_curr = dir_open(inode_curr); // inside current inode payload we found dir_entry that matches token
+        dir_close(dir_prev); 
+    } 
+    return dir_curr;  
+
+}
+
+struct *dir
+dir_change(const char *path) {
+    struct dir *new_dir = dir_get(path);
+    ASSERT(new_dir != NULL) 
+    dir_close(thread_current()->cwd);
+    thread_current()->cwd = new_dir;
 }
 
 
-bool dir_make(const char *dir) {
-    char *token, *save_ptr;
-    char *slash = '/';
-    bool is_absolute = strcmp(&dir[0], slash);
-    struct dir *dir_curr, *dir_prev;
+bool dir_make(const char *path) {
 
-    if(is_absolute)
-    {
-        token = strtok_r(dir, "/", &save_ptr);
-        if(!strcmp(&dir_curr->name, &token)) return NULL;
-        dir_curr = dir_open_root();
-    }
-    else 
-    {
-        dir_curr = dir_open(cwd);
-    }
+    // 1. preprocess given path 
+    dir_get(path)
 
-    for (token = strtok_r (dir, "/", &save_ptr); token != NULL; token = strtok_r (NULL, "/", &save_ptr)) {
-        // 이 시점에서 분기
-        if(!dir_lookup(dir_curr, token, &inode_curr)) {
-            if (token != NULL) {
-                return false;
-            }
-            else { break; }
-        }
-    
-        dir_prev = dir_curr;
-        dir_curr = dir_open(inode);
-        dir_close(dir_prev);
-     }
-        
     // suppose we got the parent dir to create new one.
     // suppose that is struct dir dir_curr    
     // so what should we do? 
@@ -331,11 +321,12 @@ bool dir_make(const char *dir) {
     // suppose we have new directory now. we can reach it via inode_clst or inode_sect
     // 1. we have to put . and .. dir_entry
     struct dir_entry curr, parent;
-    strcp(&'.', curr->name);
+
+    strcp(&curr->name, ".", 1);
     curr->inode_sector = inode_sect;
     curr->in_use = true;
 
-    strcp(&'..', parent->name); 
+    strcp(&parent->name, "..", 1); 
     parent->inode_sector = dir_curr->inode->sector;
     parent->in_use = true;
      
